@@ -1,3 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  background-color: #F5F5F5;
+}
+
 nav ul {
   margin: 0;
   padding: 10px;
@@ -12,6 +22,67 @@ nav a {
   padding: 6px 12px;
   text-decoration: none;
   color: #DBB37D;
+}
+
+.schedule {
+  padding: 10px;
+  width: 70%;
+  margin: 0 auto;
+}
+.schedule .middle {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.schedule p {
+  color: #2B3B52;
+}
+.schedule button {
+  background-color: #F5F5F5;
+  color: #DBB37D;
+  border: none;
+  padding: 16px 0px;
+  font-size: 14px;
+}
+
+.journey {
+  color: #455B80;
+  width: 65%;
+  margin: 0 auto;
+}
+.journey p {
+  font-size: 30px;
+  margin-bottom: 1rem;
+}
+.journey .Outbound {
+  display: flex;
+  flex-direction: row;
+}
+.journey .Outbound .OutboundLeft {
+  width: 25%;
+  height: 120px;
+  font-size: 24px;
+  background-color: #2B3B52;
+  display: flex;
+  flex-direction: row;
+  color: #F5F5F5;
+}
+.journey .OutboundRight {
+  width: 30%;
+  height: 120px;
+  color: #2B3B52;
+  display: flex;
+  flex-direction: column;
+  background-color: #DBB37D;
+  color: #2B3B52;
+}
+.journey .OutboundRight .OutboundRightTicket {
+  background-color: #DBB37D;
+  color: #2B3B52;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /*# sourceMappingURL=search.css.map */
