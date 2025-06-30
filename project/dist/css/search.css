@@ -1,0 +1,17 @@
+nav ul {
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+  background-color: #2B3B52;
+}
+nav li {
+  display: inline-block;
+}
+nav a {
+  display: block;
+  padding: 6px 12px;
+  text-decoration: none;
+  color: #DBB37D;
+}
+
+/*# sourceMappingURL=search.css.map */

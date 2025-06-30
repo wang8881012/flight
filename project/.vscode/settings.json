@@ -3,5 +3,6 @@
         {
             "file": "commit-rule.md"
         }
-    ]
+    ],
+    "liveServer.settings.port": 5501
 }
