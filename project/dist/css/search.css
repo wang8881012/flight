@@ -60,26 +60,36 @@ nav a {
 }
 .journey .Outbound .OutboundLeft {
   width: 25%;
-  height: 120px;
   font-size: 24px;
-  background-color: #2B3B52;
-  display: flex;
-  flex-direction: row;
+  background-color: #455B80;
   color: #F5F5F5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 160px;
+}
+.journey .Outbound .OutboundLeftCenter {
+  width: 25%;
+  font-size: 24px;
+  background-color: #455B80;
+  color: #F5F5F5;
+  flex-direction: row;
+  text-align: center;
+  line-height: 160px;
 }
 .journey .OutboundRight {
   width: 30%;
-  height: 120px;
+  background-color: #DBB37D;
   color: #2B3B52;
   display: flex;
   flex-direction: column;
-  background-color: #DBB37D;
-  color: #2B3B52;
 }
 .journey .OutboundRight .OutboundRightTicket {
   background-color: #DBB37D;
   color: #2B3B52;
-  height: 60px;
+  height: 80px;
+  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;

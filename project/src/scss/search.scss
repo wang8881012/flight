@@ -71,32 +71,42 @@ nav {
 
         .OutboundLeft {
             width: 25%;
-            height: 120px;
             font-size: 24px;
-            background-color: $brand-primary;
-            display: flex;
-            flex-direction: row;
+            background-color: $brand-secondary;
             color: $text-inverse;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height: 160px;
+        }
+
+        .OutboundLeftCenter {
+            width: 25%;
+            font-size: 24px;
+            background-color: $brand-secondary;
+            color: $text-inverse;
+            flex-direction: row;
+            text-align: center;
+            line-height: 160px;
         }
     }
 
     .OutboundRight {
         width: 30%;
-        height: 120px;
+        background-color: $sidebar-bg;
         color: $text-primary;
         display: flex;
         flex-direction: column;
-        background-color: $sidebar-bg;
-        color: $text-primary;
 
         .OutboundRightTicket {
             background-color: $sidebar-bg;
             color: $text-primary;
-            height: 60px;
+            height: 80px;
+            font-size: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
     }
 }
