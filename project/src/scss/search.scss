@@ -12,28 +12,27 @@ body {
 
 nav {
     ul {
-        margin: 0;
-        padding: 10px;
         list-style: none;
         background-color: $brand-primary;
     }
 
     li {
         display: inline-block;
+        color: $text-accent;
     }
 
     a {
         display: block;
-        padding: 6px 12px;
+        padding: 24px 12px;
         text-decoration: none;
         color: $text-accent;
     }
 }
 
 .schedule {
-    padding: 10px;
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
+    background-color: $body-bg;
 
     .middle {
         width: 100%;
@@ -45,13 +44,14 @@ nav {
         color: $text-primary;
     }
 
+    .Currentlocation {
+        text-decoration: underline;
+    }
+
     button {
         background-color: $body-bg;
         color: $text-accent;
         border: none;
-        padding: 16px 0px;
-        font-size: 14px;
-
     }
 }
 
@@ -61,7 +61,6 @@ nav {
     margin: 0 auto;
 
     p {
-        font-size: 30px;
         margin-bottom: 1rem;
     }
 
@@ -71,24 +70,22 @@ nav {
 
         .OutboundLeft {
             width: 25%;
-            font-size: 24px;
             background-color: $brand-secondary;
             color: $text-inverse;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
-            height: 160px;
+            height: 130px;
         }
 
         .OutboundLeftCenter {
             width: 25%;
-            font-size: 24px;
             background-color: $brand-secondary;
             color: $text-inverse;
             flex-direction: row;
             text-align: center;
-            line-height: 160px;
+            line-height: 130px;
         }
     }
 
@@ -102,8 +99,7 @@ nav {
         .OutboundRightTicket {
             background-color: $sidebar-bg;
             color: $text-primary;
-            height: 80px;
-            font-size: 24px;
+            height: 65px;
             display: flex;
             align-items: center;
             justify-content: center;

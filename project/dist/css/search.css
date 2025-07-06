@@ -9,25 +9,24 @@ body {
 }
 
 nav ul {
-  margin: 0;
-  padding: 10px;
   list-style: none;
   background-color: #2B3B52;
 }
 nav li {
   display: inline-block;
+  color: #DBB37D;
 }
 nav a {
   display: block;
-  padding: 6px 12px;
+  padding: 24px 12px;
   text-decoration: none;
   color: #DBB37D;
 }
 
 .schedule {
-  padding: 10px;
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
+  background-color: #F5F5F5;
 }
 .schedule .middle {
   width: 100%;
@@ -37,12 +36,13 @@ nav a {
 .schedule p {
   color: #2B3B52;
 }
+.schedule .Currentlocation {
+  text-decoration: underline;
+}
 .schedule button {
   background-color: #F5F5F5;
   color: #DBB37D;
   border: none;
-  padding: 16px 0px;
-  font-size: 14px;
 }
 
 .journey {
@@ -51,7 +51,6 @@ nav a {
   margin: 0 auto;
 }
 .journey p {
-  font-size: 30px;
   margin-bottom: 1rem;
 }
 .journey .Outbound {
@@ -60,23 +59,21 @@ nav a {
 }
 .journey .Outbound .OutboundLeft {
   width: 25%;
-  font-size: 24px;
   background-color: #455B80;
   color: #F5F5F5;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 160px;
+  height: 130px;
 }
 .journey .Outbound .OutboundLeftCenter {
   width: 25%;
-  font-size: 24px;
   background-color: #455B80;
   color: #F5F5F5;
   flex-direction: row;
   text-align: center;
-  line-height: 160px;
+  line-height: 130px;
 }
 .journey .OutboundRight {
   width: 30%;
@@ -88,8 +85,7 @@ nav a {
 .journey .OutboundRight .OutboundRightTicket {
   background-color: #DBB37D;
   color: #2B3B52;
-  height: 80px;
-  font-size: 24px;
+  height: 65px;
   display: flex;
   align-items: center;
   justify-content: center;
