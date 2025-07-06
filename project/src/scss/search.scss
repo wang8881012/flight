@@ -85,7 +85,13 @@ nav {
             color: $text-inverse;
             flex-direction: row;
             text-align: center;
-            line-height: 130px;
+            line-height: 65px;
+
+            .FlightLine {
+                width: 50%;
+                display: block;
+                margin: 0 auto;
+            }
         }
     }
 
@@ -121,6 +127,16 @@ nav {
             border: 0;
             color: $text-inverse;
             background-color: $brand-primary;
+        }
+
+        .btn-active {
+            background-color: $card-bg-alt;
+            color: $text-primary;
+        }
+
+        .btn-inactive {
+            background-color: $brand-primary;
+            color: $text-inverse;
         }
     }
 }

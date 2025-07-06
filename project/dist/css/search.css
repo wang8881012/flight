@@ -73,7 +73,12 @@ nav a {
   color: #F5F5F5;
   flex-direction: row;
   text-align: center;
-  line-height: 130px;
+  line-height: 65px;
+}
+.journey .Outbound .OutboundLeftCenter .FlightLine {
+  width: 50%;
+  display: block;
+  margin: 0 auto;
 }
 .journey .OutboundRight {
   width: 30%;
@@ -104,6 +109,14 @@ nav a {
   border: 0;
   color: #F5F5F5;
   background-color: #2B3B52;
+}
+.journey .ConfirmIcon .btn-active {
+  background-color: #C5D2E4;
+  color: #2B3B52;
+}
+.journey .ConfirmIcon .btn-inactive {
+  background-color: #2B3B52;
+  color: #F5F5F5;
 }
 
 /*# sourceMappingURL=search.css.map */

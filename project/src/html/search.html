@@ -7,6 +7,7 @@
   <title>Document</title>
   <link rel="stylesheet" href="/project/dist/css/search.css">
   <link rel="stylesheet" href="/project/dist/css/style.css">
+  <script src="../js/search.js"></script>
 
 
 </head>
@@ -52,46 +53,9 @@
     <!-- 去程 -->
     <div class="journey">
       <h1>去程航班</h1>
-      <div class="Outbound">
-        <div class="OutboundLeft">
-          <p>111</p>
-          <p>111</p>
-        </div>
-        <div class="OutboundLeftCenter">111</div>
-        <div class="OutboundLeft">
-          <p>111</p>
-          <p>111</p>
-        </div>
-        <div class="OutboundRight">
-          <div class="btn OutboundRightTicket">111</div>
-          <div class="btn OutboundRightTicket">111</div>
-        </div>
-      </div>
-      <br>
-      <div class="Outbound">
-        <div class="OutboundLeft">
-          <p>111</p>
-          <p>111</p>
-        </div>
-        <div class="OutboundLeftCenter">111</div>
-        <div class="OutboundLeft">
-          <p>111</p>
-          <p>111</p>
-        </div>
-        <div class="OutboundRight">
-          <div class="btn OutboundRightTicket">111</div>
-          <div class="btn OutboundRightTicket">111</div>
-        </div>
-      </div>
-      <div class="ConfirmIcon">
-        <button><i class="bi bi-rewind-btn-fill"></i></button>
-        <button><i class="bi bi-skip-start-btn-fill"></i></button>
-        <button class="btn">1</button>
-        <button class="btn">2</button>
-        <button class="btn">3</button>
-        <button><i class="bi bi-skip-end-btn-fill"></i></button>
-        <button><i class="bi bi-fast-forward-btn-fill"></i></button>
-      </div>
+      <div id="flight-container"></div>
+      <div id="pagination-controls" class="ConfirmIcon mt-3"></div>
+
     </div>
 
   </article>
