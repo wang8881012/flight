@@ -147,9 +147,12 @@ nav {
     }
 }
 
-.ConfirmIcon {
+.ConfirmIconCard {
+    width: 55%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
 
     .BtnNext {
         width: 80px;
@@ -157,5 +160,10 @@ nav {
         border-radius: 8px;
         background-color: $sidebar-bg;
         color: $text-primary;
+    }
+
+    .bicard {
+        color: $text-primary;
+        font-size: 50px;
     }
 }
