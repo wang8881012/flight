@@ -39,7 +39,6 @@ onMounted(async () => {
           beginAtZero: true,
           ticks: {
             precision: 0, // 不顯示小數
-            stepSize: 1, // 每格間距為1（可選）
           },
         },
       },
@@ -67,7 +66,6 @@ onMounted(async () => {
           beginAtZero: true,
           ticks: {
             precision: 0, // 不顯示小數
-            stepSize: 1, // 每格間距為1（可選）
           },
         },
       },
@@ -110,7 +108,6 @@ onMounted(async () => {
           beginAtZero: true,
           ticks: {
             precision: 0, // 不顯示小數
-            stepSize: 1, // 每格間距為1（可選）
           },
         },
       },

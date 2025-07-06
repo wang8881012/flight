@@ -1,129 +1,119 @@
-<template>
-  <!-- <div class="d-flex">
-    <Sidebar />
-    <div class="flex-grow-1 p-4">
-      <Navbar />-->
-  <h2 class="mb-3">航班管理</h2>
-  <!-- 
-      <FilterBar :filters="filters" @filter="getFlights" />
-
-      <button class="btn btn-primary mb-3" @click="openModal(null)">
-        新增航班
-      </button>
-
-      <DataTable
-        :columns="columns"
-        :rows="rows"
-        @edit="openModal"
-        @delete="deleteFlight"
-      />
-
-      <Pagination :pagination="pagination" @page-change="changePage" />
-
-      <EditModal
-        v-if="showModal"
-        :form="editForm"
-        @save="saveFlight"
-        @close="showModal = false"
-      />
-    </div>
-  </div> -->
-</template>
-
-<script>
-// import Sidebar from "@/components/Sidebar.vue";
-// import Navbar from "@/components/Navbar.vue";
-// import FilterBar from "@/components/FilterBar.vue";
-// import DataTable from "@/components/DataTable.vue";
-// import Pagination from "@/components/Pagination.vue";
-// import EditModal from "@/components/EditModal.vue";
+<script setup>
+import { ref, onMounted } from "vue";
 import axios from "axios";
+import Navbar from "../components/NavBar.vue";
+import Sidebar from "../components/Sidebar.vue";
+import FilterBar from "../components/FilterBar.vue";
+import DataTable from "../components/DataTable.vue";
+import Pagination from "../components/Pagination.vue";
+import EditModal from "../components/EditModal.vue";
 
-// export default {
-//   components: { Sidebar, Navbar, FilterBar, DataTable, Pagination, EditModal },
-//   data() {
-//     return {
-//       filters: {
-//         keyword: "",
-//         status: "",
-//       },
-//       columns: [
-//         { key: "flight_no", label: "航班編號" },
-//         { key: "from_airport", label: "出發地" },
-//         { key: "to_airport", label: "目的地" },
-//         { key: "departure_time", label: "起飛時間" },
-//         { key: "arrival_time", label: "抵達時間" },
-//         { key: "actions", label: "操作" },
-//       ],
-//       rows: [],
-//       pagination: {
-//         page: 1,
-//         per_page: 10,
-//         total: 0,
-//       },
-//       showModal: false,
-//       editForm: null,
-//     };
-//   },
-//   mounted() {
-//     this.getFlights();
-//   },
-//   methods: {
-//     getFlights() {
-//       axios
-//         .post("../api/flights.php", {
-//           action: "list",
-//           ...this.filters,
-//           page: this.pagination.page,
-//           per_page: this.pagination.per_page,
-//         })
-//         .then((res) => {
-//           this.rows = res.data.data;
-//           this.pagination.total = res.data.pagination.total;
-//         });
-//     },
-//     changePage(newPage) {
-//       this.pagination.page = newPage;
-//       this.getFlights();
-//     },
-//     openModal(row) {
-//       this.editForm = row
-//         ? { ...row }
-//         : {
-//             flight_no: "",
-//             from_airport: "",
-//             to_airport: "",
-//             departure_time: "",
-//             arrival_time: "",
-//           };
-//       this.showModal = true;
-//     },
-//     saveFlight(form) {
-//       const action = form.id ? "update" : "create";
-//       axios
-//         .post("../api/flights.php", {
-//           action,
-//           ...form,
-//         })
-//         .then(() => {
-//           this.showModal = false;
-//           this.getFlights();
-//         });
-//     },
-//     deleteFlight(id) {
-//       if (confirm("確定要刪除這筆資料嗎？")) {
-//         axios
-//           .post("../api/flights.php", {
-//             action: "delete",
-//             id,
-//           })
-//           .then(() => {
-//             this.getFlights();
-//           });
-//       }
-//     },
-//   },
-// };
+const flights = ref([]);
+const pagination = ref({ page: 1, totalPages: 1 });
+const filters = ref({});
+const showModal = ref(false);
+const selectedUser = ref({});
+
+const fetchFlights = async () => {
+  const res = await axios.post("/flight/admin/api/flight.php", {
+    action: "list",
+    page: pagination.page,
+    per_page: pagination.per_page,
+    keyword: filter.keyword,
+  });
+  flights.value = res.data.data;
+  pagination.total_pages = res.data.pagination.total_pages;
+};
+
+const changePage = (newPage) => {
+  pagination.page = newPage;
+  fetchFlights();
+};
+
+const openModal = (item) => {
+  Object.assign(form, item || {});
+  showModal.value = true;
+};
+
+const submitForm = async () => {
+  const action = form.id ? "update" : "create";
+  await axios.post("/flight/admin/api/flight.php", {
+    action,
+    form: { ...form },
+  });
+  showModal.value = false;
+  fetchFlights();
+};
+
+const deleteFlight = async (item) => {
+  if (!confirm("確認刪除？")) return;
+  await axios.post("/flight/admin/api/flight.php", {
+    action: "delete",
+    id: item.id,
+  });
+  fetchFlights();
+};
+
+onMounted(fetchFlights);
 </script>
 
-<style scoped></style>
+<template>
+  <Navbar />
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-2 d-none d-md-block p-0 sidebar">
+        <Sidebar />
+      </div>
+      <!-- Main Content -->
+      <div class="col-12 col-md-10 main-content">
+        <h2 class="mb-4">航班管理</h2>
+        <!-- 篩選器 -->
+        <div class="row mb-3">
+          <div class="col-md-3 mb-4">
+            <FilterBar
+              :keyword="filter.keyword"
+              @update:keyword="filter.keyword = $event"
+              @search="fetchFlights"
+            />
+          </div>
+        </div>
+        <!-- 新增按鈕 -->
+        <div class="col-md-3 mb-4">
+          <button class="btn btn-primary mb-3" @click="openModal(null)">
+            新增航班
+          </button>
+        </div>
+        <!-- 資料表格 -->
+        <DataTable
+          :items="flights"
+          :fields="[
+            'flight_no',
+            'from_airport',
+            'to_airport',
+            'departure_time',
+            'arrival_time',
+          ]"
+          @edit="openModal"
+          @delete="deleteFlight"
+        />
+
+        <!-- 分頁 -->
+        <Pagination
+          :page="pagination.page"
+          :total-pages="pagination.total_pages"
+          @change="changePage"
+        />
+
+        <!-- 編輯/新增彈窗 -->
+        <EditModal
+          v-if="showModal"
+          :form="form"
+          :is-editing="!!form.id"
+          @close="showModal = false"
+          @submit="submitForm"
+        />
+      </div>
+    </div>
+  </div>
+</template>
