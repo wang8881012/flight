@@ -124,4 +124,16 @@ nav a {
   color: #F5F5F5;
 }
 
+.ConfirmIcon {
+  display: flex;
+  justify-content: center;
+}
+.ConfirmIcon .BtnNext {
+  width: 80px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #DBB37D;
+  color: #2B3B52;
+}
+
 /*# sourceMappingURL=search.css.map */

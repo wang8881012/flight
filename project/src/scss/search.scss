@@ -146,3 +146,16 @@ nav {
         }
     }
 }
+
+.ConfirmIcon {
+    display: flex;
+    justify-content: center;
+
+    .BtnNext {
+        width: 80px;
+        height: 40px;
+        border-radius: 8px;
+        background-color: $sidebar-bg;
+        color: $text-primary;
+    }
+}
