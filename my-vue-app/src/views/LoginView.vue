@@ -94,4 +94,9 @@ const handleLogin = async () => {
   margin: 0;
   padding: 0;
 }
+.card-custom {
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
+}
 </style>

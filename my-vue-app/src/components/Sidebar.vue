@@ -23,7 +23,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/order">
+        <router-link class="nav-link" to="/orders">
           <i class="bi bi-receipt me-2"></i>訂單管理
         </router-link>
       </li>
