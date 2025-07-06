@@ -99,5 +99,11 @@ nav a {
 .journey .ConfirmIcon .bi {
   color: #2B3B52;
 }
+.journey .ConfirmIcon .btn {
+  padding: 0px 13px;
+  border: 0;
+  color: #F5F5F5;
+  background-color: #2B3B52;
+}
 
 /*# sourceMappingURL=search.css.map */

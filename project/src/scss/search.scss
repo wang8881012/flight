@@ -115,5 +115,12 @@ nav {
         .bi {
             color: $text-primary;
         }
+
+        .btn {
+            padding: 0px 13px;
+            border: 0;
+            color: $text-inverse;
+            background-color: $brand-primary;
+        }
     }
 }
