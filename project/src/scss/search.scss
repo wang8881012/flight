@@ -110,6 +110,12 @@ nav {
             align-items: center;
             justify-content: center;
         }
+
+        .OutboundRightTicket.active {
+            background-color: $card-bg-inverse;
+            color: $text-inverse;
+            font-weight: bold;
+        }
     }
 
     .ConfirmIcon {

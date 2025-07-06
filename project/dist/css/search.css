@@ -95,6 +95,11 @@ nav a {
   align-items: center;
   justify-content: center;
 }
+.journey .OutboundRight .OutboundRightTicket.active {
+  background-color: #AF8E61;
+  color: #F5F5F5;
+  font-weight: bold;
+}
 .journey .ConfirmIcon {
   font-size: 30px;
   display: flex;

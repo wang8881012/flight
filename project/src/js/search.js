@@ -46,9 +46,26 @@ function renderFlights() {
             </div>
         </div><br>
         `;
+
         container.appendChild(div);
     });
+
+    // // 監聽按鈕事件，所有航班只能選一個放在 forEach 外面：載入完全部後，再加事件監聽
+    const allButtons = document.querySelectorAll('.OutboundRightTicket');
+    allButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // 移除全部 active
+            allButtons.forEach(b => b.classList.remove('active'));
+            // 加上目前這顆
+            btn.classList.add('active');
+        });
+    });
 }
+
+
+window.onload = () => {
+    renderFlights();
+};
 
 // 渲染分頁按鈕（最多顯示 3 個頁碼）
 function renderPagination() {
