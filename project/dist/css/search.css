@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #F5F5F5;
+  background-color: #F5F5F5 !important;
 }
 
 nav ul {
@@ -89,6 +89,15 @@ nav a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.journey .ConfirmIcon {
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.journey .ConfirmIcon .bi {
+  color: #2B3B52;
 }
 
 /*# sourceMappingURL=search.css.map */
