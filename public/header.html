@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirGo航空</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- 桌面版：上層 Logo 和右側項目 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary d-none d-lg-flex">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">AirGo航空</a>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">聯絡我們</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">登入</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 桌面版：下層功能選項 -->
+    <nav class="navbar navbar-expand-lg bg-white d-none d-lg-flex">
+        <div class="container-fluid justify-content-center">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-black" href="#">確認明細</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black" href="#">填寫旅客資料</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black" href="#">加值購買</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black" href="#">付款</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black" href="#">完成</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 手機版：全部一起收合 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary d-lg-none">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">AirGo航空</a>
+
+            <!-- 漢堡選單按鈕 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- 手機版選單內容 -->
+            <div class="collapse navbar-collapse" id="mobileNavbar">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <!-- 功能選項 -->
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">確認明細</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">填寫旅客資料</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">加值購買</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">付款</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">完成</a>
+                    </li>
+
+                    <!-- 聯絡我們 / 登入 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">聯絡我們</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">登入</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
