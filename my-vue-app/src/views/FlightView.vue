@@ -8,51 +8,87 @@ import DataTable from "../components/DataTable.vue";
 import Pagination from "../components/Pagination.vue";
 import EditModal from "../components/EditModal.vue";
 
+// 狀態
 const flights = ref([]);
 const pagination = ref({ page: 1, totalPages: 1 });
 const filters = ref({});
 const showModal = ref(false);
-const selectedUser = ref({});
+const modalMode = ref("create");
+const selectedFlight = ref({});
 
-const fetchFlights = async () => {
+// 篩選欄位
+const filterFields = [
+  {
+    key: "flight_no",
+    label: "航班號",
+    type: "text",
+    placeholder: "請輸入航班號",
+  },
+  { key: "from_airport", label: "出發機場", type: "select", options: [] },
+  { key: "to_airport", label: "到達機場", type: "select", options: [] },
+];
+
+// 編輯欄位
+const editFields = [
+  { key: "id", label: "ID", type: "text", readonly: true },
+  { key: "flight_no", label: "航班號", type: "text" },
+  { key: "from_airport", label: "出發機場", type: "text" },
+  { key: "to_airport", label: "到達機場", type: "text" },
+  { key: "departure_time", label: "起飛時間", type: "datetime-local" },
+  { key: "arrival_time", label: "到達時間", type: "datetime-local" },
+];
+
+// 取得資料
+async function fetchFlights() {
   const res = await axios.post("/flight/admin/api/flight.php", {
     action: "list",
-    page: pagination.page,
-    per_page: pagination.per_page,
-    keyword: filter.keyword,
+    page: pagination.value.page,
+    ...filters.value,
   });
   flights.value = res.data.data;
-  pagination.total_pages = res.data.pagination.total_pages;
-};
+  pagination.value.totalPages = res.data.total;
+}
 
-const changePage = (newPage) => {
-  pagination.page = newPage;
-  fetchFlights();
-};
-
-const openModal = (item) => {
-  Object.assign(form, item || {});
+// 編輯
+function handleEdit(flight) {
+  selectedFlight.value = { ...flight };
+  modalMode.value = "edit";
   showModal.value = true;
-};
+}
 
-const submitForm = async () => {
-  const action = form.id ? "update" : "create";
+// 新增
+function handleAdd() {
+  selectedFlight.value = {};
+  modalMode.value = "create";
+  showModal.value = true;
+}
+
+// 提交表單
+async function handleSubmit(data) {
+  const action = modalMode.value === "edit" ? "update" : "create";
   await axios.post("/flight/admin/api/flight.php", {
     action,
-    form: { ...form },
+    ...data,
   });
   showModal.value = false;
   fetchFlights();
-};
+}
 
-const deleteFlight = async (item) => {
+// 刪除
+async function handleDelete(id) {
   if (!confirm("確認刪除？")) return;
   await axios.post("/flight/admin/api/flight.php", {
     action: "delete",
-    id: item.id,
+    id,
   });
   fetchFlights();
-};
+}
+
+// 分頁切換
+function changePage(page) {
+  pagination.value.page = page;
+  fetchFlights();
+}
 
 onMounted(fetchFlights);
 </script>
@@ -61,57 +97,47 @@ onMounted(fetchFlights);
   <Navbar />
   <div class="container-fluid">
     <div class="row">
-      <!-- Sidebar -->
       <div class="col-md-2 d-none d-md-block p-0 sidebar">
         <Sidebar />
       </div>
-      <!-- Main Content -->
       <div class="col-12 col-md-10 main-content">
         <h2 class="mb-4">航班管理</h2>
-        <!-- 篩選器 -->
-        <div class="row mb-3">
-          <div class="col-md-3 mb-4">
-            <FilterBar
-              :keyword="filter.keyword"
-              @update:keyword="filter.keyword = $event"
-              @search="fetchFlights"
-            />
-          </div>
-        </div>
-        <!-- 新增按鈕 -->
-        <div class="col-md-3 mb-4">
-          <button class="btn btn-primary mb-3" @click="openModal(null)">
-            新增航班
-          </button>
-        </div>
-        <!-- 資料表格 -->
+
+        <FilterBar
+          :fields="filterFields"
+          v-model="filters"
+          @filter="fetchFlights"
+        />
+        <button class="btn btn-success mb-3" @click="handleAdd">＋ 新增</button>
+
         <DataTable
-          :items="flights"
-          :fields="[
+          :columns="[
+            'id',
             'flight_no',
             'from_airport',
             'to_airport',
             'departure_time',
             'arrival_time',
+            'duration',
+            'direction',
           ]"
-          @edit="openModal"
-          @delete="deleteFlight"
+          :rows="flights"
+          :onEdit="handleEdit"
+          :onDelete="handleDelete"
         />
 
-        <!-- 分頁 -->
         <Pagination
-          :page="pagination.page"
-          :total-pages="pagination.total_pages"
-          @change="changePage"
+          :currentPage="pagination.page"
+          :totalPages="pagination.totalPages"
+          @page-change="changePage"
         />
 
-        <!-- 編輯/新增彈窗 -->
         <EditModal
-          v-if="showModal"
-          :form="form"
-          :is-editing="!!form.id"
-          @close="showModal = false"
-          @submit="submitForm"
+          :fields="editFields"
+          v-model="showModal"
+          :mode="modalMode"
+          :formData="selectedFlight"
+          @submit="handleSubmit"
         />
       </div>
     </div>

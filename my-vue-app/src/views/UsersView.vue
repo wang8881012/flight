@@ -28,8 +28,8 @@ const editFields = [
 const showModal = ref(false);
 const selectedUser = ref({});
 
-function fetchUsers() {
-  axios
+async function fetchUsers() {
+  await axios
     .post("/flight/admin/api/users.php", {
       page: pagination.value.page,
       ...filters.value,
@@ -47,8 +47,8 @@ function handleEdit(user) {
   showModal.value = true;
 }
 
-function handleDelete(id) {
-  axios
+async function handleDelete(id) {
+  await axios
     .post("/flight/admin/api/users.php", { action: "delete", id })
     .then(fetchUsers);
 }
@@ -102,7 +102,7 @@ onMounted(fetchUsers);
             }
           "
         />
-        <button class="btn btn-success" @click="handleAdd">＋ 新增</button>
+        <button class="btn btn-success mb-3" @click="handleAdd">＋ 新增</button>
 
         <DataTable
           :columns="['id', 'name', 'email', 'birthday', 'created_at']"

@@ -34,3 +34,21 @@
   height: 260px;
   margin: 0 auto;
 }
+
+/* btn */
+.btn-edit {
+  background-color: #ffcb9a;
+}
+
+.btn-edit:hover {
+  background-color: #c69158;
+}
+
+.btn-delete {
+  background-color: #a8454e;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #622123;
+}

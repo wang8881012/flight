@@ -1,5 +1,5 @@
 <template>
-  <form class="row g-3" @submit.prevent="submit">
+  <form class="row g-3 mb-3" @submit.prevent="submit">
     <div v-for="field in fields" :key="field.key" class="col-md-3">
       <label class="form-label">{{ field.label }}</label>
 
@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-md-2 d-flex align-items-end">
-      <button class="btn btn-primary w-100" type="submit">篩選</button>
+      <button class="btn w-50" type="submit">篩選</button>
     </div>
   </form>
 </template>
@@ -66,3 +66,12 @@ const submit = () => {
   emit("update:modelValue", { ...form });
 };
 </script>
+<style scoped>
+.btn {
+  background-color: #91cfd9;
+}
+
+.btn:hover {
+  background-color: #8aafac;
+}
+</style>

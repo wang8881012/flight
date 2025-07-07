@@ -8,9 +8,9 @@ defineProps({
 </script>
 
 <template>
-  <table class="table table-bordered">
+  <table class="table text-center">
     <thead>
-      <tr>
+      <tr class="table-primary">
         <th v-for="col in columns" :key="col">{{ col }}</th>
         <th>操作</th>
       </tr>
@@ -19,10 +19,10 @@ defineProps({
       <tr v-for="(row, index) in rows" :key="index">
         <td v-for="col in columns" :key="col">{{ row[col] }}</td>
         <td>
-          <button class="btn btn-sm btn-warning" @click="onEdit(row)">
+          <button class="btn btn-sm btn-edit mx-1" @click="onEdit(row)">
             編輯
           </button>
-          <button class="btn btn-sm btn-danger" @click="onDelete(row.id)">
+          <button class="btn btn-sm btn-delete mx-1" @click="onDelete(row.id)">
             刪除
           </button>
         </td>
@@ -30,3 +30,4 @@ defineProps({
     </tbody>
   </table>
 </template>
+<style scoped></style>
