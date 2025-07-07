@@ -156,12 +156,12 @@ nav {
     margin-left: auto;
     padding-right: 50px;
 
-
     .SelectedFlightsInfo {
         display: none;
         position: absolute;
         bottom: 35px;
         right: 0;
+        bottom: 90px;
         background-color: $body-bg;
         border: 1px solid $card-bg-alt;
         padding: 10px 15px;
@@ -174,9 +174,9 @@ nav {
         .bicard {
             color: $text-primary;
             cursor: pointer;
+            font-size: 32px;
         }
     }
-
 
     .BtnNext {
         width: 80px;
@@ -186,5 +186,9 @@ nav {
         color: $text-primary;
     }
 
-
+    .SelectedPrices {
+        font-size: 14px;
+        margin-top: 1px;
+        color: $text-primary;
+    }
 }

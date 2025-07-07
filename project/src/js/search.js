@@ -30,6 +30,25 @@ function updateSelectedFlightInfo() {
         const { departure, arrival } = selectedReturn;
         infoBox.innerHTML += `<p>回程：${departure.city} (${departure.time}) → ${arrival.city} (${arrival.time})</p>`;
     }
+
+    updateTotalPrice(); // 🔹更新價格顯示
+}
+
+function updateTotalPrice() {
+    const priceBox = document.querySelector('.SelectedPrices');
+    let total = 0;
+
+    const parsePrice = (str) => parseInt(str.replace('$', ''));
+
+    if (selectedOutbound) {
+        total += parsePrice(selectedOutbound.buttons[1]);
+    }
+
+    if (selectedReturn) {
+        total += parsePrice(selectedReturn.buttons[1]);
+    }
+
+    priceBox.innerHTML = `<p>總價：$${total}</p>`;
 }
 
 function updateNextButton() {

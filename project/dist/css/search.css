@@ -138,6 +138,7 @@ nav a {
   position: absolute;
   bottom: 35px;
   right: 0;
+  bottom: 90px;
   background-color: #F5F5F5;
   border: 1px solid #C5D2E4;
   padding: 10px 15px;
@@ -148,12 +149,18 @@ nav a {
 .ConfirmIconCard .CartContainer .bicard {
   color: #2B3B52;
   cursor: pointer;
+  font-size: 32px;
 }
 .ConfirmIconCard .BtnNext {
   width: 80px;
   height: 40px;
   border-radius: 8px;
   background-color: #DBB37D;
+  color: #2B3B52;
+}
+.ConfirmIconCard .SelectedPrices {
+  font-size: 14px;
+  margin-top: 1px;
   color: #2B3B52;
 }
 
