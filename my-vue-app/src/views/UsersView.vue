@@ -11,10 +11,18 @@ import EditModal from "../components/EditModal.vue";
 const users = ref([]);
 const pagination = ref({ page: 1, totalPages: 1 });
 const filters = ref({});
+const modalMode = ref("create");
 
 const filterFields = [
   { key: "name", label: "會員姓名", type: "text", placeholder: "請輸入姓名" },
   { key: "email", label: "Email", type: "text" },
+];
+
+const editFields = [
+  { key: "id", label: "ID", type: "text", readonly: true },
+  { key: "name", label: "姓名", type: "text" },
+  { key: "email", label: "Email", type: "text" },
+  { key: "birthday", label: "生日", type: "date" },
 ];
 
 const showModal = ref(false);
@@ -35,6 +43,7 @@ function fetchUsers() {
 
 function handleEdit(user) {
   selectedUser.value = { ...user };
+  modalMode.value = "edit";
   showModal.value = true;
 }
 
@@ -45,9 +54,29 @@ function handleDelete(id) {
 }
 
 function handleSubmit(data) {
-  axios
-    .post("/flight/admin/api/users.php", { action: "update", ...data })
-    .then(fetchUsers);
+  if (modalMode.value === "create") {
+    // 新增
+    axios
+      .post("/flight/admin/api/users.php", { action: "create", ...data })
+      .then(() => {
+        fetchUsers();
+        showModal.value = false;
+      });
+  } else if (modalMode.value === "edit") {
+    // 編輯
+    axios
+      .post("/flight/admin/api/users.php", { action: "update", ...data })
+      .then(() => {
+        fetchUsers();
+        showModal.value = false;
+      });
+  }
+}
+
+function handleAdd() {
+  selectedUser.value = {}; // 清空
+  modalMode.value = "create";
+  showModal.value = true;
 }
 
 onMounted(fetchUsers);
@@ -73,6 +102,7 @@ onMounted(fetchUsers);
             }
           "
         />
+        <button class="btn btn-success" @click="handleAdd">＋ 新增</button>
 
         <DataTable
           :columns="['id', 'name', 'email', 'birthday', 'created_at']"
@@ -93,7 +123,9 @@ onMounted(fetchUsers);
         />
 
         <EditModal
+          :fields="editFields"
           v-model="showModal"
+          :mode="modalMode"
           :formData="selectedUser"
           @submit="handleSubmit"
         />

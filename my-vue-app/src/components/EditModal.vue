@@ -4,7 +4,9 @@
       <div class="modal-content">
         <form @submit.prevent="handleSubmit">
           <div class="modal-header">
-            <h5 class="modal-title">編輯資料</h5>
+            <h5 class="modal-title">
+              {{ props.mode === "create" ? "新增資料" : "編輯資料" }}
+            </h5>
             <button type="button" class="btn-close" @click="close"></button>
           </div>
           <div class="modal-body row g-3">
@@ -57,6 +59,7 @@ const props = defineProps({
   modelValue: Boolean,
   formData: Object,
   fields: Array,
+  mode: String,
 });
 const emit = defineEmits(["update:modelValue", "submit"]);
 
@@ -66,6 +69,7 @@ const form = reactive({});
 watch(
   () => props.formData,
   (newData) => {
+    Object.keys(form).forEach((key) => delete form[key]); // 清空舊資料
     Object.assign(form, newData || {});
   },
   { immediate: true }

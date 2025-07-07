@@ -33,7 +33,7 @@ $total = $stmt->fetchColumn();
 $sql = "
   SELECT id, name, email, phone, birthday, created_at
   FROM users
-  $where
+  $where and is_deleted = 0
   ORDER BY created_at DESC
   LIMIT :offset, :per_page
 ";
@@ -90,6 +90,9 @@ case 'update':
   break;
 
 case 'delete':
-
+  $sql = "UPDATE users SET is_deleted = 1 WHERE id = :id;";
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([':id' => $data['id']]);
+  echo json_encode(['success' => true]);
   break;
 }
