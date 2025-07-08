@@ -9,7 +9,12 @@ import Pagination from "../components/Pagination.vue";
 import EditModal from "../components/EditModal.vue";
 
 const users = ref([]);
-const pagination = ref({ page: 1, totalPages: 1 });
+const pagination = ref({
+  page: 1,
+  totalPages: 1,
+  perPage: 10,
+  totalItems: 0,
+});
 const filters = ref({});
 const modalMode = ref("create");
 
@@ -37,7 +42,7 @@ async function fetchUsers() {
     })
     .then((res) => {
       users.value = res.data.data;
-      pagination.value.totalPages = res.data.pagination.total_pages;
+      pagination.value.totalItems = res.data.pagination.total;
     });
 }
 
@@ -79,6 +84,11 @@ function handleAdd() {
   showModal.value = true;
 }
 
+function changePage(page) {
+  pagination.value.page = page;
+  fetchUsers();
+}
+
 onMounted(fetchUsers);
 </script>
 
@@ -110,16 +120,11 @@ onMounted(fetchUsers);
           :onEdit="handleEdit"
           :onDelete="handleDelete"
         />
-
         <Pagination
           :currentPage="pagination.page"
-          :totalPages="pagination.totalPages"
-          @page-change="
-            (page) => {
-              pagination.page = page;
-              fetchUsers();
-            }
-          "
+          :totalItems="pagination.totalItems"
+          :perPage="pagination.perPage"
+          @page-change="changePage"
         />
 
         <EditModal

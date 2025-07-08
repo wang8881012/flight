@@ -10,7 +10,12 @@ import EditModal from "../components/EditModal.vue";
 
 // 狀態
 const flights = ref([]);
-const pagination = ref({ page: 1, totalPages: 1 });
+const pagination = ref({
+  page: 1,
+  totalPages: 1,
+  perPage: 10,
+  totalItems: 0,
+});
 const filters = ref({});
 const showModal = ref(false);
 const modalMode = ref("create");
@@ -43,10 +48,11 @@ async function fetchFlights() {
   const res = await axios.post("/flight/admin/api/flight.php", {
     action: "list",
     page: pagination.value.page,
+    perPage: pagination.value.perPage || 10,
     ...filters.value,
   });
   flights.value = res.data.data;
-  pagination.value.totalPages = res.data.total;
+  pagination.value.totalItems = res.data.total;
 }
 
 // 編輯
@@ -128,7 +134,8 @@ onMounted(fetchFlights);
 
         <Pagination
           :currentPage="pagination.page"
-          :totalPages="pagination.totalPages"
+          :totalItems="pagination.totalItems"
+          :perPage="pagination.perPage"
           @page-change="changePage"
         />
 

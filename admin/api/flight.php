@@ -52,7 +52,8 @@ echo json_encode([
   'data' => $data,
   'page' => $page,
   'perPage' => $perPage,
-  'total' => $total
+  'total' => $total,
+  'totalPages' => ceil($total / $perPage)
 ]);
 break;
 

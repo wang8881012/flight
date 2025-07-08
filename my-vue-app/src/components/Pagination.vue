@@ -1,101 +1,126 @@
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 
 const props = defineProps({
   currentPage: Number,
-  totalPages: Number,
+  perPage: Number,
+  totalItems: Number,
 });
 const emit = defineEmits(["page-change"]);
 
 const jumpPage = ref(props.currentPage);
 
-watch(
-  () => props.currentPage,
-  (val) => (jumpPage.value = val)
+// 總頁數
+const totalPages = computed(() =>
+  Math.max(1, Math.ceil(props.totalItems / props.perPage || 10))
 );
 
-function changePage(page) {
-  if (page >= 1 && page <= props.totalPages) {
-    emit("page-change", page);
+// 同步跳頁輸入框
+watch(
+  () => props.currentPage,
+  (val) => {
+    jumpPage.value = val;
   }
-}
+);
 
-function getPageNumbers() {
-  const total = props.totalPages;
+// 計算要顯示的頁碼陣列
+const pageNumbers = computed(() => {
+  const total = totalPages.value;
   const current = props.currentPage;
+  const maxVisible = 5;
   const pages = [];
 
-  if (total <= 7) {
-    // 全部顯示
+  if (total <= maxVisible) {
+    // 直接顯示全部頁數
     for (let i = 1; i <= total; i++) pages.push(i);
   } else {
-    pages.push(1); // 第一頁
+    // 以當前頁置中顯示 maxVisible 頁
+    let start = Math.max(1, current - Math.floor(maxVisible / 2));
+    let end = start + maxVisible - 1;
 
-    if (current > 4) pages.push("...");
+    if (end > total) {
+      end = total;
+      start = total - maxVisible + 1;
+    }
 
-    const start = Math.max(2, current - 2);
-    const end = Math.min(total - 1, current + 2);
     for (let i = start; i <= end; i++) pages.push(i);
-
-    if (current < total - 3) pages.push("...");
-
-    pages.push(total); // 最後一頁
   }
 
   return pages;
-}
+});
 
-function handleJump() {
-  const page = parseInt(jumpPage.value);
-  if (!isNaN(page)) changePage(page);
-}
+// 跳轉
+const goToPage = () => {
+  const target = Math.max(1, Math.min(jumpPage.value, totalPages.value));
+  emit("page-change", target);
+};
 </script>
 
 <template>
   <nav>
-    <ul class="pagination justify-content-center align-items-center">
+    <ul class="pagination justify-content-center">
       <li class="page-item" :class="{ disabled: currentPage === 1 }">
-        <a class="page-link" @click="changePage(currentPage - 1)">«</a>
+        <a class="page-link" @click="emit('page-change', (currentPage = 1))">
+          第一頁
+        </a>
       </li>
-
-      <li
-        v-for="page in getPageNumbers()"
-        :key="page"
-        class="page-item"
-        :class="{ active: currentPage === page, disabled: page === '...' }"
-      >
-        <span class="page-link" v-if="page === '...'">…</span>
-        <a v-else class="page-link" @click="changePage(page)">
-          {{ page }}
+      <li>
+        <a class="page-link" @click="emit('page-change', currentPage - 1)">
+          上一頁
         </a>
       </li>
 
-      <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-        <a class="page-link" @click="changePage(currentPage + 1)">»</a>
+      <li
+        v-for="page in pageNumbers"
+        :key="page"
+        class="page-item"
+        :class="{ active: currentPage === page }"
+      >
+        <a class="page-link" @click="emit('page-change', page)">{{ page }}</a>
       </li>
 
-      <!-- 跳頁 -->
-      <li class="ms-3 d-flex align-items-center">
-        <span>跳轉至</span>
-        <input
-          type="number"
-          class="form-control mx-2"
-          style="width: 80px"
-          v-model.number="jumpPage"
-          min="1"
-          :max="totalPages"
-          @keyup.enter="handleJump"
-        />
-        <button class="btn btn-outline-primary btn-sm" @click="handleJump">
-          前往
-        </button>
+      <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+        <a class="page-link" @click="emit('page-change', currentPage + 1)">
+          下一頁
+        </a>
+      </li>
+      <li>
+        <a
+          class="page-link"
+          @click="emit('page-change', (currentPage = totalPages))"
+        >
+          最後一頁
+        </a>
       </li>
     </ul>
+
+    <!-- 跳轉輸入框 -->
+    <div class="d-flex justify-content-center mt-2">
+      <input
+        type="number"
+        class="form-control w-auto"
+        v-model.number="jumpPage"
+        :min="1"
+        :max="totalPages"
+        @keyup.enter="goToPage"
+      />
+      <button class="btn btn-jump ms-2" @click="goToPage">跳轉</button>
+    </div>
   </nav>
 </template>
 
 <style scoped>
 .pagination:hover {
   cursor: pointer;
+}
+
+.btn-jump {
+  background-color: #475fd9;
+  color: white;
+  border: none;
+}
+
+.btn-jump:hover {
+  background-color: #0c6396;
 }
 </style>
