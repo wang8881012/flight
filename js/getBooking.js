@@ -1,6 +1,7 @@
+const bookingId = 2;
+
 document.addEventListener('DOMContentLoaded', () => {
     // 這裡改成你的 booking_id
-    const bookingId = 1;
 
     fetch(`../api/confirm/getBooking.php?booking_id=${bookingId}`)
         .then(response => response.json())
@@ -18,10 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function renderBooking(data) {
-    const departTableBody = document.querySelector('table:nth-of-type(1) tbody');
-    const returnTableBody = document.querySelector('table:nth-of-type(2) tbody');
-
+    const orderNumber = document.getElementById('booking-number')
+    const departTableBody = document.getElementById('depart');
+    const returnTableBody = document.getElementById('return');
+    
     // 清空原本的內容
+    orderNumber.innerHTML = '';
     departTableBody.innerHTML = '';
     returnTableBody.innerHTML = '';
 
@@ -29,6 +32,9 @@ function renderBooking(data) {
     const half = Math.ceil(data.length / 2);
     const departData = data.slice(0, half);
     const returnData = data.slice(half);
+
+    //渲染訂單編號
+    orderNumber.innerHTML = `<h4>訂單編號：${bookingId}</h4>`
 
     // 渲染去程
     departData.forEach(item => {
