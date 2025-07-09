@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>選擇結果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .flight-box {
+            border: 1px solid #ccc;
+            padding: 16px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>您選擇的航班資訊</h2>
+
+    <div class="flight-box" id="outboundBox"></div>
+    <div class="flight-box" id="returnBox"></div>
+
+    <script>
+        const tripType = localStorage.getItem('tripType');
+        const outbound = JSON.parse(localStorage.getItem('selectedOutbound'));
+        const returnFlight = JSON.parse(localStorage.getItem('selectedReturn'));
+
+        const outboundBox = document.getElementById('outboundBox');
+        const returnBox = document.getElementById('returnBox');
+        const priceBox = document.getElementById('totalPriceBox');
+
+        function parsePrice(str) {
+            return parseInt(str.replace('$', '').replace(',', ''));
+        }
+
+        if (tripType === 'round' && outbound && returnFlight) {
+            outboundBox.innerHTML = `
+        <h3>去程航班</h3>
+        <p>出發地：${outbound.departure.city} (${outbound.departure.time})</p>
+        <p>目的地：${outbound.arrival.city} (${outbound.arrival.time})</p>
+        <p>艙等：${outbound.selectedClass.toUpperCase()}</p>
+        <p>價格：$${outbound.selectedPrice.toLocaleString()}</p>
+    `;
+            returnBox.innerHTML = `
+        <h3>回程航班</h3>
+        <p>出發地：${returnFlight.departure.city} (${returnFlight.departure.time})</p>
+        <p>目的地：${returnFlight.arrival.city} (${returnFlight.arrival.time})</p>
+        <p>艙等：${returnFlight.selectedClass.toUpperCase()}</p>
+        <p>價格：$${returnFlight.selectedPrice.toLocaleString()}</p>
+    `;
+            const total = outbound.selectedPrice + returnFlight.selectedPrice;
+            priceBox.innerHTML = `<h3>總價</h3><p>$${total.toLocaleString()}</p>`;
+
+        } else if (tripType === 'oneway' && outbound) {
+            outboundBox.innerHTML = `
+        <h3>單程航班</h3>
+        <p>出發地：${outbound.departure.city} (${outbound.departure.time})</p>
+        <p>目的地：${outbound.arrival.city} (${outbound.arrival.time})</p>
+        <p>艙等：${outbound.selectedClass.toUpperCase()}</p>
+        <p>價格：$${outbound.selectedPrice.toLocaleString()}</p>
+    `;
+            returnBox.style.display = 'none';
+            const total = outbound.selectedPrice;
+            priceBox.innerHTML = `<h3>總價</h3><p>$${total.toLocaleString()}</p>`;
+        }
+
+
+    </script>
+
+</body>
+
+</html>

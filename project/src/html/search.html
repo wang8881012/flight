@@ -46,31 +46,52 @@
     </div>
   </section>
 
+  <select id="tripType" onchange="showFlightSection(this.value)">
+    <option value="round">來回票</option>
+    <option value="oneway">單程</option>
+  </select>
+
+
   <article>
     <!-- 去程 -->
-    <div class="journey">
-      <h1>去程航班</h1>
-      <div id="flight-container"></div>
-      <div id="PaginationControls" class="ConfirmIcon mb-3"></div>
-    </div>
+    <div id="roundTripSection">
+      <div class="journey">
+        <h1>去程航班</h1>
+        <div id="flight-containerGo"></div>
+        <div id="PaginationControlsGo" class="ConfirmIcon mb-3"></div>
+      </div>
 
-    <!-- 回程 -->
-    <div class="journey">
-      <h1>回程航班</h1>
-      <div id="flight-containerGo"></div>
-      <div id="PaginationControlsGo" class="ConfirmIcon mb-3"></div>
+      <!-- 回程 -->
+      <div class="journey">
+        <h1>回程航班</h1>
+        <div id="flight-container"></div>
+        <div id="PaginationControls" class="ConfirmIcon mb-3"></div>
+      </div>
     </div>
   </article>
 
-  <div class="ConfirmIconCard">
-    <button id="NextButton" class="BtnNext" disabled>下一步</button>
-    <div class="CartContainer">
-      <div class="SelectedFlightsInfo"></div>
-      <i id="cartIcon" class="bicard bi-cart-fill"></i>
-      <div class="SelectedPrices"></div>
+  <article>
+
+    <!-- 單程 -->
+    <div id="oneWaySection" style="display: none;">
+      <article>
+        <div class="journey">
+          <h1>單程航班</h1>
+          <div id="flight-containerOneWay"></div>
+          <div id="PaginationControlsOneWay" class="ConfirmIcon mb-3"></div>
+        </div>
+      </article>
     </div>
-  </div>
-  <script src="../js/search.js"></script>
+
+    <div class="ConfirmIconCard">
+      <button id="NextButton" class="BtnNext" disabled>下一步</button>
+      <div class="CartContainer">
+        <div class="SelectedFlightsInfo"></div>
+        <i id="cartIcon" class="bicard bi-cart-fill"></i>
+        <div class="SelectedPrices"></div>
+      </div>
+    </div>
+    <script src="../js/search.js"></script>
 </body>
 
 </html>
