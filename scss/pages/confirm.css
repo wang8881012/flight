@@ -74,10 +74,6 @@
     height: 100%;
 }
 
-form > p {
-    font-size: 3rem;
-}
-
 .gold-text {
     color: #DBB37D;
 }
@@ -92,4 +88,8 @@ form > p {
 
 .blue-bg {
     background-color: #2B3B52;
+}
+
+.light-blue-bg {
+    background-color: #DBEAFF;
 }

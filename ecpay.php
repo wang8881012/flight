@@ -24,8 +24,8 @@ $input = [
     'EncryptType'       => 1,                           // 加密類型
 
     // 請參考 example/Payment/GetCheckoutResponse.php 範例開發
-    'ReturnURL'         => 'http://jason8888.ddns.net',
-    'OrderResultURL'    => 'http://jason8888.ddns.net'
+    'ReturnURL'         => 'http://rnrzb-150-117-19-191.a.free.pinggy.link/flight/public/complete.html?booking_id=1',
+    'OrderResultURL'    => 'https://rnrzb-150-117-19-191.a.free.pinggy.link/flight/public/complete.html?booking_id=1'
 ];
 $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';
 

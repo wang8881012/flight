@@ -1,4 +1,6 @@
 <?php
+//撈取資料並echo出去，模擬訂購資訊
+
 header('Content-Type: application/json');
 require '../db.inc.php';
 

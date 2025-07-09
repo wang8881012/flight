@@ -1,4 +1,4 @@
-//動態帶入booking_id
+//動態帶入booking_id，模擬訂單完成的資訊帶入
 function getBookingIdFromURL() {
     const params = new URLSearchParams(window.location.search);
     return params.get('booking_id');

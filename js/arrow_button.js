@@ -1,3 +1,4 @@
+//下拉選單功能
 const collapseElements = document.querySelectorAll('.collapse');
 
 collapseElements.forEach(collapseEl => {
