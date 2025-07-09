@@ -6,9 +6,9 @@ import FilterBar from "../components/FilterBar.vue";
 import DataTable from "../components/DataTable.vue";
 import Pagination from "../components/Pagination.vue";
 import EditModal from "../components/EditModal.vue";
-import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue"; // ⬅️ 新增
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
 
-import { useCrud } from "../composables/useCrud"; // ⬅️ 使用共用邏輯
+import { useCrud } from "../composables/useCrud";
 
 const modalMode = ref("create");
 const showModal = ref(false);

@@ -32,38 +32,44 @@
     <div class="offcanvas-body">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <router-link class="nav-link" to="/dashboard"
+          <router-link class="nav-link" to="/dashboard" @click="closeOffcanvas"
             ><i class="bi bi-speedometer2 me-2"></i>Dashboard</router-link
           >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/flight"
+          <router-link class="nav-link" to="/flight" @click="closeOffcanvas"
             ><i class="bi bi-airplane me-2"></i>航班管理</router-link
           >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/flight-classes"
+          <router-link
+            class="nav-link"
+            to="/flight-classes"
+            @click="closeOffcanvas"
             ><i class="bi bi-currency-dollar me-2"></i>艙等票價管理</router-link
           >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/flight-seats"
+          <router-link
+            class="nav-link"
+            to="/flight-seats"
+            @click="closeOffcanvas"
             ><i class="bi bi-grid-3x3-gap me-2"></i>座位配置管理</router-link
           >
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" to="/orders"
+          <router-link class="nav-link" to="/orders" @click="closeOffcanvas"
             ><i class="bi bi-receipt me-2"></i>訂單管理</router-link
           >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/users"
+          <router-link class="nav-link" to="/users" @click="closeOffcanvas"
             ><i class="bi bi-people me-2"></i>會員管理</router-link
           >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/payments"
+          <router-link class="nav-link" to="/payments" @click="closeOffcanvas"
             ><i class="bi bi-cash-coin me-2"></i>金流紀錄查詢</router-link
           >
         </li>
@@ -71,5 +77,23 @@
     </div>
   </div>
 </template>
-<script></script>
+<script setup>
+import { onMounted } from "vue";
+
+let offcanvasInstance = null;
+
+onMounted(() => {
+  const el = document.getElementById("sidebarOffcanvas");
+  if (el) {
+    offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(el);
+  }
+});
+
+function closeOffcanvas() {
+  if (offcanvasInstance) {
+    offcanvasInstance.hide();
+  }
+}
+</script>
+
 <style scoped></style>
