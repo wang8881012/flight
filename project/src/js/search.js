@@ -93,8 +93,6 @@ function updateNextButton() {
     updateSelectedFlightInfo();
 }
 
-
-
 // 渲染航班清單
 function renderFlights(containerId, data, page) {
     const container = document.getElementById(containerId);
@@ -129,7 +127,7 @@ function renderFlights(containerId, data, page) {
         div.innerHTML = `
       <div class="Outbound">
         <div class="OutboundLeft">
-          <p><strong>${flight.departure.time}</strong></p>
+          <p><strong>當地時間為:${flight.departure.time}</strong></p>
           <p>${flight.departure.city}</p>
         </div>
         <div class="OutboundLeftCenter">
@@ -137,7 +135,7 @@ function renderFlights(containerId, data, page) {
           <img src="../photo/Line 6.svg" alt="flight path" class="FlightLine">
         </div>
         <div class="OutboundLeft">
-          <p><strong>${flight.arrival.time}</strong></p>
+          <p><strong>當地時間為:${flight.arrival.time}</strong></p>
           <p>${flight.arrival.city}</p>
         </div>
         <div class="OutboundRight">
