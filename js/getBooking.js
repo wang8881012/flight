@@ -1,7 +1,16 @@
-const bookingId = 2;
+//動態帶入booking_id
+function getBookingIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('booking_id');
+}
+
+const bookingId = getBookingIdFromURL();
+
+if (!bookingId) {
+    console.error('缺少 booking_id！');
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 這裡改成你的 booking_id
 
     fetch(`../api/confirm/getBooking.php?booking_id=${bookingId}`)
         .then(response => response.json())
@@ -22,7 +31,7 @@ function renderBooking(data) {
     const orderNumber = document.getElementById('booking-number')
     const departTableBody = document.getElementById('depart');
     const returnTableBody = document.getElementById('return');
-    
+
     // 清空原本的內容
     orderNumber.innerHTML = '';
     departTableBody.innerHTML = '';

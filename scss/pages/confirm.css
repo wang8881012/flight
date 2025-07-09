@@ -77,3 +77,19 @@
 form > p {
     font-size: 3rem;
 }
+
+.gold-text {
+    color: #DBB37D;
+}
+
+.gold-bg {
+    background-color: #DBB37D;
+}
+
+.blue-text {
+    color: #2B3B52;
+}
+
+.blue-bg {
+    background-color: #2B3B52;
+}

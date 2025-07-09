@@ -1,19 +1,31 @@
-.col-passenger {
-    width: 10%;
+.gold-text {
+    color: #DBB37D !important;
 }
 
-.col-flight {
-    width: 15%;
+.gold-bg {
+    background-color: #DBB37D !important;
 }
 
-.col-time {
-    width: 25%;
+.blue-text {
+    color: #2B3B52 !important;
 }
 
-.col-class {
-    width: 10%;
+.blue-bg {
+    background-color: #2B3B52 !important;
 }
 
-.col-seat {
-    width: 10%;
+/* 自訂深色表格樣式 */
+.custom-dark-table {
+  --bs-table-bg: #DBEAFF;
+  --bs-table-striped-bg: #1f2d3f;
+  --bs-table-color: #2B3B52;
+  --bs-table-striped-color: #DBB37D;
+  --bs-table-hover-color: #fff;
+  --bs-table-hover-bg: #212e42;
+  border-color: #374b6b;
+}
+
+.custom-dark-table thead th {
+  background-color: #2B3B52;
+  color: #DBB37D;
 }

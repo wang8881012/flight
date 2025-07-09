@@ -7,8 +7,8 @@
     <title>訂票完成</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../scss/pages/complete.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 
@@ -18,17 +18,17 @@
     <div class="container-fluid">
         <div class="row row-cols-12 row-cols-md-12 p-2 justify-content-center">
             <div class="col-lg-9 d-flex flex-column gap-3 px-3">
-                <h2 class="text-center">訂票完成</h2>
+                <h2 class="text-center blue-text">訂票完成</h2>
                 <h4 id="booking-number" class="text-center">訂單編號：1234567890</h4>
                 <h4 class="text-center">去程資訊</h4>
-                <table class="table table-bordered table-hover">
+                <table class="table table custom-dark-table">
                     <thead class="table-dark">
                         <tr>
-                            <th class="col-passenger">旅客</th>
-                            <th class="col-flight">航班</th>
-                            <th class="col-time">時間</th>
-                            <th class="col-class">航班號</th>
-                            <th class="col-seat">座位</th>
+                            <th>旅客</th>
+                            <th>航班</th>
+                            <th>時間</th>
+                            <th>航班號</th>
+                            <th>座位</th>
                         </tr>
                     </thead>
                     <tbody id="depart">
@@ -43,14 +43,14 @@
                 </table>
 
                 <h4 class="text-center">回程資訊</h4>
-                <table class="table table-bordered table-hover">
+                <table class="table table custom-dark-table">
                     <thead class="table-dark">
                         <tr>
-                            <th class="col-passenger">旅客</th>
-                            <th class="col-flight">航班</th>
-                            <th class="col-time">時間</th>
-                            <th class="col-class">航班號</th>
-                            <th class="col-seat">座位</th>
+                            <th>旅客</th>
+                            <th>航班</th>
+                            <th>時間</th>
+                            <th>航班號</th>
+                            <th>座位</th>
                         </tr>
                     </thead>
                     <tbody id="return">
@@ -63,14 +63,26 @@
                         </tr>
                     </tbody>
                 </table>
-                <h5>登機須知（適用於飛往亞洲的國際航班）</h5>
-                <p>
-                    您的訂票與付款程序已完成。確認後，系統將發送一封電子郵件至您所填寫的信箱，內含 PDF 格式的正式行程表。請務必在完成付款後 1 小時內查收該封郵件，如未收到，建議盡快聯繫客服中心尋求協助。
-                    搭乘亞洲航線班機時，辦理登機手續時請務必攜帶以下文件，否則航空公司將無法提供登機服務：
-                </p>
-                <p>1. PDF 行程表（請事先列印或儲存於行動裝置中）</p>
-                <p>2. 有效護照（持護照效期必須符合目的地國家／地區的入境規定）</p>
-                <p>3. 有效簽證（若目的地國家要求簽證）</p>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <h5 class="fw-bold text-primary">總金額：88888888</h5>
+                    <button class="btn gold-bg btn-lg rounded-pill">回到首頁</button>
+                </div>
+                <hr class="border-4">
+                <div class="mt-4 small text-secondary">
+                    <p class="fw-bold">登機須知（適用於飛往亞洲的國際航班）</p>
+                    <p>您的資料與付款已完成，感謝您。系統將發送一封電子郵件至您填寫資料時的信箱，內容為 PDF 格式的正式行程表，請務必在完成付款後 1 小時內確認收到，並妥善保存或列印後備查。</p>
+                    <p>特惠票旅客搭機前，請務必確認列印完成的行程表並攜帶以下文件，否則航空公司將無法提供登機服務：</p>
+                    <ol>
+                        <li>PDF 行程表（系統出具的正式電子行程表即可）</li>
+                        <li>有效證件（例如：護照、台胞證、香港居民來台證、其他國的人身證）</li>
+                        <li>有效簽證（需符合當地要求或政策）</li>
+                    </ol>
+                    <hr class="border-4">
+                    <p>未搭乘機票中任一航段，但使航程以及稅金已支付，無法進行用途變更，請務必依照航空公司規定，至機場報到正式登機。</p>
+                    <p>本行程表僅適用於原班機（即1／2小時內報到，並於班機起飛前40分鐘完成報到），班機如有延誤、取消、異動等航空公司因素，將另行通知，並完成所有票務再行受理。</p>
+                    <p>若您未依報到時間 1 小時內完成登機手續，即可能被視為未依時報到，航班將無法等候，相關責任將由您自行承擔。</p>
+                    <p class="fw-bold">請務必留意所搭乘航班的直達資訊與航空公司最新公告，並遵守大規模的相關防疫及安檢規定。</p>
+                </div>
             </div>
         </div>
     </div>
