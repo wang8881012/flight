@@ -21,9 +21,6 @@ function showFlightSection(type) {
     }
 }
 
-window.onload = () => {
-    showFlightSection(document.getElementById('tripType').value); // 根據預設選項載入
-};
 let flights = [];
 let flightsGo = [];
 let flightsReturn = [];
@@ -85,7 +82,7 @@ function updateTotalPrice() {
 // 更新「下一步」按鈕狀態
 function updateNextButton() {
     const nextBtn = document.getElementById('NextButton');
-    const tripType = document.getElementById('tripType').value;
+    const tripType = getQueryParam('tripType') || 'round';
 
     if (tripType === 'round') {
         nextBtn.disabled = !(selectedOutbound && selectedReturn);
@@ -241,40 +238,55 @@ function goToPageOneWay(page) {
 }
 
 // 初始化與事件綁定
-window.onload = () => {
-    const tripType = document.getElementById('tripType').value;
-    showFlightSection(tripType);
-
-    document.getElementById('NextButton').addEventListener('click', () => {
-        const tripType = document.getElementById('tripType').value;
-
-        if (tripType === 'round' && selectedOutbound && selectedReturn) {
-            localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
-            localStorage.setItem('selectedReturn', JSON.stringify(selectedReturn));
-            localStorage.setItem('tripType', 'round');
-            window.location.href = 'nextPage.html';
-        } else if (tripType === 'oneway' && selectedOutbound) {
-            localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
-            localStorage.removeItem('selectedReturn');
-            localStorage.setItem('tripType', 'oneway');
-            window.location.href = 'nextPage.html';
-        } else {
-            alert('請選擇航班');
-        }
-    });
-
-
-    // 購物車圖示事件
-    document.getElementById('cartIcon').addEventListener('click', () => {
-        const infoBox = document.querySelector('.SelectedFlightsInfo');
-        const isVisible = infoBox.style.display === 'block';
-
-        if (!selectedOutbound && !selectedReturn) {
-            alert('您尚未選擇航班！');
-            return;
-        }
-
-        infoBox.style.display = isVisible ? 'none' : 'block';
-        updateSelectedFlightInfo();
-    });
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
 }
+
+const tripType = getQueryParam('tripType') || 'round';
+
+fetch('/project/flight/project/src/php/search.php')
+    .then(res => res.json())
+    .then(data => {
+        console.log('成功获取数据：', data.flights);
+
+        flights = data.flights;
+        flightsGo = flights.filter(f => f.direction === 'outbound');
+        flightsReturn = flights.filter(f => f.direction === 'inbound');
+
+        showFlightSection(tripType);
+
+        document.getElementById('NextButton').addEventListener('click', () => {
+            if (tripType === 'round' && selectedOutbound && selectedReturn) {
+                localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
+                localStorage.setItem('selectedReturn', JSON.stringify(selectedReturn));
+                localStorage.setItem('tripType', 'round');
+                window.location.href = 'nextPage.html';
+            } else if (tripType === 'oneway' && selectedOutbound) {
+                localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
+                localStorage.removeItem('selectedReturn');
+                localStorage.setItem('tripType', 'oneway');
+                window.location.href = 'nextPage.html';
+            } else {
+                alert('請選擇航班');
+            }
+        });
+
+        // 購物車圖示點擊事件
+        document.getElementById('cartIcon').addEventListener('click', () => {
+            const infoBox = document.querySelector('.SelectedFlightsInfo');
+            const isVisible = infoBox.style.display === 'block';
+
+            if (!selectedOutbound && !selectedReturn) {
+                alert('您尚未選擇航班！');
+                return;
+            }
+
+            infoBox.style.display = isVisible ? 'none' : 'block';
+            updateSelectedFlightInfo();
+        });
+    })
+    .catch(err => {
+        console.error('資料載入錯誤：', err);
+        alert('載入航班資料時發生錯誤，請稍後再試。');
+    });

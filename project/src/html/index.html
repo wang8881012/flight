@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/project/dist/css/style.css">
 </head>
 
 <body>
-</body>
+    <!-- index.html -->
+    <select id="tripType">
+        <option value="round">來回票</option>
+        <option value="oneway">單程</option>
+    </select>
 
+    <button id="nextPageBtn">下一頁</button>
+
+    <script>
+        document.getElementById('nextPageBtn').addEventListener('click', () => {
+            const tripType = document.getElementById('tripType').value;
+            // 使用 URL 參數帶票種值跳轉
+            window.location.href = `search.html?tripType=${tripType}`;
+        });
+    </script>
+</body>
 
 </html>
