@@ -84,3 +84,8 @@ const close = () => {
   emit("update:modelValue", false);
 };
 </script>
+<style scoped>
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+</style>

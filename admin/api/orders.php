@@ -18,16 +18,10 @@ if (!empty($data['user_name'])) {
   $params[':user_name'] = '%' . $data['user_name'] . '%';
 }
 
-if (!empty($data['from'])) {
-  $where .= " AND f.from_airport = :from ";
-  $params[':from'] = $data['from'];
+if (!empty($data['order_no'])) {
+  $where .= " AND b.order_no LIKE :order_no ";
+  $params[':order_no'] = '%' . $data['order_no'] . '%';
 }
-
-if (!empty($data['to'])) {
-  $where .= " AND f.to_airport = :to ";
-  $params[':to'] = $data['to'];
-}
-
 if (!empty($data['status'])) {
   $where .= " AND p.status = :status ";
   $params[':status'] = $data['status'];

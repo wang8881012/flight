@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <div class="table-responsive">
-    <table class="table text-center table-bordered">
+    <table class="table text-center">
       <thead>
         <tr class="table-primary">
           <th v-for="col in columns" :key="col">{{ col }}</th>

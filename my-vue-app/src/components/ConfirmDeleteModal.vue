@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="modal fade show d-block"
-    tabindex="-1"
-    style="background: rgba(0, 0, 0, 0.5)"
-  >
+  <div class="modal fade show d-block" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div
@@ -47,3 +43,8 @@ defineProps({
   canDelete: Boolean,
 });
 </script>
+<style scoped>
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+</style>

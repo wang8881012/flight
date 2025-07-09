@@ -38,7 +38,6 @@ const filterFields = [
 
 // 編輯欄位
 const editFields = [
-  { key: "id", label: "ID", type: "text", readonly: true },
   { key: "flight_no", label: "航班號", type: "text" },
   { key: "from_airport", label: "出發機場", type: "text" },
   { key: "to_airport", label: "到達機場", type: "text" },
@@ -104,7 +103,6 @@ function handleSubmit(data) {
 
         <DataTable
           :columns="[
-            'id',
             'flight_no',
             'from_airport',
             'to_airport',

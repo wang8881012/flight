@@ -14,19 +14,21 @@ const modalMode = ref("create");
 const showModal = ref(false);
 const selectedUser = ref({});
 
+// 篩選欄位
 const filterFields = [
   { key: "name", label: "會員姓名", type: "text", placeholder: "請輸入姓名" },
   { key: "email", label: "Email", type: "text" },
 ];
 
+//編輯欄位
 const editFields = [
-  { key: "id", label: "ID", type: "text", readonly: true },
   { key: "name", label: "姓名", type: "text" },
   { key: "email", label: "Email", type: "text" },
+  { key: "phone", label: "phone", type: "text" },
   { key: "birthday", label: "生日", type: "date" },
 ];
 
-// ⬇️ 使用 CRUD composable
+//  CRUD composable
 const {
   items: users,
   filters,
@@ -89,7 +91,7 @@ function handleSubmit(data) {
         <button class="btn btn-success mb-3" @click="handleAdd">＋ 新增</button>
 
         <DataTable
-          :columns="['id', 'name', 'email', 'birthday', 'created_at']"
+          :columns="['name', 'email', 'phone', 'birthday', 'created_at']"
           :rows="users"
           :onEdit="handleEdit"
           :onDelete="openDeleteModal"
