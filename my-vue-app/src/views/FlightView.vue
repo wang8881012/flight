@@ -1,24 +1,17 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref } from "vue";
 import Navbar from "../components/NavBar.vue";
 import Sidebar from "../components/Sidebar.vue";
 import FilterBar from "../components/FilterBar.vue";
 import DataTable from "../components/DataTable.vue";
 import Pagination from "../components/Pagination.vue";
 import EditModal from "../components/EditModal.vue";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
 
-// 狀態
-const flights = ref([]);
-const pagination = ref({
-  page: 1,
-  totalPages: 1,
-  perPage: 10,
-  totalItems: 0,
-});
-const filters = ref({});
-const showModal = ref(false);
+import { useCrud } from "../composables/useCrud";
+
 const modalMode = ref("create");
+const showModal = ref(false);
 const selectedFlight = ref({});
 
 // 篩選欄位
@@ -29,8 +22,18 @@ const filterFields = [
     type: "text",
     placeholder: "請輸入航班號",
   },
-  { key: "from_airport", label: "出發機場", type: "select", options: [] },
-  { key: "to_airport", label: "到達機場", type: "select", options: [] },
+  {
+    key: "from_airport",
+    label: "出發機場",
+    type: "select",
+    options: ["TPE", "KIX", "HND", "CTS"],
+  },
+  {
+    key: "to_airport",
+    label: "到達機場",
+    type: "select",
+    options: ["TPE", "KIX", "HND", "CTS"],
+  },
 ];
 
 // 編輯欄位
@@ -43,60 +46,42 @@ const editFields = [
   { key: "arrival_time", label: "到達時間", type: "datetime-local" },
 ];
 
-// 取得資料
-async function fetchFlights() {
-  const res = await axios.post("/flight/admin/api/flight.php", {
-    action: "list",
-    page: pagination.value.page,
-    perPage: pagination.value.perPage || 10,
-    ...filters.value,
-  });
-  flights.value = res.data.data;
-  pagination.value.totalItems = res.data.total;
-}
+//  useCrud 統一管理
+const {
+  items: flights,
+  filters,
+  pagination,
+  loading,
+  error,
+  createItem,
+  updateItem,
+  changePage,
+  fetchItems,
+  showDeleteModal,
+  deleteTarget,
+  canDelete,
+  openDeleteModal,
+  confirmDelete,
+} = useCrud("/flight/admin/api/flight.php");
 
-// 編輯
 function handleEdit(flight) {
   selectedFlight.value = { ...flight };
   modalMode.value = "edit";
   showModal.value = true;
 }
 
-// 新增
 function handleAdd() {
   selectedFlight.value = {};
   modalMode.value = "create";
   showModal.value = true;
 }
 
-// 提交表單
-async function handleSubmit(data) {
-  const action = modalMode.value === "edit" ? "update" : "create";
-  await axios.post("/flight/admin/api/flight.php", {
-    action,
-    ...data,
+function handleSubmit(data) {
+  const action = modalMode.value === "edit" ? updateItem : createItem;
+  action(data).then(() => {
+    showModal.value = false;
   });
-  showModal.value = false;
-  fetchFlights();
 }
-
-// 刪除
-async function handleDelete(id) {
-  if (!confirm("確認刪除？")) return;
-  await axios.post("/flight/admin/api/flight.php", {
-    action: "delete",
-    id,
-  });
-  fetchFlights();
-}
-
-// 分頁切換
-function changePage(page) {
-  pagination.value.page = page;
-  fetchFlights();
-}
-
-onMounted(fetchFlights);
 </script>
 
 <template>
@@ -112,8 +97,9 @@ onMounted(fetchFlights);
         <FilterBar
           :fields="filterFields"
           v-model="filters"
-          @filter="fetchFlights"
+          @filter="fetchItems"
         />
+
         <button class="btn btn-success mb-3" @click="handleAdd">＋ 新增</button>
 
         <DataTable
@@ -129,7 +115,7 @@ onMounted(fetchFlights);
           ]"
           :rows="flights"
           :onEdit="handleEdit"
-          :onDelete="handleDelete"
+          :onDelete="openDeleteModal"
         />
 
         <Pagination
@@ -145,6 +131,13 @@ onMounted(fetchFlights);
           :mode="modalMode"
           :formData="selectedFlight"
           @submit="handleSubmit"
+        />
+
+        <ConfirmDeleteModal
+          v-if="showDeleteModal"
+          :canDelete="canDelete"
+          @close="showDeleteModal = false"
+          @confirm="confirmDelete"
         />
       </div>
     </div>

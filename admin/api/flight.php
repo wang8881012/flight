@@ -3,17 +3,17 @@ session_start();
 require_once __DIR__ . '/../inc/db.inc.php';
 $data = json_decode(file_get_contents("php://input"), true);
 $action = $data['action'] ?? [];
-
+// die(var_dump($data));
 switch ($action) {
   case 'list':
     $page = intval($data['page'] ?? 1);
 $perPage = intval($data['perPage'] ?? 10);
 $offset = ($page - 1) * $perPage;
 $flight_no = $data['flight_no'] ?? '';
-$from = $data['from'] ?? '';
-$to = $data['to'] ?? '';
+$from = $data['from_airport'] ?? '';
+$to = $data['to_airport'] ?? '';
 
-$where = [];
+$where = ['is_deleted = 0'];
 $params = [];
 
 if ($flight_no !== '') {
@@ -39,7 +39,7 @@ $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $data = $stmt->fetchAll();
-
+// die(var_dump($data));
 // 總筆數
 $countStmt = $pdo->prepare("SELECT COUNT(*) FROM flights $whereSql");
 foreach ($params as $key => $value) {
@@ -50,10 +50,12 @@ $total = $countStmt->fetchColumn();
 
 echo json_encode([
   'data' => $data,
-  'page' => $page,
-  'perPage' => $perPage,
-  'total' => $total,
-  'totalPages' => ceil($total / $perPage)
+  'pagination' => [
+    'total' => (int)$total,
+    'page' => $page,
+    'per_page' => $perPage,
+    'total_pages' => ceil($total / $perPage)
+  ]
 ]);
 break;
 
@@ -90,8 +92,8 @@ break;
             break;
 
         case 'delete':
-            if (empty($data['id'])) throw new Exception("ID 缺少");
-            $sql = "DELETE FROM flights WHERE id = :id";
+          
+            $sql = "UPDATE flights SET is_deleted = 1 WHERE id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([':id' => $data['id']]);
             echo json_encode(['success' => true]);

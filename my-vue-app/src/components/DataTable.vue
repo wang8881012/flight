@@ -22,7 +22,7 @@ defineProps({
           <button class="btn btn-sm btn-edit mx-1" @click="onEdit(row)">
             編輯
           </button>
-          <button class="btn btn-sm btn-delete mx-1" @click="onDelete(row.id)">
+          <button class="btn btn-sm btn-delete mx-1" @click="onDelete(row)">
             刪除
           </button>
         </td>

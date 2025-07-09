@@ -1,22 +1,18 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref } from "vue";
 import Navbar from "../components/NavBar.vue";
 import Sidebar from "../components/Sidebar.vue";
 import FilterBar from "../components/FilterBar.vue";
 import DataTable from "../components/DataTable.vue";
 import Pagination from "../components/Pagination.vue";
 import EditModal from "../components/EditModal.vue";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue"; // ⬅️ 新增
 
-const users = ref([]);
-const pagination = ref({
-  page: 1,
-  totalPages: 1,
-  perPage: 10,
-  totalItems: 0,
-});
-const filters = ref({});
+import { useCrud } from "../composables/useCrud"; // ⬅️ 使用共用邏輯
+
 const modalMode = ref("create");
+const showModal = ref(false);
+const selectedUser = ref({});
 
 const filterFields = [
   { key: "name", label: "會員姓名", type: "text", placeholder: "請輸入姓名" },
@@ -30,21 +26,23 @@ const editFields = [
   { key: "birthday", label: "生日", type: "date" },
 ];
 
-const showModal = ref(false);
-const selectedUser = ref({});
-
-async function fetchUsers() {
-  await axios
-    .post("/flight/admin/api/users.php", {
-      page: pagination.value.page,
-      ...filters.value,
-      action: "list",
-    })
-    .then((res) => {
-      users.value = res.data.data;
-      pagination.value.totalItems = res.data.pagination.total;
-    });
-}
+// ⬇️ 使用 CRUD composable
+const {
+  items: users,
+  filters,
+  pagination,
+  loading,
+  error,
+  createItem,
+  updateItem,
+  changePage,
+  openDeleteModal,
+  confirmDelete,
+  showDeleteModal,
+  deleteTarget,
+  canDelete,
+  fetchItems,
+} = useCrud("/flight/admin/api/users.php");
 
 function handleEdit(user) {
   selectedUser.value = { ...user };
@@ -52,44 +50,19 @@ function handleEdit(user) {
   showModal.value = true;
 }
 
-async function handleDelete(id) {
-  await axios
-    .post("/flight/admin/api/users.php", { action: "delete", id })
-    .then(fetchUsers);
-}
-
-function handleSubmit(data) {
-  if (modalMode.value === "create") {
-    // 新增
-    axios
-      .post("/flight/admin/api/users.php", { action: "create", ...data })
-      .then(() => {
-        fetchUsers();
-        showModal.value = false;
-      });
-  } else if (modalMode.value === "edit") {
-    // 編輯
-    axios
-      .post("/flight/admin/api/users.php", { action: "update", ...data })
-      .then(() => {
-        fetchUsers();
-        showModal.value = false;
-      });
-  }
-}
-
 function handleAdd() {
-  selectedUser.value = {}; // 清空
+  selectedUser.value = {};
   modalMode.value = "create";
   showModal.value = true;
 }
 
-function changePage(page) {
-  pagination.value.page = page;
-  fetchUsers();
+function handleSubmit(data) {
+  if (modalMode.value === "create") {
+    createItem(data).then(() => (showModal.value = false));
+  } else {
+    updateItem(data).then(() => (showModal.value = false));
+  }
 }
-
-onMounted(fetchUsers);
 </script>
 
 <template>
@@ -108,18 +81,20 @@ onMounted(fetchUsers);
           @filter="
             (val) => {
               filters.value = val;
-              fetchUsers();
+              fetchItems();
             }
           "
         />
+
         <button class="btn btn-success mb-3" @click="handleAdd">＋ 新增</button>
 
         <DataTable
           :columns="['id', 'name', 'email', 'birthday', 'created_at']"
           :rows="users"
           :onEdit="handleEdit"
-          :onDelete="handleDelete"
+          :onDelete="openDeleteModal"
         />
+
         <Pagination
           :currentPage="pagination.page"
           :totalItems="pagination.totalItems"
@@ -133,6 +108,13 @@ onMounted(fetchUsers);
           :mode="modalMode"
           :formData="selectedUser"
           @submit="handleSubmit"
+        />
+
+        <ConfirmDeleteModal
+          v-if="showDeleteModal"
+          :canDelete="canDelete"
+          @close="showDeleteModal = false"
+          @confirm="confirmDelete"
         />
       </div>
     </div>

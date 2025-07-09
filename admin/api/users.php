@@ -24,7 +24,7 @@ if (!empty($data['email'])) {
   $params[':email'] = '%' . $data['email'] . '%';
 }
 // 總筆數
-$sqlTotal = "SELECT COUNT(*) FROM users $where";
+$sqlTotal = "SELECT COUNT(*) FROM users $where and is_deleted = 0 ";
 $stmt = $pdo->prepare($sqlTotal);
 $stmt->execute($params);
 $total = $stmt->fetchColumn();
