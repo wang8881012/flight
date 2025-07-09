@@ -1,22 +1,28 @@
-const flights = [
-    { departure: { city: '台北', time: '07:00' }, center: '1h 40m', arrival: { city: '東京', time: '11:30' }, buttons: ['$2700', '$2700'] },
-    { departure: { city: '高雄', time: '09:45' }, center: '2h 40m', arrival: { city: '大阪', time: '13:20' }, buttons: ['$2700', '$2700'] },
-    { departure: { city: '台北', time: '06:00' }, center: '3h 40m', arrival: { city: '東京', time: '11:30' }, buttons: ['$2700', '$3700'] },
-    { departure: { city: '高雄', time: '09:45' }, center: '4h 40m', arrival: { city: '大阪', time: '13:20' }, buttons: ['$2700', '$2700'] },
-    { departure: { city: '花蓮', time: '10:00' }, center: '5h 10m', arrival: { city: '首爾', time: '12:30' }, buttons: ['$2700', '$2700'] },
-    { departure: { city: '台中', time: '08:30' }, center: '6h 15m', arrival: { city: '名古屋', time: '11:00' }, buttons: ['$4700', '$2700'] },
-    { departure: { city: '高雄', time: '09:45' }, center: '7h 40m', arrival: { city: '大阪', time: '13:20' }, buttons: ['$2700', '$2700'] },
-    { departure: { city: '花蓮', time: '10:00' }, center: '5h 10m', arrival: { city: '首爾', time: '12:30' }, buttons: ['$2700', '$5700'] },
-    { departure: { city: '台中', time: '08:30' }, center: '2h 15m', arrival: { city: '名古屋', time: '11:00' }, buttons: ['$7700', '$2700'] },
-];
-
-const flightsGo = [...flights];
+let flights = [];
+let flightsGo = [];
+let flightsReturn = [];
 const itemsPerPage = 2;
 let currentPage = 1;
 let currentPageGo = 1;
 let selectedOutbound = null;
 let selectedReturn = null;
 
+// 從伺服器獲取航班資料
+fetch('/project/flight/project/src/php/search.php')
+    .then(res => res.json())
+    .then(data => {
+        console.log('成功获取数据：', data.flights);
+
+        flights = data.flights;
+        flightsGo = flights.filter(f => f.direction === 'outbound');
+        flightsReturn = flights.filter(f => f.direction === 'inbound');
+
+        goToPage(currentPage);
+        goToPageGo(currentPageGo);
+    })
+    .catch(err => console.error('資料載入錯誤：', err));
+
+// 更新已選航班資訊
 function updateSelectedFlightInfo() {
     const infoBox = document.querySelector('.SelectedFlightsInfo');
     infoBox.innerHTML = '';
@@ -31,40 +37,48 @@ function updateSelectedFlightInfo() {
         infoBox.innerHTML += `<p>回程：${departure.city} (${departure.time}) → ${arrival.city} (${arrival.time})</p>`;
     }
 
-    updateTotalPrice(); // 🔹更新價格顯示
+    updateTotalPrice();
 }
 
+// 更新總價格
 function updateTotalPrice() {
     const priceBox = document.querySelector('.SelectedPrices');
     let total = 0;
 
-    const parsePrice = (str) => parseInt(str.replace('$', ''));
+    const parsePrice = (str) => parseInt(str.replace('$', '').replace(',', ''));
 
     if (selectedOutbound) {
-        total += parsePrice(selectedOutbound.buttons[1]);
+        total += parsePrice(selectedOutbound.buttons[0]);
     }
 
     if (selectedReturn) {
-        total += parsePrice(selectedReturn.buttons[1]);
+        total += parsePrice(selectedReturn.buttons[0]);
     }
 
-    priceBox.innerHTML = `<p>總價：$${total}</p>`;
+    priceBox.innerHTML = `<p>總價：$${total.toLocaleString()}</p>`;
 }
 
+// 更新「下一步」按鈕狀態
 function updateNextButton() {
     const nextBtn = document.getElementById('NextButton');
     nextBtn.disabled = !(selectedOutbound && selectedReturn);
     updateSelectedFlightInfo();
 }
 
+// 渲染航班清單
 function renderFlights(containerId, data, page) {
     const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`找不到容器：${containerId}`);
+        return;
+    }
+
     container.innerHTML = '';
     const start = (page - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     const pageItems = data.slice(start, end);
 
-    pageItems.forEach((flight, index) => {
+    pageItems.forEach((flight) => {
         const div = document.createElement('div');
         div.innerHTML = `
           <div class="Outbound">
@@ -81,28 +95,38 @@ function renderFlights(containerId, data, page) {
               <p>${flight.arrival.city}</p>
             </div>
             <div class="OutboundRight">
-              <div class="btn OutboundRightTicket" data-index="${index}" data-type="price">${flight.buttons[0]}</div>
-              <div class="btn OutboundRightTicket" data-index="${index}" data-type="select">${flight.buttons[1]}</div>
+              <div class="btn OutboundRightTicket" data-id="${flight.id}" data-type="price" data-direction="${flight.direction}">${flight.buttons[0]}</div>
+              <div class="btn OutboundRightTicket" data-id="${flight.id}" data-type="select" data-direction="${flight.direction}">${flight.buttons[1]}</div>
             </div>
           </div><br>
         `;
         container.appendChild(div);
     });
 
+    // 🔹綁定事件：點擊價格或選擇按鈕
     const allButtons = container.querySelectorAll('.OutboundRightTicket');
     allButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            allButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            const flightId = parseInt(btn.getAttribute('data-id'));
+            const direction = btn.getAttribute('data-direction');
 
-            const index = parseInt(btn.getAttribute('data-index'));
-            const flight = pageItems[index];
+            const selectedFlight = (direction === 'outbound' ? flightsGo : flightsReturn).find(f => f.id === flightId);
+            if (!selectedFlight) return;
 
-            if (containerId === 'flight-container') {
-                selectedOutbound = flight;
+            // 設定選擇的航班
+            if (direction === 'outbound') {
+                selectedOutbound = selectedFlight;
             } else {
-                selectedReturn = flight;
+                selectedReturn = selectedFlight;
             }
+
+            // 🔸取消同方向所有 active，再加上被點擊的
+            allButtons.forEach(b => {
+                if (b.getAttribute('data-direction') === direction) {
+                    b.classList.remove('active');
+                }
+            });
+            btn.classList.add('active');
 
             updateNextButton();
         });
@@ -111,6 +135,7 @@ function renderFlights(containerId, data, page) {
     updateNextButton();
 }
 
+// 渲染分頁
 function renderPagination(containerId, totalItems, currentPageVar, onPageChangeFn) {
     const pagination = document.getElementById(containerId);
     pagination.innerHTML = '';
@@ -119,7 +144,7 @@ function renderPagination(containerId, totalItems, currentPageVar, onPageChangeF
     pagination.innerHTML += `
         <button onclick="${onPageChangeFn}(1)"><i class="bi bi-rewind-btn-fill"></i></button>
         <button onclick="${onPageChangeFn}(${Math.max(1, currentPageVar - 1)})"><i class="bi bi-skip-start-btn-fill"></i></button>
-      `;
+    `;
 
     let start = Math.max(1, currentPageVar - 1);
     let end = Math.min(totalPages, start + 2);
@@ -133,21 +158,24 @@ function renderPagination(containerId, totalItems, currentPageVar, onPageChangeF
     pagination.innerHTML += `
         <button onclick="${onPageChangeFn}(${Math.min(totalPages, currentPageVar + 1)})"><i class="bi bi-skip-end-btn-fill"></i></button>
         <button onclick="${onPageChangeFn}(${totalPages})"><i class="bi bi-fast-forward-btn-fill"></i></button>
-      `;
+    `;
 }
 
+// 去程頁切換
 function goToPage(page) {
     currentPage = page;
-    renderFlights('flight-container', flights, currentPage);
-    renderPagination('PaginationControls', flights.length, currentPage, 'goToPage');
+    renderFlights('flight-container', flightsReturn, currentPage); // 🔸回程
+    renderPagination('PaginationControls', flightsReturn.length, currentPage, 'goToPage');
 }
 
+// 回程頁切換
 function goToPageGo(page) {
     currentPageGo = page;
-    renderFlights('flight-containerGo', flightsGo, currentPageGo);
+    renderFlights('flight-containerGo', flightsGo, currentPageGo); // 🔹去程
     renderPagination('PaginationControlsGo', flightsGo.length, currentPageGo, 'goToPageGo');
 }
 
+// 初始
 window.onload = () => {
     goToPage(currentPage);
     goToPageGo(currentPageGo);
