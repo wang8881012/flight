@@ -80,30 +80,46 @@ function renderFlights(containerId, data, page) {
 
     pageItems.forEach((flight) => {
         const div = document.createElement('div');
+
+        let buttonsHTML = '';
+        (flight.class_details || []).forEach((cls, index) => {
+            const priceLabel = flight.buttons[index] || '';
+            buttonsHTML += `
+          <div class="btn OutboundRightTicket"
+               data-id="${flight.id}"
+               data-type="select"
+               data-direction="${flight.direction}"
+               data-class="${cls.class_type}">
+               ${cls.class_type.toUpperCase()} 
+               <br>
+               ${priceLabel}
+          </div>`;
+        });
+
         div.innerHTML = `
-          <div class="Outbound">
-            <div class="OutboundLeft">
-              <p><strong>${flight.departure.time}</strong></p>
-              <p>${flight.departure.city}</p>
-            </div>
-            <div class="OutboundLeftCenter">
-              ${flight.center}
-              <img src="../photo/Line 6.svg" alt="flight path" class="FlightLine">
-            </div>
-            <div class="OutboundLeft">
-              <p><strong>${flight.arrival.time}</strong></p>
-              <p>${flight.arrival.city}</p>
-            </div>
-            <div class="OutboundRight">
-              <div class="btn OutboundRightTicket" data-id="${flight.id}" data-type="price" data-direction="${flight.direction}">${flight.buttons[0]}</div>
-              <div class="btn OutboundRightTicket" data-id="${flight.id}" data-type="select" data-direction="${flight.direction}">${flight.buttons[1]}</div>
-            </div>
-          </div><br>
-        `;
+      <div class="Outbound">
+        <div class="OutboundLeft">
+          <p><strong>${flight.departure.time}</strong></p>
+          <p>${flight.departure.city}</p>
+        </div>
+        <div class="OutboundLeftCenter">
+          ${flight.center}
+          <img src="../photo/Line 6.svg" alt="flight path" class="FlightLine">
+        </div>
+        <div class="OutboundLeft">
+          <p><strong>${flight.arrival.time}</strong></p>
+          <p>${flight.arrival.city}</p>
+        </div>
+        <div class="OutboundRight">
+          ${buttonsHTML}
+        </div>
+      </div><br>
+    `;
         container.appendChild(div);
     });
 
-    // 🔹綁定事件：點擊價格或選擇按鈕
+
+    //綁定事件：點擊價格或選擇按鈕
     const allButtons = container.querySelectorAll('.OutboundRightTicket');
     allButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -120,7 +136,7 @@ function renderFlights(containerId, data, page) {
                 selectedReturn = selectedFlight;
             }
 
-            // 🔸取消同方向所有 active，再加上被點擊的
+            //取消同方向所有 active，再加上被點擊的
             allButtons.forEach(b => {
                 if (b.getAttribute('data-direction') === direction) {
                     b.classList.remove('active');
@@ -164,14 +180,14 @@ function renderPagination(containerId, totalItems, currentPageVar, onPageChangeF
 // 去程頁切換
 function goToPage(page) {
     currentPage = page;
-    renderFlights('flight-container', flightsReturn, currentPage); // 🔸回程
+    renderFlights('flight-container', flightsReturn, currentPage); // 回程
     renderPagination('PaginationControls', flightsReturn.length, currentPage, 'goToPage');
 }
 
 // 回程頁切換
 function goToPageGo(page) {
     currentPageGo = page;
-    renderFlights('flight-containerGo', flightsGo, currentPageGo); // 🔹去程
+    renderFlights('flight-containerGo', flightsGo, currentPageGo); // 去程
     renderPagination('PaginationControlsGo', flightsGo.length, currentPageGo, 'goToPageGo');
 }
 
