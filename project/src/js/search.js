@@ -31,7 +31,7 @@ let selectedOutbound = null;
 let selectedReturn = null;
 
 // 從伺服器獲取航班資料
-fetch('/project/flight/project/src/php/search.php')
+fetch('../php/search.php')
     .then(res => res.json())
     .then(data => {
         console.log('成功获取数据：', data.flights);
@@ -231,8 +231,33 @@ function goToPage(page) {
 // 單程頁切換
 function goToPageOneWay(page) {
     const oneWayFlights = flights.filter(f => f.direction === 'outbound');
+
+    //url解碼
+    const params = new URLSearchParams(window.location.search);
+    //取得出發地和目的地
+    const departure = decodeURIComponent(params.get('departure'));
+    const arrival = decodeURIComponent(params.get('arrival'));
+
+    // console.log(oneWayFlights?.type)
+    //呼叫連結資料庫查詢
+    fetch('../php/search.php')
+        //帶入出發地、目的地
+        .then(response => response.json())
+        .then(data => {
+            // 範例：把航班名稱顯示在畫面上
+            // data.forEach(flight => {
+            //     const p = document.createElement('p');
+            //     p.textContent = `航班：${flight.flight_name}，目的地：${flight.destination}`;
+            //     document.body.appendChild(p);
+            // });
+        })
+        .catch(error => {
+            console.error('錯誤發生：', error);
+        });
+
+
     renderFlights('flight-containerOneWay', oneWayFlights, page);
-    renderPagination('PaginationControlsOneWay', oneWayFlights.length, page, 'goToPageOneWay');
+    // renderPagination('PaginationControlsOneWay', oneWayFlights.length, page, 'goToPageOneWay');
 }
 
 // 初始化與事件綁定
@@ -243,10 +268,13 @@ function getQueryParam(param) {
 
 const tripType = getQueryParam('tripType') || 'round';
 
-fetch('/project/flight/project/src/php/search.php')
-    .then(res => res.json())
+fetch('../php/search.php')
+    .then(res => {
+        console.log('response:', res);  // 這會印出整個 Response 物件
+        return res.json();              // 將 response 轉成 JSON 物件
+    })
     .then(data => {
-        console.log('成功获取数据：', data.flights);
+        console.log('1chgchgc', data.flights);
 
         flights = data.flights;
         flightsGo = flights.filter(f => f.direction === 'outbound');

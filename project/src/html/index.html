@@ -1,26 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>票種選擇</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- index.html -->
+    <label for="tripType">票種：</label>
     <select id="tripType">
         <option value="round">來回票</option>
         <option value="oneway">單程</option>
     </select>
 
+    <div id="roundTripSelects">
+        <h3>來回票</h3>
+        <label>去程 出發：</label>
+        <select id="departureCityRound1">
+            <option value="台北">台北</option>
+            <option value="大阪">大阪</option>
+            <option value="東京">東京</option>
+        </select>
+        <label>目的：</label>
+        <select id="arrivalCityRound1">
+            <option value="東京">東京</option>
+            <option value="大阪">大阪</option>
+            <option value="台北">台北</option>
+        </select><br />
+
+        <label>回程 出發：</label>
+        <select id="departureCityRound2">
+            <option value="東京">東京</option>
+            <option value="大阪">大阪</option>
+            <option value="台北">台北</option>
+        </select>
+        <label>目的：</label>
+        <select id="arrivalCityRound2">
+            <option value="東京">東京</option>
+            <option value="大阪">大阪</option>
+            <option value="台北">台北</option>
+        </select>
+    </div>
+
+    <div id="oneWaySelects" class="hidden">
+        <h3>單程</h3>
+        <label>出發：</label>
+        <select id="departureCityOneWay">
+            <option value="台北">台北</option>
+            <option value="大阪">大阪</option>
+            <option value="東京">東京</option>
+        </select>
+        <label>目的：</label>
+        <select id="arrivalCityOneWay">
+            <option value="東京">東京</option>
+            <option value="大阪">大阪</option>
+            <option value="台北">台北</option>
+        </select>
+    </div>
+
     <button id="nextPageBtn">下一頁</button>
 
     <script>
+        const tripTypeSelect = document.getElementById('tripType');
+        const roundTripDiv = document.getElementById('roundTripSelects');
+        const oneWayDiv = document.getElementById('oneWaySelects');
+
+        function toggleSelects() {
+            if (tripTypeSelect.value === 'round') {
+                roundTripDiv.classList.remove('hidden');
+                oneWayDiv.classList.add('hidden');
+            } else {
+                roundTripDiv.classList.add('hidden');
+                oneWayDiv.classList.remove('hidden');
+            }
+        }
+
+        toggleSelects();
+        tripTypeSelect.addEventListener('change', toggleSelects);
+
         document.getElementById('nextPageBtn').addEventListener('click', () => {
-            const tripType = document.getElementById('tripType').value;
-            // 使用 URL 參數帶票種值跳轉
-            window.location.href = `search.html?tripType=${tripType}`;
+            const tripType = tripTypeSelect.value;
+            let url;
+
+            if (tripType === 'round') {
+                const d1 = document.getElementById('departureCityRound1').value;
+                const a1 = document.getElementById('arrivalCityRound1').value;
+                const d2 = document.getElementById('departureCityRound2').value;
+                const a2 = document.getElementById('arrivalCityRound2').value;
+
+                if (d1 === a1 || d2 === a2) {
+                    alert('出發地與目的地不可相同');
+                    return;
+                }
+
+                url = `search.html?tripType=round&departure1=${d1}&arrival1=${a1}&departure2=${d2}&arrival2=${a2}`;
+            } else {
+                const d = document.getElementById('departureCityOneWay').value;
+                const a = document.getElementById('arrivalCityOneWay').value;
+
+                if (d === a) {
+                    alert('出發地與目的地不可相同');
+                    return;
+                }
+
+                url = `search.html?tripType=oneway&departure=${d}&arrival=${a}`;
+            }
+
+            window.location.href = url;
         });
     </script>
 </body>
