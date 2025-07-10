@@ -31,7 +31,7 @@ let selectedOutbound = null;
 let selectedReturn = null;
 
 // 從伺服器獲取航班資料
-fetch('api/flights/search.php')
+fetch('/project/flight/api/flights/search.php')
     .then(res => res.json())
     .then(data => {
         console.log('成功获取数据：', data.flights);
@@ -132,7 +132,7 @@ function renderFlights(containerId, data, page) {
         </div>
         <div class="OutboundLeftCenter">
           ${flight.center}
-          <img src="../photo/Line 6.svg" alt="flight path" class="FlightLine">
+          <img src="../assets/images/Line%206.svg" alt="flight path" class="FlightLine">
         </div>
         <div class="OutboundLeft">
           <p><strong>當地時間為:${flight.arrival.time}</strong></p>
@@ -240,7 +240,7 @@ function goToPageOneWay(page) {
 
     // console.log(oneWayFlights?.type)
     //呼叫連結資料庫查詢
-    fetch('api/flights/search.php')
+    fetch('/project/flight/api/flights/search.php')
         //帶入出發地、目的地
         .then(response => response.json())
         .then(data => {
@@ -268,7 +268,7 @@ function getQueryParam(param) {
 
 const tripType = getQueryParam('tripType') || 'round';
 
-fetch('api/flights/search.php')
+fetch('/project/flight/api/flights/search.php')
     .then(res => {
         console.log('response:', res);  // 這會印出整個 Response 物件
         return res.json();              // 將 response 轉成 JSON 物件

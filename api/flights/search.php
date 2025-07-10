@@ -1,5 +1,5 @@
-<!-- 航班搜尋API（帶條件） -->
 <?php
+// 航班搜尋API（帶條件）
 header('Content-Type: application/json');
 require_once __DIR__ . '/../inc/db.php';
 

@@ -1,5 +1,5 @@
-<!-- PDO 連線共用 -->
  <?php
+ // DO 連線共用
 $host = 'localhost';
 $dbname = 'plane';
 $user = 'root';
