@@ -31,7 +31,7 @@ let selectedOutbound = null;
 let selectedReturn = null;
 
 // 從伺服器獲取航班資料
-fetch('../php/search.php')
+fetch('api/flights/search.php')
     .then(res => res.json())
     .then(data => {
         console.log('成功获取数据：', data.flights);
@@ -240,7 +240,7 @@ function goToPageOneWay(page) {
 
     // console.log(oneWayFlights?.type)
     //呼叫連結資料庫查詢
-    fetch('../php/search.php')
+    fetch('api/flights/search.php')
         //帶入出發地、目的地
         .then(response => response.json())
         .then(data => {
@@ -268,7 +268,7 @@ function getQueryParam(param) {
 
 const tripType = getQueryParam('tripType') || 'round';
 
-fetch('../php/search.php')
+fetch('api/flights/search.php')
     .then(res => {
         console.log('response:', res);  // 這會印出整個 Response 物件
         return res.json();              // 將 response 轉成 JSON 物件
