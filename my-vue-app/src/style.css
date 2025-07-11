@@ -37,7 +37,8 @@
 
 /* btn */
 .btn-edit {
-  background-color: #ffcb9a;
+  background-color: #a67e7b;
+  color: white;
 }
 
 .btn-edit:hover {
@@ -51,4 +52,5 @@
 
 .btn-delete:hover {
   background-color: #622123;
+  color: white;
 }

@@ -12,9 +12,9 @@ $offset = ($page - 1) * $perPage;
 $where = " WHERE 1 ";
 $params = [];
 
-if (!empty($data['keyword'])) {
+if (!empty($data['user_name'])) {
   $where .= " AND u.name LIKE :kw ";
-  $params[':kw'] = '%' . $data['keyword'] . '%';
+  $params[':kw'] = '%' . $data['user_name'] . '%';
 }
 
 if (!empty($data['status'])) {
@@ -22,16 +22,13 @@ if (!empty($data['status'])) {
   $params[':status'] = $data['status'];
 }
 
-if (!empty($data['start_date'])) {
-  $where .= " AND p.paid_at >= :start";
-  $params[':start'] = $data['start_date'] . ' 00:00:00';
+if (!empty($data['order_no'])) {
+  $where .= " AND b.order_no = :order_no ";
+  $params[':order_no'] = $data['order_no'] ;
   
 }
 
-if (!empty($data['end_date'])) {
-  $where .= " AND p.paid_at <= :end ";
-  $params[':end'] = $data['end_date'] . ' 23:59:59';
-}
+
 
 
 
@@ -49,7 +46,7 @@ $total = $stmt->fetch()['total'];
 
 // 查詢資料
 $sql = "
-  SELECT p.id, u.name AS user_name, p.amount, p.paid_at, p.method, p.transaction_id, p.status
+  SELECT p.id, u.name AS user_name,b.order_no, p.amount, p.paid_at, p.method, p.transaction_id, p.status
   FROM payments p
   JOIN booking b ON p.booking_id = b.id
   JOIN users u ON b.user_id = u.id

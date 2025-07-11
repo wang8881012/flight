@@ -49,14 +49,6 @@
             ><i class="bi bi-currency-dollar me-2"></i>艙等票價管理</router-link
           >
         </li>
-        <li class="nav-item">
-          <router-link
-            class="nav-link"
-            to="/flight-seats"
-            @click="closeOffcanvas"
-            ><i class="bi bi-grid-3x3-gap me-2"></i>座位配置管理</router-link
-          >
-        </li>
 
         <li class="nav-item">
           <router-link class="nav-link" to="/orders" @click="closeOffcanvas"
