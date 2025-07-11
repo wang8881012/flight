@@ -146,47 +146,62 @@ function renderFlights(containerId, data, page) {
         container.appendChild(div);
     });
 
-
     //綁定事件：點擊價格或選擇按鈕
-    const allButtons = container.querySelectorAll('.OutboundRightTicket');
-    allButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const flightId = parseInt(btn.getAttribute('data-id'));
-            const direction = btn.getAttribute('data-direction');
-            const selectedClass = btn.getAttribute('data-class');
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.OutboundRightTicket');
+    if (!btn) return; // 沒點到正確的按鈕就跳出
 
-            const selectedFlight = (direction === 'outbound' ? flightsGo : flightsReturn).find(f => f.id === flightId);
-            if (!selectedFlight) return;
+    console.log('按下航班票價按鈕', btn);
 
-            const selectedPrice = selectedFlight.class_details.find(cls => cls.class_type === selectedClass).price;
+    const flightId = btn.getAttribute('data-id');
+    const direction = btn.getAttribute('data-direction');
+    const selectedClass = btn.getAttribute('data-class');
 
-            if (direction === 'outbound') {
-                selectedOutbound = {
-                    ...selectedFlight,
-                    selectedClass,
-                    selectedPrice
-                };
-            } else {
-                selectedReturn = {
-                    ...selectedFlight,
-                    selectedClass,
-                    selectedPrice
-                };
-            }
+    // 選擇正確的航班清單
+    const flightArray = direction === 'outbound' ? flightsGo : flightsReturn;
 
-            //取消同方向所有 active，再加上被點擊的
-            allButtons.forEach(b => {
-                if (b.getAttribute('data-direction') === direction) {
-                    b.classList.remove('active');
-                }
-            });
-            btn.classList.add('active');
+    // 根據 flightId 尋找航班
+    const selectedFlight = flightArray.find(f => String(f.id) === flightId);
+    if (!selectedFlight) {
+        console.error('找不到航班資料，ID:', flightId);
+        return;
+    }
 
-            updateNextButton();
-        });
-    });
+    // 根據艙等尋找價格
+    const classDetail = selectedFlight.class_details.find(cls => cls.class_type === selectedClass);
+    if (!classDetail) {
+        console.error('找不到艙等價格:', selectedClass);
+        return;
+    }
 
+    const selectedPrice = classDetail.price;
+
+    // 設定選擇的航班資料
+    if (direction === 'outbound') {
+        selectedOutbound = {
+            ...selectedFlight,
+            selectedClass,
+            selectedPrice
+        };
+    } else {
+        selectedReturn = {
+            ...selectedFlight,
+            selectedClass,
+            selectedPrice
+        };
+    }
+
+    // 移除同方向的 active 樣式
+    document.querySelectorAll(`.OutboundRightTicket[data-direction="${direction}"]`)
+        .forEach(b => b.classList.remove('active'));
+
+    // 加上 active 樣式
+    btn.classList.add('active');
+    console.log(`已選擇 ${direction === 'outbound' ? '去程' : '回程'} 航班`);
+
+    // 更新按鈕狀態與選擇資訊
     updateNextButton();
+});
 }
 
 // 渲染分頁
@@ -244,12 +259,11 @@ function goToPageOneWay(page) {
         //帶入出發地、目的地
         .then(response => response.json())
         .then(data => {
-            // 範例：把航班名稱顯示在畫面上
-            // data.forEach(flight => {
-            //     const p = document.createElement('p');
-            //     p.textContent = `航班：${flight.flight_name}，目的地：${flight.destination}`;
-            //     document.body.appendChild(p);
-            // });
+            data.forEach(flight => {
+                const p = document.createElement('p');
+                p.textContent = `航班：${flight.flight_name}，目的地：${flight.destination}`;
+                document.body.appendChild(p);
+            });
         })
         .catch(error => {
             console.error('錯誤發生：', error);
@@ -257,7 +271,7 @@ function goToPageOneWay(page) {
 
 
     renderFlights('flight-containerOneWay', oneWayFlights, page);
-    // renderPagination('PaginationControlsOneWay', oneWayFlights.length, page, 'goToPageOneWay');
+    renderPagination('PaginationControlsOneWay', oneWayFlights.length, page, 'goToPageOneWay');
 }
 
 // 初始化與事件綁定
