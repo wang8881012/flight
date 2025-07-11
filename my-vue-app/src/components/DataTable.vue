@@ -4,6 +4,8 @@ defineProps({
   rows: Array,
   onEdit: Function,
   onDelete: Function,
+  detailFields: Array,
+  detailLabels: Object,
 });
 </script>
 
@@ -48,8 +50,13 @@ defineProps({
             <td colspan="100%">
               <div class="text-start p-3">
                 <strong>詳細資料：</strong><br />
-                <div v-for="(value, key) in row" :key="key">
-                  {{ key }}: {{ value }}
+                <div
+                  v-for="key in detailFields"
+                  :key="key"
+                  style="margin-bottom: 4px"
+                >
+                  <strong>{{ detailLabels?.[key] ?? key }}：</strong>
+                  {{ row[key] ?? "[無資料]" }}
                 </div>
               </div>
             </td>

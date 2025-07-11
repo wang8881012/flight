@@ -45,6 +45,15 @@ const editFields = [
   { key: "seats_available", label: "可用座位數", type: "text" },
 ];
 
+// 詳細欄位
+const detailFields = ["flight_no", "routes", "class_type", "seats_available"];
+
+const detailLabels = {
+  flight_no: "航班號",
+  routes: "航線",
+  class_type: "艙等",
+  seats_available: "可用座位數",
+};
 //  useCrud 統一管理
 const {
   items: flight_classes,
@@ -112,6 +121,8 @@ function handleSubmit(data) {
           :rows="flight_classes"
           :onEdit="handleEdit"
           :onDelete="openDeleteModal"
+          :detailFields="detailFields"
+          :detailLabels="detailLabels"
         />
 
         <Pagination
