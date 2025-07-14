@@ -31,7 +31,7 @@ $total = $stmt->fetchColumn();
 
 // 查詢資料
 $sql = "
-  SELECT id, name, email, phone, birthday, created_at
+  SELECT id, name, email, phone, birthday, created_at, passport_name
   FROM users
   $where and is_deleted = 0
   ORDER BY created_at DESC
@@ -45,6 +45,15 @@ $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->bindValue(':per_page', $perPage, PDO::PARAM_INT);
 $stmt->execute();
 $users = $stmt->fetchAll();
+
+foreach ($users as &$user) {
+  $sqlPassengers = "SELECT id, name, passport_number, passport_name, nationality 
+                    FROM saved_passengers 
+                    WHERE user_id = :uid AND is_deleted = 0";
+  $stmt2 = $pdo->prepare($sqlPassengers);
+  $stmt2->execute([':uid' => $user['id']]);
+  $user['saved_passengers'] = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+}
 
 echo json_encode([
   'data' => $users,

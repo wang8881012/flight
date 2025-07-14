@@ -58,6 +58,40 @@ defineProps({
                   <strong>{{ detailLabels?.[key] ?? key }}：</strong>
                   {{ row[key] ?? "[無資料]" }}
                 </div>
+                <div v-if="row.saved_passengers?.length">
+                  <strong>同行乘客：</strong>
+                  <ul>
+                    <li v-for="p in row.saved_passengers" :key="p.id">
+                      {{ p.name }} / {{ p.passport_number }} /
+                      {{ p.nationality }}
+                    </li>
+                  </ul>
+                </div>
+                <div v-if="row.passenger_info?.length">
+                  <strong>乘客清單：</strong>
+                  <ul>
+                    <li
+                      v-for="p in row.passenger_info"
+                      :key="p.passport_number"
+                    >
+                      {{ p.name }} / {{ p.passport_number }} /
+                      {{ p.nationality }}
+                    </li>
+                  </ul>
+                </div>
+
+                <div v-if="row.booking_addons?.length">
+                  <strong>加購項目：</strong>
+                  <ul>
+                    <li
+                      v-for="addon in row.booking_addons"
+                      :key="addon.addon_name + addon.segment"
+                    >
+                      {{ addon.segment }}：{{ addon.addon_name }} ×
+                      {{ addon.quantity }}（{{ addon.unit_price }} 元）
+                    </li>
+                  </ul>
+                </div>
               </div>
             </td>
           </tr>

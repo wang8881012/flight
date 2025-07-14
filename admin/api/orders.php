@@ -66,6 +66,25 @@ $stmt->bindValue(':per_page', $perPage, PDO::PARAM_INT);
 $stmt->execute();
 $orders = $stmt->fetchAll();
 
+foreach ($orders as &$order) {
+  // 查 passenger_info
+  $sqlPassengers = "SELECT name, passport_number, nationality 
+                    FROM passenger_info 
+                    WHERE booking_id = :bid AND is_deleted = 0";
+  $stmt1 = $pdo->prepare($sqlPassengers);
+  $stmt1->execute([':bid' => $order['id']]);
+  $order['passenger_info'] = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+  // 查 booking_addons
+  $sqlAddons = "SELECT a.name AS addon_name, ba.segment, ba.quantity, ba.unit_price 
+                FROM booking_addons ba
+                JOIN addons a ON a.id = ba.addon_id
+                WHERE ba.booking_id = :bid";
+  $stmt2 = $pdo->prepare($sqlAddons);
+  $stmt2->execute([':bid' => $order['id']]);
+  $order['booking_addons'] = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+}
+
 echo json_encode([
   'data' => $orders,
   'pagination' => [

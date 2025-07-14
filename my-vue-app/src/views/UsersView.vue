@@ -26,6 +26,7 @@ const editFields = [
   { key: "email", label: "Email", type: "text" },
   { key: "phone", label: "phone", type: "text" },
   { key: "birthday", label: "生日", type: "date" },
+  { key: "passport_name", label: "護照名", type: "text" },
 ];
 
 //  CRUD composable
@@ -91,7 +92,14 @@ function handleSubmit(data) {
         <button class="btn btn-success mb-3" @click="handleAdd">＋ 新增</button>
 
         <DataTable
-          :columns="['name', 'email', 'phone', 'birthday', 'created_at']"
+          :columns="[
+            'name',
+            'email',
+            'phone',
+            'birthday',
+            'passport_name',
+            'created_at',
+          ]"
           :rows="users"
           :onEdit="handleEdit"
           :onDelete="openDeleteModal"
