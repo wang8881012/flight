@@ -35,6 +35,18 @@
         .trip-btn:focus {
             outline: none;
         }
+
+        /* 輪播 */
+        .carousel-item .row>div>div {
+            height: 200px;
+        }
+
+        .carousel-item .row>div>div {
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -86,6 +98,52 @@
 
 
     <button id="nextPageBtn" class="btn btn-primary mt-3">下一頁</button>
+
+    <hr>
+    <!-- 輪播 -->
+    <div id="multiItemCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <!-- 第一組：三個 div -->
+            <div class="carousel-item active">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="p-3 text-white">項目 1</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3 text-white">項目 2</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3 text-white">項目 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二組：三個 div -->
+            <div class="carousel-item">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="p-3 text-dark">項目 4</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3 text-white">項目 5</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3 text-white">項目 6</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 上一張、下一張按鈕 -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#multiItemCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">上一張</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#multiItemCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">下一張</span>
+        </button>
+    </div>
 
     <!-- JS 套件 -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
