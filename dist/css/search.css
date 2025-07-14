@@ -166,4 +166,17 @@ nav a {
   color: #2B3B52;
 }
 
+.SelectedFlightsInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.SelectedFlightsInfo p {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  white-space: normal;
+  text-align: right;
+}
+
 /*# sourceMappingURL=search.css.map */

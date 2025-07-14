@@ -309,11 +309,11 @@ function updateSelectedFlightInfo() {
 
     if (selectedOutbound) {
         const { departure, arrival } = selectedOutbound;
-        infoBox.innerHTML += `<p>去程：${departure.city} (${departure.time}) → ${arrival.city} (${arrival.time})</p>`;
+        infoBox.innerHTML += `<p>去程：${departure.city} ${departure.time} → ${arrival.city} ${arrival.time}</p>`;
     }
     if (selectedReturn) {
         const { departure, arrival } = selectedReturn;
-        infoBox.innerHTML += `<p>回程：${departure.city} (${departure.time}) → ${arrival.city} (${arrival.time})</p>`;
+        infoBox.innerHTML += `<p>回程：${departure.city} ${departure.time} → ${arrival.city} ${arrival.time}</p>`;
     }
 
     updateTotalPrice();
@@ -360,7 +360,12 @@ function setupNextButton(tripType) {
 }
 
 // 購物車圖示顯示選擇資訊切換
+let cartToggleBound = false;
+
 function setupCartToggle() {
+    if (cartToggleBound) return;
+    cartToggleBound = true;
+
     const cartIcon = document.getElementById('cartIcon');
     const infoBox = document.querySelector('.SelectedFlightsInfo');
 
@@ -374,6 +379,7 @@ function setupCartToggle() {
         updateSelectedFlightInfo();
     });
 }
+
 
 // 頁面初始化
 initFlightData();
