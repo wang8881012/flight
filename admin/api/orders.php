@@ -1,4 +1,11 @@
 <?php
+session_start();
+if (!isset($_SESSION['admin'])) {
+  http_response_code(401);
+  echo json_encode(['error' => '未登入']);
+  exit;
+}
+
 require_once __DIR__ . '/../inc/db.inc.php';
 
 // 取得 POST 傳來的資料
@@ -43,7 +50,7 @@ $total = $stmt->fetchColumn();
 
 // 查詢實際資料
 $sql = "
-  SELECT b.id, u.name AS user_name, f.from_airport, f.to_airport,
+  SELECT b.id, u.name AS user_name,b.order_no, f.from_airport, f.to_airport,
          f.departure_time, b.total_price, p.status, b.created_at
   FROM booking b
   JOIN users u ON b.user_id = u.id

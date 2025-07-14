@@ -20,20 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         exit();
     }
 
-    $stmt = $pdo->prepare("SELECT acc, pwd FROM admin WHERE acc = :acc AND pwd = :pwd");
+    $stmt = $pdo->prepare("SELECT acc, pwd FROM admin WHERE acc = :acc AND pwd = md5(:pwd)");
     $stmt->execute([
         ":acc" => $acc,
         ":pwd" => $pwd
     ]);
 
-    if ($stmt->rowCount() === 1) {
-        $_SESSION['backend_login_flag'] = true;
-        $_SESSION['backend_login_acc'] = $acc;
-        echo json_encode(['success' => true]);
-        exit();
-    } else {
-        echo json_encode(['success' => false, 'message' => '帳號或密碼錯誤']);
-        exit();
-    }
+$admin = $stmt->fetch();
+
+if ($admin) {
+  $_SESSION['admin'] = [
+   
+    'acc' => $admin['acc'],
+  ];
+  echo json_encode(['success' => true]);
+} else {
+  http_response_code(401);
+  echo json_encode(['success' => false, 'error' => '帳號或密碼錯誤']);
+}
 }
 ?>

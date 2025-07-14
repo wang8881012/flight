@@ -3,6 +3,17 @@ import { onMounted } from "vue";
 import axios from "axios";
 import Navbar from "../components/NavBar.vue";
 import Sidebar from "../components/Sidebar.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+onMounted(() => {
+  const token = localStorage.getItem("adminToken");
+  if (!token) {
+    alert("請先登入");
+    router.push("/login");
+  }
+});
 
 onMounted(async () => {
   const res = await axios.get("/flight/admin/api/dashboard.php");

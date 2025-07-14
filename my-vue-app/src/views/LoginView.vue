@@ -76,6 +76,7 @@ const handleLogin = async () => {
     });
     // 根據後端回傳決定是否導向
     if (res.data.success) {
+      localStorage.setItem("adminToken", "LOGGED_IN");
       router.push("/dashboard");
     } else {
       errorMessage.value = res.data.message || "登入失敗";

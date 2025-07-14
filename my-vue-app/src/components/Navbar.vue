@@ -12,7 +12,9 @@
       >AirGo後台</router-link
     >
     <span class="navbar-text ms-auto text-white">admin</span>
-    <router-link class="mx-3 text-white nav-link" to="/">登出</router-link>
+    <router-link class="mx-3 text-white nav-link" to="/logout"
+      >登出</router-link
+    >
   </nav>
 
   <!-- Offcanvas Sidebar for mobile -->

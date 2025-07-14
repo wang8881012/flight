@@ -7,8 +7,19 @@ import DataTable from "../components/DataTable.vue";
 import Pagination from "../components/Pagination.vue";
 import EditModal from "../components/EditModal.vue";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
-
 import { useCrud } from "../composables/useCrud";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+onMounted(() => {
+  const token = localStorage.getItem("adminToken");
+  if (!token) {
+    alert("請先登入");
+    router.push("/login");
+  }
+});
 
 const modalMode = ref("create");
 const showModal = ref(false);
@@ -46,14 +57,14 @@ const editFields = [
 ];
 
 // 詳細欄位
-const detailFields = ["flight_no", "routes", "class_type", "seats_available"];
+// const detailFields = ["flight_no", "routes", "class_type", "seats_available"];
 
-const detailLabels = {
-  flight_no: "航班號",
-  routes: "航線",
-  class_type: "艙等",
-  seats_available: "可用座位數",
-};
+// const detailLabels = {
+//   flight_no: "航班號",
+//   routes: "航線",
+//   class_type: "艙等",
+//   seats_available: "可用座位數",
+// };
 //  useCrud 統一管理
 const {
   items: flight_classes,
@@ -121,8 +132,6 @@ function handleSubmit(data) {
           :rows="flight_classes"
           :onEdit="handleEdit"
           :onDelete="openDeleteModal"
-          :detailFields="detailFields"
-          :detailLabels="detailLabels"
         />
 
         <Pagination

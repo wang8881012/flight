@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once __DIR__ . '/../inc/db.inc.php';
+if (!isset($_SESSION['admin'])) {
+  http_response_code(401);
+  echo json_encode(['error' => '未登入']);
+  exit;
+}
 
-// if (!isset($_SESSION['backend_login_flag']) || $_SESSION['backend_login_flag'] !== true) {
-//   // 未登入，導回登入頁
-//   header("Location: /flight/admin/public/login.php?error=unauthorized");
-//   exit();
-// }
+require_once __DIR__ . '/../inc/db.inc.php';
 
 
 

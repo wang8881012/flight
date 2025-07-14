@@ -7,8 +7,19 @@ import DataTable from "../components/DataTable.vue";
 import Pagination from "../components/Pagination.vue";
 import EditModal from "../components/EditModal.vue";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
-
 import { useCrud } from "../composables/useCrud";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+onMounted(() => {
+  const token = localStorage.getItem("adminToken");
+  if (!token) {
+    alert("請先登入");
+    router.push("/login");
+  }
+});
 
 //預設modal模式為新增
 const modalMode = ref("create");

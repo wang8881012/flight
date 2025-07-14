@@ -1,5 +1,11 @@
 <?php
 session_start();
+if (!isset($_SESSION['admin'])) {
+  http_response_code(401);
+  echo json_encode(['error' => '未登入']);
+  exit;
+}
+
 require_once __DIR__ . '/../inc/db.inc.php';
 $data = json_decode(file_get_contents("php://input"), true);
 $action = $data['action'] ?? [];

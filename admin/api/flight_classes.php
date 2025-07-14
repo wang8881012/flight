@@ -1,5 +1,11 @@
 <?php
 session_start();
+if (!isset($_SESSION['admin'])) {
+  http_response_code(401);
+  echo json_encode(['error' => '未登入']);
+  exit;
+}
+
 require_once __DIR__ . '/../inc/db.inc.php';
 $data = json_decode(file_get_contents("php://input"), true);
 $action = $data['action'] ?? [];
@@ -36,7 +42,7 @@ switch ($action) {
         
         // 查詢實際資料
         $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
-        $sql = "select c.id, f.flight_no,s.seat_number, f.routes,c.class_type, c.price, c.seats_available from flight_classes c JOIN flights f ON f.id = c.flight_id join flight_reserved_seats s on c.id = s.class_id $whereSql ORDER BY c.id LIMIT :limit OFFSET :offset";
+        $sql = "select c.id, f.flight_no, f.routes,c.class_type, c.price, c.seats_available from flight_classes c JOIN flights f ON f.id = c.flight_id  $whereSql ORDER BY c.id LIMIT :limit OFFSET :offset";
         $stmt = $pdo->prepare($sql);
         foreach ($params as $key => $value) {
         $stmt->bindValue($key, $value);
