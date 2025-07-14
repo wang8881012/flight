@@ -124,7 +124,7 @@ function renderFlights(containerId, data, page) {
         div.innerHTML = `
             <div class="Outbound">
                 <div class="OutboundLeft">
-                    <p><strong>當地時間為: ${flight.departure.time}</strong></p>
+                    <p>當地時間為 <br><strong>${flight.departure.time}</strong></p>
                     <p>${flight.from_airport} - ${flight.departure.city}</p>
                 </div>
                 <div class="OutboundLeftCenter">
@@ -132,7 +132,7 @@ function renderFlights(containerId, data, page) {
                     <img src="../assets/images/Line%206.svg" alt="flight path" class="FlightLine">
                 </div>
                 <div class="OutboundLeft">
-                    <p><strong>當地時間為: ${flight.arrival.time}</strong></p>
+                    <p>當地時間為 <strong><br>${flight.arrival.time}</strong></p>
                     <p>${flight.to_airport} - ${flight.arrival.city}</p>
                 </div>
                 <div class="OutboundRight">

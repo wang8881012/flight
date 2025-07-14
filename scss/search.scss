@@ -67,9 +67,11 @@ nav {
     .Outbound {
         display: flex;
         flex-direction: row;
+        white-space: normal;
+        text-align: center;
 
         .OutboundLeft {
-            width: 25%;
+            width: 30%;
             background-color: $brand-secondary;
             color: $text-inverse;
             display: flex;
@@ -80,7 +82,7 @@ nav {
         }
 
         .OutboundLeftCenter {
-            width: 25%;
+            width: 15%;
             background-color: $brand-secondary;
             color: $text-inverse;
             flex-direction: row;
@@ -116,6 +118,7 @@ nav {
             color: $text-inverse;
             font-weight: bold;
         }
+
     }
 
     .ConfirmIcon {
@@ -148,7 +151,7 @@ nav {
 }
 
 .ConfirmIconCard {
-    width: 55%;
+    width: 54%;
     position: relative;
     display: flex;
     justify-content: space-between;

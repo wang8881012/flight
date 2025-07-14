@@ -56,9 +56,11 @@ nav a {
 .journey .Outbound {
   display: flex;
   flex-direction: row;
+  white-space: normal;
+  text-align: center;
 }
 .journey .Outbound .OutboundLeft {
-  width: 25%;
+  width: 30%;
   background-color: #455B80;
   color: #F5F5F5;
   display: flex;
@@ -68,7 +70,7 @@ nav a {
   height: 130px;
 }
 .journey .Outbound .OutboundLeftCenter {
-  width: 25%;
+  width: 15%;
   background-color: #455B80;
   color: #F5F5F5;
   flex-direction: row;
@@ -125,7 +127,7 @@ nav a {
 }
 
 .ConfirmIconCard {
-  width: 50%;
+  width: 54%;
   position: relative;
   display: flex;
   justify-content: space-between;

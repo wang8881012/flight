@@ -46,11 +46,11 @@ function enrichFlights($pdo, $flights) {
             'to_airport' => $f['to_airport'],
             'departure' => [
                 'city' => getFullAirportName($f['from_airport_name']),
-                'time' => date('H:i', strtotime($f['departure_time']))
+                'time' => date('Y-m-d (H:i)', strtotime($f['departure_time']))
             ],
             'arrival' => [
                 'city' => getFullAirportName($f['to_airport_name']),
-                'time' => date('H:i', strtotime($f['arrival_time']))
+                'time' => date('Y-m-d (H:i)', strtotime($f['arrival_time']))
             ],
             'direction' => $f['direction'],
             'center' => floor($f['duration'] / 60) . 'h ' . ($f['duration'] % 60) . 'm',
