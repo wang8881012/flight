@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "scss": "sass src/scss:dist/css"
+    "scss": "sass scss:dist/css"
   },
   "repository": {
     "type": "git",
