@@ -17,7 +17,7 @@ onMounted(() => {
   const token = localStorage.getItem("adminToken");
   if (!token) {
     alert("請先登入");
-    router.push("/login");
+    router.push("/");
   }
 });
 
@@ -107,7 +107,12 @@ function handleSubmit(data) {
         <FilterBar
           :fields="filterFields"
           v-model="filters"
-          @filter="fetchItems"
+          @filter="
+            (newFilters) => {
+              Object.assign(filters, newFilters);
+              fetchItems();
+            }
+          "
         />
 
         <button class="btn btn-success mb-3" @click="handleAdd">＋ 新增</button>

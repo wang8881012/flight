@@ -17,7 +17,7 @@ onMounted(() => {
   const token = localStorage.getItem("adminToken");
   if (!token) {
     alert("請先登入");
-    router.push("/login");
+    router.push("/");
   }
 });
 
@@ -50,7 +50,15 @@ const filterFields = [
 // 編輯欄位
 const editFields = [
   { key: "flight_no", label: "航班號", type: "text" },
-  { key: "class_type", label: "艙等", type: "text" },
+  {
+    key: "class_type",
+    label: "艙等",
+    type: "select",
+    options: [
+      { value: "economy", label: "economy" },
+      { value: "business", label: "business" },
+    ],
+  },
   { key: "routes", label: "航線", type: "text" },
   { key: "price", label: "價格", type: "text" },
   { key: "seats_available", label: "可用座位數", type: "text" },
@@ -116,7 +124,12 @@ function handleSubmit(data) {
         <FilterBar
           :fields="filterFields"
           v-model="filters"
-          @filter="fetchItems"
+          @filter="
+            (newFilters) => {
+              Object.assign(filters, newFilters);
+              fetchItems();
+            }
+          "
         />
 
         <button class="btn btn-success mb-3" @click="handleAdd">＋ 新增</button>

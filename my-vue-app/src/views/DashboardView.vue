@@ -11,7 +11,7 @@ onMounted(() => {
   const token = localStorage.getItem("adminToken");
   if (!token) {
     alert("請先登入");
-    router.push("/login");
+    router.push("/");
   }
 });
 

@@ -17,7 +17,7 @@ onMounted(() => {
   const token = localStorage.getItem("adminToken");
   if (!token) {
     alert("請先登入");
-    router.push("/login");
+    router.push("/");
   }
 });
 
@@ -113,8 +113,8 @@ function handleSubmit(data) {
           :fields="filterFields"
           v-model="filters"
           @filter="
-            (val) => {
-              filters.value = val;
+            (newFilters) => {
+              Object.assign(filters, newFilters);
               fetchItems();
             }
           "

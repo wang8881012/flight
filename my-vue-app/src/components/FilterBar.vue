@@ -62,8 +62,19 @@ watchEffect(() => {
 });
 
 const submit = () => {
-  emit("filter", { ...form });
-  emit("update:modelValue", { ...form });
+  const cleaned = {};
+
+  for (const key in form) {
+    const val = form[key];
+    if (typeof val === "string") {
+      const trimmed = val.trim();
+      if (trimmed !== "") cleaned[key] = trimmed;
+    } else if (val !== null && val !== undefined && val !== "") {
+      cleaned[key] = val;
+    }
+  }
+
+  emit("filter", cleaned);
 };
 </script>
 <style scoped>
