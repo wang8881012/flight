@@ -1,4 +1,4 @@
-// saveData.js
+// 這是在模擬前面帶入的資料
 const passengers = [
   {
     name: "Wang Xiao Ming",

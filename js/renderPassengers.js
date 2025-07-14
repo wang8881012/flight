@@ -1,4 +1,4 @@
-// renderPassengers.js
+// 動態渲染旅客資料
 
 window.addEventListener('DOMContentLoaded', () => {
   const passengers = JSON.parse(localStorage.getItem("passengers")) || [];

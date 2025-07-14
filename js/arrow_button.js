@@ -1,4 +1,4 @@
-//下拉選單功能
+//confirm.html的下拉選單功能
 const collapseElements = document.querySelectorAll('.collapse');
 
 collapseElements.forEach(collapseEl => {

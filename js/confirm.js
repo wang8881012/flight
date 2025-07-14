@@ -11,8 +11,8 @@ if (!bookingId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    fetch(`../api/confirm/getBooking.php?booking_id=${bookingId}`)
+    //接取list.php撈出的資料
+    fetch(`../api/confirm/list.php?booking_id=${bookingId}`)
         .then(response => response.json())
         .then(result => {
             if (result.status === 'success') {

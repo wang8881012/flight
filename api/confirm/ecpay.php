@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Ecpay\Sdk\Factories\Factory;
 use Ecpay\Sdk\Services\UrlService;
@@ -14,7 +14,7 @@ $oid = 'NNNN' . time();
 
 $input = [
     'MerchantID'        => '3002607',                   // 商店代號
-    'MerchantTradeNo'   => $oid,             // 訂單編號
+    'MerchantTradeNo'   => $oid,                        // 訂單編號
     'MerchantTradeDate' => date('Y/m/d H:i:s'),         // 訂單時間
     'PaymentType'       => 'aio',                       // 交易類型 (固定值，表示使用「全方位金流」介面)
     'TotalAmount'       => 100,                         // 金額
@@ -23,9 +23,8 @@ $input = [
     'ChoosePayment'     => 'Credit',                    // 付款方式
     'EncryptType'       => 1,                           // 加密類型
 
-    // 請參考 example/Payment/GetCheckoutResponse.php 範例開發
-    'ReturnURL'         => 'http://rnrzb-150-117-19-191.a.free.pinggy.link/flight/public/complete.html?booking_id=1',
-    'OrderResultURL'    => 'https://rnrzb-150-117-19-191.a.free.pinggy.link/flight/public/complete.html?booking_id=1'
+    'ReturnURL'         => 'http://rntca-150-117-19-191.a.free.pinggy.link/flight/public/complete.html?booking_id=1',
+    'OrderResultURL'    => 'https://rntca-150-117-19-191.a.free.pinggy.link/flight/public/complete.html?booking_id=1'
 ];
 $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';
 
