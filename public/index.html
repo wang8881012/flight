@@ -43,6 +43,7 @@
         <button type="button" id="btnRound" class="trip-btn active">來回票</button>
         <button type="button" id="btnOneWay" class="trip-btn">單程</button>
     </div>
+    <hr>
 
     <!-- 來回票 -->
     <div id="roundTripSelects">
@@ -75,6 +76,14 @@
             </div>
         </div>
     </div>
+
+    <!-- 選擇人數 -->
+    <div>
+        <button id="btnMinus">-</button>
+        <span id="passengerCount">1</span>
+        <button id="btnPlus">+</button>
+    </div>
+
 
     <button id="nextPageBtn" class="btn btn-primary mt-3">下一頁</button>
 
@@ -271,6 +280,34 @@
 
             window.location.href = url;
         });
+
+        // 選擇人數
+        let passengerCount = parseInt(localStorage.getItem('passengerCount')) || 1;
+
+        const passengerCountSpan = document.getElementById('passengerCount');
+        const btnMinus = document.getElementById('btnMinus');
+        const btnPlus = document.getElementById('btnPlus');
+
+        function updatePassengerDisplay() {
+            passengerCountSpan.textContent = passengerCount;
+            localStorage.setItem('passengerCount', passengerCount);
+        }
+
+        btnMinus.addEventListener('click', () => {
+            if (passengerCount > 1) {
+                passengerCount--;
+                updatePassengerDisplay();
+            }
+        });
+
+        btnPlus.addEventListener('click', () => {
+            passengerCount++;
+            updatePassengerDisplay();
+        });
+
+        updatePassengerDisplay();// 初始化顯示人數
+
+
     </script>
 </body>
 

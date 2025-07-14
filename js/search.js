@@ -320,14 +320,22 @@ function updateSelectedFlightInfo() {
 }
 
 // 計算並顯示總價格
+let passengerCount = 1;
+let count = parseInt(localStorage.getItem('passengerCount')) || 1;
+
 function updateTotalPrice() {
     const priceBox = document.querySelector('.SelectedPrices');
     let total = 0;
     if (selectedOutbound) total += selectedOutbound.selectedPrice;
     if (selectedReturn) total += selectedReturn.selectedPrice;
-    priceBox.innerHTML = `<p>總價：$${total.toLocaleString()}</p>`;
-}
+    const count = parseInt(localStorage.getItem('passengerCount')) || 1;
+    const totalPrice = total * count;
 
+    priceBox.innerHTML = `
+        <p>人數：${count}人</p>
+        <p>總價：$${totalPrice.toLocaleString()}</p>
+    `;
+}
 // 下一步按鈕狀態控制
 function updateNextButton() {
     const nextBtn = document.getElementById('NextButton');
@@ -347,12 +355,14 @@ function setupNextButton(tripType) {
             localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
             localStorage.setItem('selectedReturn', JSON.stringify(selectedReturn));
             localStorage.setItem('tripType', 'round');
-            window.location.href = 'nextPage.html';
+            localStorage.setItem('passengerCount', count);
+            window.location.href = 'nextPage.html';//跳下一個
         } else if (tripType === 'oneway' && selectedOutbound) {
             localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
             localStorage.removeItem('selectedReturn');
             localStorage.setItem('tripType', 'oneway');
-            window.location.href = 'nextPage.html';
+            localStorage.setItem('passengerCount', count);
+            window.location.href = 'nextPage.html';//跳下一個
         } else {
             alert('請選擇航班');
         }

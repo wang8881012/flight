@@ -3,67 +3,128 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>選擇結果</title>
-    <link rel="stylesheet" href="./css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>您選擇的航班資訊</title>
     <style>
-        .flight-box {
-            border: 1px solid #ccc;
-            padding: 16px;
-            margin: 20px auto;
-            width: 80%;
+        body {
+            font-family: Arial, sans-serif;
             max-width: 600px;
-            background-color: #f9f9f9;
+            margin: 2rem auto;
+            padding: 1rem;
         }
 
-        h2 {
+        h1 {
             text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+        }
+
+        p {
+            margin: 0.4rem 0;
+        }
+
+        .label {
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
-    <h2>您選擇的航班資訊</h2>
-    <div class="flight-box" id="outboundBox"></div>
-    <div class="flight-box" id="returnBox"></div>
-    <div class="flight-box" id="totalPriceBox"></div>
+
+    <h1>您選擇的航班資訊</h1>
+
+    <div id="summarySection" class="section">
+        <h2>總價資訊</h2>
+        <p><span class="label">人數：</span><span id="passengerCount">0</span> 人</p>
+        <p><span class="label">總價：</span>NT$ <span id="totalPrice">0</span></p>
+    </div>
+
+    <div id="oneWaySection" class="section" style="display:none;">
+        <h2>單程航班</h2>
+        <p><span class="label">出發地：</span><span id="oneWayFrom"></span></p>
+        <p><span class="label">目的地：</span><span id="oneWayTo"></span></p>
+        <p><span class="label">艙等：</span><span id="oneWayClass"></span></p>
+        <p><span class="label">單人價格：</span>NT$ <span id="oneWayPrice"></span></p>
+    </div>
+
+    <div id="roundTripSection" style="display:none;">
+        <div class="section">
+            <h2>去程航班</h2>
+            <p><span class="label">出發地：</span><span id="roundGoFrom"></span></p>
+            <p><span class="label">目的地：</span><span id="roundGoTo"></span></p>
+            <p><span class="label">艙等：</span><span id="roundGoClass"></span></p>
+            <p><span class="label">單人價格：</span>NT$ <span id="roundGoPrice"></span></p>
+        </div>
+        <div class="section">
+            <h2>回程航班</h2>
+            <p><span class="label">出發地：</span><span id="roundReturnFrom"></span></p>
+            <p><span class="label">目的地：</span><span id="roundReturnTo"></span></p>
+            <p><span class="label">艙等：</span><span id="roundReturnClass"></span></p>
+            <p><span class="label">單人價格：</span>NT$ <span id="roundReturnPrice"></span></p>
+        </div>
+    </div>
 
     <script>
-        const tripType = localStorage.getItem('tripType');
-        const outbound = JSON.parse(localStorage.getItem('selectedOutbound'));
-        const returnFlight = JSON.parse(localStorage.getItem('selectedReturn'));
-        const outboundBox = document.getElementById('outboundBox');
-        const returnBox = document.getElementById('returnBox');
-        const priceBox = document.getElementById('totalPriceBox');
+        document.addEventListener("DOMContentLoaded", function () {
+            const tripType = localStorage.getItem('tripType') || 'oneway';
+            const passengerCount = parseInt(localStorage.getItem('passengerCount')) || 0;
+            const selectedOutbound = JSON.parse(localStorage.getItem('selectedOutbound'));
+            const selectedReturn = JSON.parse(localStorage.getItem('selectedReturn'));
 
-        if (tripType === 'round' && outbound && returnFlight) {
-            outboundBox.innerHTML = `
-        <h3>去程航班</h3>
-        <p>出發地：${outbound.departure.city} ${outbound.departure.time}</p>
-        <p>目的地：${outbound.arrival.city} ${outbound.arrival.time}</p>
-        <p>艙等：${outbound.selectedClass.toUpperCase()}</p>
-        <p>價格：$${outbound.selectedPrice.toLocaleString()}</p>`;
+            // 價格格式化
+            function formatPrice(num) {
+                return Number(num).toLocaleString('zh-Hant-TW');
+            }
 
-            returnBox.innerHTML = `
-        <h3>回程航班</h3>
-        <p>出發地：${returnFlight.departure.city} ${returnFlight.departure.time}</p>
-        <p>目的地：${returnFlight.arrival.city} ${returnFlight.arrival.time}</p>
-        <p>艙等：${returnFlight.selectedClass.toUpperCase()}</p>
-        <p>價格：$${returnFlight.selectedPrice.toLocaleString()}</p>`;
+            // 更新人數
+            document.getElementById('passengerCount').textContent = passengerCount;
 
-            const total = outbound.selectedPrice + returnFlight.selectedPrice;
-            priceBox.innerHTML = `<h3>總價</h3><p>$${total.toLocaleString()}</p>`;
-        } else if (tripType === 'oneway' && outbound) {
-            outboundBox.innerHTML = `
-        <h3>單程航班</h3>
-        <p>出發地：${outbound.departure.city} ${outbound.departure.time}</p>
-        <p>目的地：${outbound.arrival.city} ${outbound.arrival.time}</p>
-        <p>艙等：${outbound.selectedClass.toUpperCase()}</p>
-        <p>價格：$${outbound.selectedPrice.toLocaleString()}</p>`;
-            returnBox.style.display = 'none';
-            const total = outbound.selectedPrice;
-            priceBox.innerHTML = `<h3>總價</h3><p>$${total.toLocaleString()}</p>`;
-        }
+            // 若資料齊全才處理
+            if (passengerCount > 0 && selectedOutbound && selectedOutbound.selectedPrice) {
+                if (tripType === 'round' && selectedReturn && selectedReturn.selectedPrice) {
+                    const totalPrice = (Number(selectedOutbound.selectedPrice) + Number(selectedReturn.selectedPrice)) * passengerCount;
+                    document.getElementById('totalPrice').textContent = formatPrice(totalPrice);
+
+                    // 顯示 round trip 區塊
+                    document.getElementById('roundTripSection').style.display = 'block';
+
+                    // 去程
+                    document.getElementById('roundGoFrom').textContent = `${selectedOutbound.from_airport} - ${selectedOutbound.departure.city}`;
+                    document.getElementById('roundGoTo').textContent = `${selectedOutbound.to_airport} - ${selectedOutbound.arrival.city}`;
+                    document.getElementById('roundGoClass').textContent = selectedOutbound.selectedClass.toUpperCase();
+                    document.getElementById('roundGoPrice').textContent = formatPrice(selectedOutbound.selectedPrice);
+
+                    // 回程
+                    document.getElementById('roundReturnFrom').textContent = `${selectedReturn.from_airport} - ${selectedReturn.departure.city}`;
+                    document.getElementById('roundReturnTo').textContent = `${selectedReturn.to_airport} - ${selectedReturn.arrival.city}`;
+                    document.getElementById('roundReturnClass').textContent = selectedReturn.selectedClass.toUpperCase();
+                    document.getElementById('roundReturnPrice').textContent = formatPrice(selectedReturn.selectedPrice);
+                } else {
+                    const totalPrice = Number(selectedOutbound.selectedPrice) * passengerCount;
+                    document.getElementById('totalPrice').textContent = formatPrice(totalPrice);
+
+                    document.getElementById('oneWaySection').style.display = 'block';
+                    document.getElementById('oneWayFrom').textContent = `${selectedOutbound.from_airport} - ${selectedOutbound.departure.city}`;
+                    document.getElementById('oneWayTo').textContent = `${selectedOutbound.to_airport} - ${selectedOutbound.arrival.city}`;
+                    document.getElementById('oneWayClass').textContent = selectedOutbound.selectedClass.toUpperCase();
+                    document.getElementById('oneWayPrice').textContent = formatPrice(selectedOutbound.selectedPrice);
+                }
+            } else {
+                alert('尚未選擇航班或人數為 0，請返回上一頁重新選擇。');
+            }
+        });
     </script>
+
 </body>
 
 </html>
