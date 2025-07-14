@@ -13,18 +13,6 @@
     background-color: #DBEAFF;
 }
 
-.card-body .body-text, .arrow {
-    color: #455C80;
-    font-size: 3rem;
-    font-weight: bolder;
-}
-
-.card-body .middle-text, .end-text {
-    font-size: 1.5rem;
-    color: #455C80;
-    font-weight: bold;
-}
-
 .card-body button {
     color: #455C80;
 }
@@ -83,7 +71,7 @@
 }
 
 .blue-text {
-    color: #2B3B52;
+    color: #455C80;
 }
 
 .blue-bg {
