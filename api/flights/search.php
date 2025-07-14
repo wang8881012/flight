@@ -2,26 +2,33 @@
 header('Content-Type: application/json');
 require_once __DIR__ . '/../inc/db.php';
 
-$tripType = $_GET['tripType'] ?? null;
+// 取得查詢參數
+$tripType = $_GET['tripType'] ?? 'round';
+$startDate = $_GET['startDate'] ?? null;
+$endDate = $_GET['endDate'] ?? null;
+$departure1 = $_GET['departure1'] ?? null;
+$arrival1 = $_GET['arrival1'] ?? null;
+$departure2 = $_GET['departure2'] ?? null;
+$arrival2 = $_GET['arrival2'] ?? null;
+$departure = $_GET['departure'] ?? null;
+$arrival = $_GET['arrival'] ?? null;
 
-
+// 機場名稱對應
 function getFullAirportName($city) {
     $mapping = [
         '台北' => '台北桃園國際機場',
         '東京' => '東京成田國際機場',
         '大阪' => '大阪關西國際機場',
         '北海道' => '北海道新千歲機場',
-        // 可自行補充更多
+        // 可擴充更多
     ];
-    return $mapping[$city] ?? $city;  // 找不到就回原本名字
+    return $mapping[$city] ?? $city;
 }
 
-// ──────────── 公用函式：根據航班資料加入艙等資訊 ────────────
-$tripType = $_GET['tripType'] ?? null;
-
+// 加入艙等資訊
 function enrichFlights($pdo, $flights) {
     $flightIds = array_column($flights, 'id');
-    if (count($flightIds) === 0) return [];
+    if (empty($flightIds)) return [];
 
     $placeholders = implode(',', array_fill(0, count($flightIds), '?'));
     $stmt = $pdo->prepare("SELECT * FROM flight_classes WHERE flight_id IN ($placeholders) ORDER BY flight_id, price ASC");
@@ -60,109 +67,65 @@ function enrichFlights($pdo, $flights) {
 
     return $output;
 }
-// ──────────── 來回行程查詢 ────────────
-if ($tripType === 'round') {
-    $departure1 = $_GET['departure1'] ?? null;
-    $arrival1 = $_GET['arrival1'] ?? null;
-    $departure2 = $_GET['departure2'] ?? null;
-    $arrival2 = $_GET['arrival2'] ?? null;
 
-    // 去程查詢
-    $whereClauses1 = [];
-    $params1 = [];
-    if ($departure1) {
-        $whereClauses1[] = "from_airport_name = :departure1";
-        $params1[':departure1'] = $departure1;
-    }
-    if ($arrival1) {
-        $whereClauses1[] = "to_airport_name = :arrival1";
-        $params1[':arrival1'] = $arrival1;
-    }
-    $where1 = count($whereClauses1) > 0 
-        ? "WHERE " . implode(' AND ', $whereClauses1) . " AND direction = 'outbound'"
-        : "WHERE direction = 'outbound'";
-
-    $stmt1 = $pdo->prepare("SELECT * FROM flights $where1 ORDER BY id ASC");
-    $stmt1->execute($params1);
-    $flightsGo = $stmt1->fetchAll(PDO::FETCH_ASSOC);
-
-    // 回程查詢
-    $whereClauses2 = [];
-    $params2 = [];
-    if ($departure2) {
-        $whereClauses2[] = "from_airport_name = :departure2";
-        $params2[':departure2'] = $departure2;
-    }
-    if ($arrival2) {
-        $whereClauses2[] = "to_airport_name = :arrival2";
-        $params2[':arrival2'] = $arrival2;
-    }
-    $where2 = count($whereClauses2) > 0 
-        ? "WHERE " . implode(' AND ', $whereClauses2) . " AND direction = 'inbound'"
-        : "WHERE direction = 'inbound'";
-
-    $stmt2 = $pdo->prepare("SELECT * FROM flights $where2 ORDER BY id ASC");
-    $stmt2->execute($params2);
-    $flightsReturn = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-    echo json_encode([
-        'outbound' => enrichFlights($pdo, $flightsGo),
-        'inbound' => enrichFlights($pdo, $flightsReturn),
-    ], JSON_UNESCAPED_UNICODE);
-    exit;
-}
-
-// ──────────── 單程查詢（同時取出去程和回程資料））────────────
-$departure = $_GET['departure'] ?? null;
-$arrival = $_GET['arrival'] ?? null;
-
+// 查詢航班
 $outboundFlights = [];
 $inboundFlights = [];
 
-if ($departure && $arrival) {
-    // 去程
-    $stmt1 = $pdo->prepare("
-        SELECT * FROM flights
-        WHERE from_airport_name = :departure AND to_airport_name = :arrival
-        ORDER BY id ASC
-    ");
-    $stmt1->execute([':departure' => $departure, ':arrival' => $arrival]);
-    $outboundFlights = $stmt1->fetchAll(PDO::FETCH_ASSOC);
-
-    // 回程
-    $stmt2 = $pdo->prepare("
-        SELECT * FROM flights
-        WHERE from_airport_name = :arrival AND to_airport_name = :departure
-        ORDER BY id ASC
-    ");
-    $stmt2->execute([':arrival' => $arrival, ':departure' => $departure]);
-    $inboundFlights = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-} else {
-    // 如果只有 departure，取 outbound
-    if ($departure) {
-        $stmt = $pdo->prepare("
-            SELECT * FROM flights 
-            WHERE from_airport_name = :departure AND direction = 'outbound'
+if ($tripType === 'round') {
+    if ($departure1 && $arrival1 && $startDate) {
+        $stmt1 = $pdo->prepare("
+            SELECT * FROM flights
+            WHERE from_airport_name = :departure1 
+              AND to_airport_name = :arrival1 
+              AND DATE(departure_time) = :startDate
             ORDER BY id ASC
         ");
-        $stmt->execute([':departure' => $departure]);
-        $outboundFlights = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt1->execute([
+            ':departure1' => $departure1,
+            ':arrival1' => $arrival1,
+            ':startDate' => $startDate
+        ]);
+        $outboundFlights = $stmt1->fetchAll(PDO::FETCH_ASSOC);
     }
-    // 如果只有 arrival，取 inbound
-    if ($arrival) {
+
+    if ($departure2 && $arrival2 && $endDate) {
+        $stmt2 = $pdo->prepare("
+            SELECT * FROM flights
+            WHERE from_airport_name = :departure2 
+              AND to_airport_name = :arrival2 
+              AND DATE(departure_time) = :endDate
+            ORDER BY id ASC
+        ");
+        $stmt2->execute([
+            ':departure2' => $departure2,
+            ':arrival2' => $arrival2,
+            ':endDate' => $endDate
+        ]);
+        $inboundFlights = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+} elseif ($tripType === 'oneway') {
+    if ($departure && $arrival && $startDate) {
         $stmt = $pdo->prepare("
             SELECT * FROM flights
-            WHERE from_airport_name = :arrival AND direction = 'inbound'
+            WHERE from_airport_name = :departure 
+              AND to_airport_name = :arrival 
+              AND DATE(departure_time) = :startDate
             ORDER BY id ASC
         ");
-        $stmt->execute([':arrival' => $arrival]);
-        $inboundFlights = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute([
+            ':departure' => $departure,
+            ':arrival' => $arrival,
+            ':startDate' => $startDate
+        ]);
+        $outboundFlights = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 
+// 輸出結果
 echo json_encode([
     'outbound' => enrichFlights($pdo, $outboundFlights),
     'inbound' => enrichFlights($pdo, $inboundFlights),
 ], JSON_UNESCAPED_UNICODE);
 exit;
-?>

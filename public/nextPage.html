@@ -38,15 +38,15 @@
         if (tripType === 'round' && outbound && returnFlight) {
             outboundBox.innerHTML = `
         <h3>去程航班</h3>
-        <p>出發地：${outbound.departure.city} (${outbound.departure.time})</p>
-        <p>目的地：${outbound.arrival.city} (${outbound.arrival.time})</p>
+        <p>出發地：${outbound.departure.city} ${outbound.departure.time}</p>
+        <p>目的地：${outbound.arrival.city} ${outbound.arrival.time}</p>
         <p>艙等：${outbound.selectedClass.toUpperCase()}</p>
         <p>價格：$${outbound.selectedPrice.toLocaleString()}</p>`;
 
             returnBox.innerHTML = `
         <h3>回程航班</h3>
-        <p>出發地：${returnFlight.departure.city} (${returnFlight.departure.time})</p>
-        <p>目的地：${returnFlight.arrival.city} (${returnFlight.arrival.time})</p>
+        <p>出發地：${returnFlight.departure.city} ${returnFlight.departure.time}</p>
+        <p>目的地：${returnFlight.arrival.city} ${returnFlight.arrival.time}</p>
         <p>艙等：${returnFlight.selectedClass.toUpperCase()}</p>
         <p>價格：$${returnFlight.selectedPrice.toLocaleString()}</p>`;
 
@@ -55,8 +55,8 @@
         } else if (tripType === 'oneway' && outbound) {
             outboundBox.innerHTML = `
         <h3>單程航班</h3>
-        <p>出發地：${outbound.departure.city} (${outbound.departure.time})</p>
-        <p>目的地：${outbound.arrival.city} (${outbound.arrival.time})</p>
+        <p>出發地：${outbound.departure.city} ${outbound.departure.time}</p>
+        <p>目的地：${outbound.arrival.city} ${outbound.arrival.time}</p>
         <p>艙等：${outbound.selectedClass.toUpperCase()}</p>
         <p>價格：$${outbound.selectedPrice.toLocaleString()}</p>`;
             returnBox.style.display = 'none';

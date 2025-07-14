@@ -15,11 +15,92 @@ function getQueryParam(param) {
 }
 
 // 根據 tripType 顯示對應區塊
+// 顯示無航班訊息
 function showFlightSection(type) {
-    const roundTripSection = document.getElementById('roundTripSection');
-    const oneWaySection = document.getElementById('oneWaySection');
+    // 先隱藏所有無航班訊息
+    document.getElementById('noFlightMessageGo').style.display = 'none';
+    document.getElementById('noFlightMessageReturn').style.display = 'none';
+    document.getElementById('noFlightMessageOneWay').style.display = 'none';
 
     if (type === 'round') {
+        document.getElementById('roundTripSection').style.display = 'block';
+        document.getElementById('oneWaySection').style.display = 'none';
+        goToPageGo(currentPageGo);
+        goToPageReturn(currentPageReturn);
+    } else {
+        document.getElementById('roundTripSection').style.display = 'none';
+        document.getElementById('oneWaySection').style.display = 'block';
+        goToPageOneWay(1);
+        selectedReturn = null;
+        document.querySelectorAll('.OutboundRightTicket[data-direction="inbound"]').forEach(btn => btn.classList.remove('active'));
+    }
+
+    // 呼叫顯示無航班訊息函式
+    showNoFlightMessage(type);
+}
+
+function goToPageGo(page) {
+    currentPageGo = page;
+    renderFlights('flight-containerGo', flightsGo, currentPageGo, 'outbound');
+    renderPagination('PaginationControlsGo', flightsGo.length, currentPageGo, 'goToPageGo');
+}
+
+function goToPageReturn(page) {
+    currentPageReturn = page;
+    renderFlights('flight-containerReturn', flightsReturn, currentPageReturn, 'inbound');
+    renderPagination('PaginationControlsReturn', flightsReturn.length, currentPageReturn, 'goToPageReturn');
+}
+
+
+
+
+const roundTripSection = document.getElementById('roundTripSection');
+const oneWaySection = document.getElementById('oneWaySection');
+
+
+initFlightData();
+
+// 載入並初始化航班資料
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// 顯示對應區塊並渲染頁面
+// 顯示「無航班訊息」
+function showNoFlightMessage(type) {
+    const noFlightGo = document.getElementById('noFlightMessageGo');
+    const noFlightReturn = document.getElementById('noFlightMessageReturn');
+    const noFlightOneWay = document.getElementById('noFlightMessageOneWay');
+
+    noFlightGo.innerText = '';
+    noFlightReturn.innerText = '';
+    noFlightOneWay.innerText = '';
+
+    if (type === 'round') {
+        if (flightsGo.length === 0) {
+            noFlightGo.innerText = '查無去程航班，請改其他時段';
+            noFlightGo.style.display = 'block';
+        }
+        if (flightsReturn.length === 0) {
+            noFlightReturn.innerText = '查無回程航班，請改其他時段';
+            noFlightReturn.style.display = 'block';
+        }
+    } else {
+        if (flightsGo.length === 0 && flightsReturn.length === 0) {
+            noFlightOneWay.innerText = '查無單程航班，請改其他時段';
+            noFlightOneWay.style.display = 'block';
+        }
+    }
+}
+
+function showFlightSection(tripType) {
+    // 隱藏所有無航班訊息
+    document.getElementById('noFlightMessageGo').style.display = 'none';
+    document.getElementById('noFlightMessageReturn').style.display = 'none';
+    document.getElementById('noFlightMessageOneWay').style.display = 'none';
+
+    if (tripType === 'round') {
         roundTripSection.style.display = 'block';
         oneWaySection.style.display = 'none';
         goToPageGo(currentPageGo);
@@ -31,14 +112,21 @@ function showFlightSection(type) {
         selectedReturn = null;
         document.querySelectorAll('.OutboundRightTicket[data-direction="inbound"]').forEach(btn => btn.classList.remove('active'));
     }
+
+    // 顯示無航班訊息
+    showNoFlightMessage(tripType);
 }
 
 // 載入並初始化航班資料
 function initFlightData() {
     const tripType = getQueryParam('tripType') || 'round';
-    const searchParams = window.location.search;
 
-    fetch('../api/flights/search.php' + searchParams)
+    // 先隱藏所有無航班訊息
+    document.getElementById('noFlightMessageGo').style.display = 'none';
+    document.getElementById('noFlightMessageReturn').style.display = 'none';
+    document.getElementById('noFlightMessageOneWay').style.display = 'none';
+
+    fetch('../api/flights/search.php' + window.location.search)
         .then(res => res.json())
         .then(data => {
             if (data.outbound && data.inbound) {
@@ -58,6 +146,9 @@ function initFlightData() {
             alert('無法載入航班資料，請稍後再試。');
         });
 }
+
+// 頁面初始化
+initFlightData();
 
 // 去程分頁渲染
 function goToPageGo(page) {

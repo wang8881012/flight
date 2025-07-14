@@ -53,6 +53,7 @@
     <div id="roundTripSection">
       <div class="journey">
         <h1>去程航班</h1>
+        <div id="noFlightMessageGo"></div>
         <div id="flight-containerGo"></div>
         <div id="PaginationControlsGo" class="ConfirmIcon mb-3"></div>
       </div>
@@ -60,6 +61,7 @@
       <!-- 回程 -->
       <div class="journey">
         <h1>回程航班</h1>
+        <div id="noFlightMessageReturn"></div>
         <div id="flight-containerReturn"></div>
         <div id="PaginationControlsReturn" class="ConfirmIcon mb-3"></div>
       </div>
@@ -72,9 +74,13 @@
     <div id="oneWaySection" style="display:none;">
       <div class="journey">
         <h1>單程航班</h1>
+        <div id="noFlightMessageOneWay"></div>
         <div id="flight-containerOneWayGo"></div>
         <div id="PaginationControlsOneWayGo" class="ConfirmIcon mb-3"></div>
       </div>
+    </div>
+  </article>
+
   </article>
   </div>
 
@@ -86,7 +92,7 @@
       <div class="SelectedPrices"></div>
     </div>
   </div>
-  <script src="../js/search.js"><title>2025-07-v2</title></script>
+  <script src="../js/search.js?v=202507v2"></script>
 </body>
 
 </html>

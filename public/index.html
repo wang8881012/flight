@@ -89,38 +89,66 @@
         let selectedEndDate = null;
         let tripType = 'round';
 
-        $(function () {
-            $('#dateRangePicker').daterangepicker({
-                opens: 'right',
-                locale: {
-                    format: 'YYYY-MM-DD',
-                    separator: ' 至 ',
-                    applyLabel: '套用',
-                    cancelLabel: '取消',
-                    fromLabel: '從',
-                    toLabel: '到',
-                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-                    monthNames: [
-                        '一月', '二月', '三月', '四月', '五月', '六月',
-                        '七月', '八月', '九月', '十月', '十一月', '十二月',
-                    ],
-                    firstDay: 1
-                },
-                autoUpdateInput: false
-            });
+        function initDatePicker() {
+            const $datePicker = $('#dateRangePicker');
 
-            $('#dateRangePicker').on('apply.daterangepicker', function (ev, picker) {
-                selectedStartDate = picker.startDate.format('YYYY-MM-DD');
-                selectedEndDate = picker.endDate.format('YYYY-MM-DD');
-                $(this).val(`${selectedStartDate} 至 ${selectedEndDate}`);
-            });
+            $datePicker.off(); // 移除舊事件
+            $datePicker.val(''); // 清空顯示
+            selectedStartDate = null;
+            selectedEndDate = null;
 
-            $('#dateRangePicker').on('cancel.daterangepicker', function () {
+            if (tripType === 'round') {
+                $datePicker.daterangepicker({
+                    opens: 'right',
+                    locale: {
+                        format: 'YYYY-MM-DD',
+                        separator: ' 至 ',
+                        applyLabel: '套用',
+                        cancelLabel: '取消',
+                        fromLabel: '從',
+                        toLabel: '到',
+                        daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                        monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                        firstDay: 1
+                    },
+                    autoUpdateInput: false
+                });
+
+                $datePicker.on('apply.daterangepicker', function (ev, picker) {
+                    selectedStartDate = picker.startDate.format('YYYY-MM-DD');
+                    selectedEndDate = picker.endDate.format('YYYY-MM-DD');
+                    $(this).val(`${selectedStartDate} 至 ${selectedEndDate}`);
+                });
+
+            } else if (tripType === 'oneway') {
+                $datePicker.daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    locale: {
+                        format: 'YYYY-MM-DD',
+                        applyLabel: '套用',
+                        cancelLabel: '取消',
+                        daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                        monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                        firstDay: 1
+                    },
+                    autoUpdateInput: false
+                });
+
+                $datePicker.on('apply.daterangepicker', function (ev, picker) {
+                    selectedStartDate = picker.startDate.format('YYYY-MM-DD');
+                    selectedEndDate = null;
+                    $(this).val(selectedStartDate);
+                });
+            }
+
+            $datePicker.on('cancel.daterangepicker', function () {
                 $(this).val('');
                 selectedStartDate = null;
                 selectedEndDate = null;
             });
-        });
+        }
+
 
         const btnRound = document.getElementById('btnRound');
         const btnOneWay = document.getElementById('btnOneWay');
@@ -144,14 +172,17 @@
         btnRound.addEventListener('click', () => {
             tripType = 'round';
             toggleSelects();
+            initDatePicker(); // 重新初始化日期區間選擇器
         });
 
         btnOneWay.addEventListener('click', () => {
             tripType = 'oneway';
             toggleSelects();
+            initDatePicker(); // 換成單日選擇器
         });
 
         toggleSelects();
+        initDatePicker();
 
         function setOptions(selectElem, options) {
             selectElem.innerHTML = '';
@@ -191,8 +222,10 @@
             let url;
             const baseParams = {};
 
-            if (selectedStartDate && selectedEndDate) {
+            if (selectedStartDate) {
                 baseParams.startDate = selectedStartDate;
+            }
+            if (selectedEndDate) {
                 baseParams.endDate = selectedEndDate;
             }
 
