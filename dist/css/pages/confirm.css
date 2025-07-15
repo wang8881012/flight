@@ -1,0 +1,85 @@
+@charset "UTF-8";
+/* 卡片標題 */
+.card-header {
+  background-color: #2B3B52;
+}
+
+.card-header .text {
+  color: #DBB37D;
+}
+
+/* 卡片內容 */
+.card-body {
+  background-color: #DBEAFF;
+}
+
+.card-body button {
+  color: #455C80;
+}
+
+.card-body button:hover {
+  color: lightslategray;
+}
+
+/* 下拉選單內容 */
+.collapse {
+  background-color: rgba(219, 234, 255, 0.44);
+}
+
+.detailed .detailed-h4 {
+  color: #455C80;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.detailed .detailed-text {
+  color: #455C80;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.detailed .text-airport {
+  font-size: 1.25rem;
+  color: #455C80;
+  font-weight: 350;
+}
+
+.detailed .rounded-circle {
+  background-color: #455C80;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 航班時間軸線 */
+.detailed .timeline {
+  border-left: 3px solid #455C80;
+}
+
+/* 中間分隔線 */
+.detailed .middle-line {
+  width: 4px;
+  background-color: rgba(69, 92, 128, 0.55);
+  height: 100%;
+}
+
+.gold-text {
+  color: #DBB37D;
+}
+
+.gold-bg {
+  background-color: #DBB37D;
+}
+
+.blue-text {
+  color: #455C80;
+}
+
+.blue-bg {
+  background-color: #2B3B52;
+}
+
+.light-blue-bg {
+  background-color: #DBEAFF;
+}
+
+/*# sourceMappingURL=confirm.css.map */
