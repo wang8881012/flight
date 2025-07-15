@@ -1,6 +1,9 @@
 node_modules/
 dist/css/fonts/
 http://localhost/project/flight/public/
+node_modules/
+dist/css/fonts/
+http://localhost/project/flight/public/
 **inc
 admin/public
 admin/components
