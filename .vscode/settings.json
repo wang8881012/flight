@@ -1,8 +1,0 @@
-{
-    "github.copilot.chat.commitMessageGeneration.instructions": [
-        {
-            "file": "commit-rule.md"
-        }
-    ],
-    "liveServer.settings.port": 5501
-}
