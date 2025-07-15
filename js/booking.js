@@ -319,7 +319,7 @@ Next_btn.addEventListener('click', () => {
 
 });
 
-fetch('/flight-2/api/booking/booking.php')
+fetch('/flight-2/api/booking/get_flight_data.php')
   .then(res => res.json())
   .then(data => {
      if (data.outbound) {
