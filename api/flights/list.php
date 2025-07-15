@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once __DIR__ . '/../inc/db.php';
+require_once __DIR__ . '/../inc/db.inc.php';
 
 try {
     $stmt = $pdo->query("SELECT DISTINCT from_airport_name, to_airport_name FROM flights");

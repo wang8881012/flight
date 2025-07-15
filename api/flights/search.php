@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once __DIR__ . '/../inc/db.php';
+require_once __DIR__ . '/../inc/db.inc.php';
 
 // 取得查詢參數
 $tripType = $_GET['tripType'] ?? 'round';
