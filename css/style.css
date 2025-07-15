@@ -1,0 +1,32 @@
+body {
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #283852;
+    color: #dbb37d;
+}
+
+.member-nav, .member-list-nav {
+    background-color: #283852;
+}
+
+.member-list-nav a {
+    color: #283852;
+    background-color: #dbb37d;
+}
+
+.member-list-nav a:not(.active):hover {
+    background-color: #dbb37d !important;
+    color: #283852 !important;
+    text-decoration: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.member-list-nav .nav-link.active {
+    background-color: #dbeaff;
+    color: #283852;
+    border: none;
+    border-bottom: 4px solid #283852;
+}
