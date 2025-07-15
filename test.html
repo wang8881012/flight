@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>座位選擇Demo</title>
+        <style>
+    body { margin: 0; display: flex; justify-content: center; padding: 1rem; }
+    #seatCanvas {
+      max-width: 800px;
+      width: 100%;
+      height: auto;
+      border:1px solid #ccc;
+    }
+  </style>
+    </head>
+    <body>
+        <canvas id="seatCanvas"></canvas>
+        <script>
+    const rows = [
+        { count: 4, y: 100, class: 'bs', size: 30, row: 1, aisleGap: 0 },
+        { count: 4, y: 140, class: 'bs', size: 30, row: 2, aisleGap: 0 },
+        { count: 4, y: 180, class: 'bs', size: 30, row: 3, aisleGap: 0 },
+        { count: 6, y: 230, class: 'lux', size: 20, row: 1, aisleGap: 12 },
+        { count: 6, y: 270, class: 'lux', size: 20, row: 2, aisleGap: 12 },
+        { count: 6, y: 310, class: 'lux', size: 20, row: 3, aisleGap: 12 },
+        { count: 6, y: 360, class: 'pro', size: 18, row: 4, aisleGap: 10 },
+        { count: 6, y: 400, class: 'pro', size: 18, row: 5, aisleGap: 10 },
+        { count: 6, y: 440, class: 'pro', size: 18, row: 6, aisleGap: 10 },
+        { count: 6, y: 490, class: 'st', size: 17, row: 7, aisleGap: 8 },
+        { count: 6, y: 530, class: 'st', size: 17, row: 8, aisleGap: 8 },
+        { count: 6, y: 570, class: 'st', size: 17, row: 9, aisleGap: 8 },
+        { count: 6, y: 610, class: 'st', size: 17, row: 10, aisleGap: 8 }
+    ];
+
+
+
+    const seatSize = 20;
+    const aisleGap = 10;
+    const seatGap = 5; //座位間距
+
+    const canvas = document.getElementById('seatCanvas');
+    const img = new Image();
+    img.src = 'flight_seat01.svg';
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      drawMap();
+    };
+
+
+function drawMap() { /*畫背景+座位*/
+  const ctx = canvas.getContext('2d'); //用2d圖渲染
+  ctx.clearRect(0, 0, canvas.width, canvas.height);  //使用 ctx 对象进行绘图，清除畫布 從(x, y)=(0,0)定位
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height); //畫背景圖
+
+  rows.forEach(rowInfo => {
+    const { count, y, class: cls, size, aisleGap, row } = rowInfo; //每排幾位,y,艙等,座位大小,走道空間,此為第幾排
+    const totalSeatWidth = count * size + (count - 1) * seatGap + aisleGap;
+    let x0 = (canvas.width - totalSeatWidth) / 2; // 座位起點 X
+
+    for (let i = 0; i < count; i++) {
+      if (i === 3 && count === 6) x0 += aisleGap; // 6位一排，如果是中間走道，增加空隙
+
+      ctx.fillStyle = {
+        bs: '#999',
+        lux: '#aaa',
+        pro: '#bbb',
+        st: '#ccc'
+      }[cls]; // 依照艙等選顏色
+    
+
+    ctx.fillRect(x0, y, size, size); // 畫座位本體
+    ctx.strokeRect(x0, y, size, size); // 加邊框
+// 座位代碼繪製（文字）
+    ctx.fillStyle = '#000';
+    ctx.font = `${size * 0.4}px sans-serif`;
+    if (cls === 'bs') {
+    // 商務艙：J1 ~ J12
+    const index = rows
+        .filter(r => r.class === 'bs')
+        .slice(0, rows.indexOf(rowInfo))
+        .reduce((sum, r) => sum + r.count, 0) + i + 1;
+    ctx.fillText(`J${index}`, x0 + size / 4, y + size / 1.5);
+    } else {
+  // 其他艙等照正常 A~F+row
+      ctx.fillText(`${String.fromCharCode(65 + i)}${row}`, x0 + size / 4, y + size / 1.5); // 字母 A 的 Unicode 編碼值65
+    }
+      x0 += size + seatGap;
+    }
+  });
+}
+
+
+    // 點擊互動示例
+    canvas.addEventListener('click', e => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+      rows.forEach(rowInfo => {
+        const  { count, y, size, aisleGap, row }  = rowInfo;
+        const totalSeatWidth = count * seatSize + (count - 1) * seatGap;
+        let x0 = (canvas.width - totalSeatWidth) / 2;
+        for (let i = 0; i < count; i++) {
+          if (i === 3 && count === 4) {
+        const jX = x0 + size + seatGap;  // 計算 J 座位的位置（在第 4 個座位右邊）
+        if (mx >= jX && mx <= jX + size && my >= y && my <= y + size) {
+          alert(`你點選座位 J${row}`);
+          return;
+        }
+        x0 += aisleGap;  // 原本走道位置也要補上
+      }         
+        if (i === 3 && count === 6) x0 += aisleGap;
+          if (mx >= x0 && mx <= x0+seatSize && my >= y && my <= y+seatSize) {
+            if (rowInfo.class === 'bs') {
+  const index = rows
+    .filter(r => r.class === 'bs')
+    .slice(0, rows.indexOf(rowInfo))
+    .reduce((sum, r) => sum + r.count, 0) + i + 1;
+  alert(`你點選座位 J${index}`);
+} else {
+  alert(`你點選座位 ${String.fromCharCode(65+i)}${row}`);
+}
+
+          }
+          x0 += seatSize + seatGap;
+        }
+      });
+    });
+
+    window.addEventListener('resize', drawMap);
+  </script>
+    </body>
+</html>
