@@ -3,6 +3,16 @@
 require_once __DIR__ . '/api_helper.php';
 
 session_start();
+// 輸入人數
+$data = get_json_input();
+
+$count = isset($data['count']) ? intval($data['count']) : 1;
+$count = max(1, min($count, 4)); // 限制為 1~4 人
+
+$_SESSION['passenger_count'] = $count;
+
+send_json(['success' => true, 'count' => $count]);
+
 $_SESSION['user_id'] = $_SESSION['user_id'] ?? 1;
 
 $passenger_id = $_SESSION['user_id'];

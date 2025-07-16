@@ -27,7 +27,7 @@ function validateTextField(inputId, errorId, options = {}) {
     today.setHours(0, 0, 0, 0);
     const inputDate = new Date(value);
     if (inputDate > today) {
-      error.textContent = options.futureMsg || '日期不能晚於今天';
+      error.textContent = options.futureMsg || '有效日期不能晚於今天';
       error.style.display = 'block';
       return false;
     }
@@ -157,3 +157,20 @@ console.log('next_btn', document.getElementById('next_btn'));
       genderDropdown.textContent = data.gender || '請選擇性別';
     });
 });
+// 監聽checkbox勾選狀態變化
+        document.getElementById('flexCheckDefault').addEventListener('change', function() {
+            console.log('勾選框狀態變更', this.checked);  // 打印勾選框狀態
+            let dropdown = document.getElementById('friendDropdown');
+            
+            // 如果勾選了"同旅伴好友資料"，顯示好友選擇dropdown
+            if (this.checked) {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        });
+
+
+
+
+

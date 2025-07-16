@@ -64,11 +64,11 @@
         </div>
         <div class="row mb-3 align-items-center">
             <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">身分證</label>
+                <label type="text" class="col-form-label">E-MAIL</label>
           </div>
            <div class="col-md-4">
-            <input type="text" class="form-control" id="passport_number"></input>
-            <div id="passport_number_error" class="text-danger" style="display: none;"></div>
+            <input type="text" class="form-control" id="E-MAIL"></input>
+            <div id="E-MAIL_error" class="text-danger" style="display: none;"></div>
            </div>
             <div class="col-md-2 text-center">
                 <label for="birthday" class="col-form-label">出生日期</label>
@@ -80,11 +80,11 @@
         </div>
         <div class="row mb-3 align-items-center">
             <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">國籍</label>
+                <label type="text" class="col-form-label">手機</label>
           </div>
            <div class="col-md-4">
-            <input type="text" class="form-control" id="nationality"></input>
-            <div id="nationality_error" class="text-danger" style="display: none;"></div>
+            <input type="text" class="form-control" id="cellphone"></input>
+            <div id="cellphone_error" class="text-danger" style="display: none;"></div>
            </div>
             <div class="col-md-2 text-center">
                 <label type="text" class="col-form-label">性別</label>
@@ -112,7 +112,7 @@
         </div>
         <hr class="border border-secondary border-2 opacity-50 my-4"> <!--劃一條線 -->
         <div class="row mb-3 align-items-center">
-            <h5 class="text-center">護照資料</h5>
+            <!-- <h5 class="text-center">護照資料</h5> -->
          <div class="col-12 col-md-6 text-center">
             <label class="card-text my-3">護照號碼</label>
         </div>
@@ -126,13 +126,6 @@
         <div class="col-12 col-md-6 text-center">
             <input id="pwNation" class="form-control"></input>
             <div id="pwNation_error" class="text-danger" style="display: none;"></div>
-        </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">發行國家/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwIssuing_country" class="form-control"></input>
-            <div id="pwIssuing_country_error" class="text-danger" style="display: none;"></div>
         </div>
         <div class="col-12 col-md-6 text-center">
             <label class="card-text my-3">有效期限</label>
@@ -155,7 +148,30 @@
     <div class="collapsing" id="collapsePassenger2" data-bs-parent="#travelerAccordion">
     <div class="card-body">
 <form>
-        <div class="row mb-3 align-items-center">
+    <div class="row mb-3 align-items-center">
+        <div class="col-md-6 text-center">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    同旅伴好友資料
+                </label>
+        </div>
+        </div>
+        <!-- Dropdown for selecting friends (initially hidden) -->
+        <div class="col-md-6">
+        <div class="dropdown" id="friendDropdown" style="display: none;">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                選擇好友
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <!-- 假設是動態產生的好友名單 -->
+                <li><a class="dropdown-item" href="#">好友1</a></li>
+                <li><a class="dropdown-item" href="#">好友2</a></li>
+                <li><a class="dropdown-item" href="#">好友3</a></li>
+            </ul>
+        </div>
+    </div>
+           
             <div class="col-md-2 text-center">
                 <label class="col-form-label">英文姓</label>
           </div>
@@ -171,35 +187,34 @@
         </div>
         <div class="row mb-3 align-items-center">
             <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">身分證</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="passport_number"></input>
-           </div>
-            <div class="col-md-2 text-center">
                 <label for="birthday" class="col-form-label">出生日期</label>
           </div>
           <div class="col-md-4">
             <input type="date" class="form-control" id="birthday"></input>
-           </div>  
-        </div>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">國籍</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="nationality"></input>
            </div>
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">性別</label>
+           <div class="col-md-2 text-center">
+                <label type="text" class="col-form-label">性別</label>   
           </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" id="gender"></input>
-           </div>  
+            <div class="col-md-4">
+                 <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle container-fluid"
+                type="button" id="genderDropdown"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                請選擇性別
+                 </button>
+                <ul class="dropdown-menu container-fluid" aria-labelledby="genderDropdown">
+                    <li><a class="dropdown-item" href="#" data-type="男">男</a></li>
+                    <li><a class="dropdown-item" href="#" data-type="女">女</a></li>
+                </ul>
+                <div class="error text-danger" id="gender_error"
+                            style="display:none">請填寫性別 !</div>
+                <!-- 隱藏欄位：真正送出值用 -->
+                <input type="hidden" name="gender" id="genderInput">
+            </div>
+          </div>   
         </div>
         <hr class="border border-secondary border-2 opacity-50 my-4"> <!--劃一條線 -->
         <div class="row mb-3 align-items-center">
-            <h5 class="text-center">護照資料</h5>
         <div class="col-12 col-md-6 text-center">
             <label class="card-text my-3">護照號碼</label>
         </div>
@@ -212,17 +227,12 @@
         <div class="col-12 col-md-6 text-center">
             <input id="pwNation" class="form-control"></input>
         </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">發行國家/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwIssuing_country" class="form-control"></input>
-        </div>
         <div class="col-12 col-md-6 text-center">
             <label class="card-text my-3">有效期限</label>
         </div>
         <div class="col-12 col-md-6 text-center">
-            <input type="date" class="form-control"></input>
+            <input type="date" id="ex_date" class="form-control"></input>
+            <div id="ex_date_error" class="text-danger" style="display: none;"></div>
         </div>
     </form>
     </div>
@@ -335,16 +345,11 @@
             <input type="text" class="form-control" id="firstName"></input>
            </div>  
         </div>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">身分證</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="idNumber"></input>
-           </div>
-            <div class="col-md-2 text-center">
+            <div class="row mb-3 align-items-center">
+                <div class="col-md-2 text-center">
                 <label for="birthday" class="col-form-label">出生日期</label>
-          </div>
+                </div>
+          
           <div class="col-md-4">
             <input type="date" class="form-control" id="birthday"></input>
            </div>  
