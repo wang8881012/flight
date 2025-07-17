@@ -4,7 +4,7 @@ require_once __DIR__ . '/api_helper.php';
 
 session_start();
 // 取得乘客人數
-$count = $_SESSION['passenger_count'] ?? 1;
+$count = $_SESSION['passenger_count'] ?? 3;
 
 send_json(['success' => true, 'count' => $count]);
 // 模擬登入（正式版記得移除）

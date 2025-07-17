@@ -6,7 +6,7 @@ session_start();
 // 輸入人數
 $data = get_json_input();
 
-$count = isset($data['count']) ? intval($data['count']) : 2;
+$count = isset($data['count']) ? intval($data['count']) : 3;
 $count = max(1, min($count, 4)); // 限制為 1~4 人
 
 $_SESSION['passenger_count'] = $count;

@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // });
 
   // ✅ 渲染同行旅客表單
-  const passengerCount = Number(localStorage.getItem('passenger_count') || 1);
+  const passengerCount = Number(localStorage.getItem('passenger_count') || 3);
   renderExtraPassengers(passengerCount);
 
   // ✅ 送出按鈕處理：驗證 + 儲存
@@ -282,25 +282,18 @@ document.addEventListener('DOMContentLoaded', () => {
       regex: /^[a-zA-Z]+$/, emptyMsg: '請填寫英文姓', invalidMsg: '不得填寫數字或特殊符號！'
     });
     hasError |= !validateTextField('firstName', 'firstName_error', {
-      regex: /^[a-zA-Z]+$/, emptyMsg: '請填寫英文名', invalidMsg: '不得填寫數字或特殊符號！'
+      regex: /^[a-zA-Z\-]+$/, emptyMsg: '請填寫英文名', invalidMsg: '不得填寫數字或特殊符號！'
     });
-    hasError |= !validateTextField('passport_number', 'passport_number_error', {
-      regex: /^[A-Z][0-9]{9}$/, emptyMsg: '請填寫身分證', invalidMsg: '格式錯誤，需 1 字母 + 9 數字'
-    });
+
     hasError |= !validateTextField('birthday', 'birthday_error', {
       regex: /^\d{4}-\d{2}-\d{2}$/, emptyMsg: '請填寫出生日期', invalidMsg: '日期格式錯誤', maxDate: 'today', futureMsg: '出生日期不能是未來時間'
     });
-    hasError |= !validateTextField('nationality', 'nationality_error', {
-      regex: /^[a-zA-Z]+$/, emptyMsg: '請填寫國籍'
-    });
+
     hasError |= !validateTextField('pwNumber', 'pwNumber_error', {
-      regex: /^[A-Z][0-9]{9}$/, emptyMsg: '請填寫護照號碼', invalidMsg: '護照格式錯誤 G123456789'
+      regex: /^[0-9]{9}$/, emptyMsg: '請填寫護照號碼', invalidMsg: '護照格式錯誤 123456789'
     });
     hasError |= !validateTextField('pwNation', 'pwNation_error', {
       emptyMsg: '請填寫國籍'
-    });
-    hasError |= !validateTextField('pwIssuing_country', 'pwIssuing_country_error', {
-      emptyMsg: '請選擇護照發行國'
     });
     hasError |= !validateTextField('ex_date', 'ex_date_error', {
       regex: /^\d{4}-\d{2}-\d{2}$/, emptyMsg: '請填寫護照效期', invalidMsg: '日期格式錯誤'
@@ -308,15 +301,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (hasError) return;
 
+
     // 傳送資料
  const passengers = [];
+ console.log("🚀 passengers to be sent:", passengers); // ✅ 新增這行
 
 // ✅ 1. 收集會員本人資料（第一位旅客）
 passengers.push({
   first_name: document.getElementById('firstName').value.trim(),
   last_name: document.getElementById('lastName').value.trim(),
   birthday: document.getElementById('birthday').value,
-  nationality: document.getElementById('nationality').value,
+  nationality: document.getElementById('pwNation').value,
   passport_number: document.getElementById('pwNumber').value,
   passport_expiry: document.getElementById('ex_date').value,
   gender: genderInput.value
@@ -336,7 +331,7 @@ document.querySelectorAll('.passenger-form').forEach(form => {
   passengers.push(passenger);
 });
 
-
+console.log("開始送出 fetch");
     fetch('/flight-2/api/booking/save_passenger.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -346,7 +341,7 @@ document.querySelectorAll('.passenger-form').forEach(form => {
       .then(result => {
         if (result.success) {
           console.log('✅ 儲存成功，送出表單');
-          document.getElementById('bookingForm').submit();
+          // window.location.href = 'booking.html';  // ✅ 成功才跳轉
         } else {
           alert('❌ 儲存失敗：' + result.error);
         }

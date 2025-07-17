@@ -5,15 +5,16 @@ require_once __DIR__ . '/api_helper.php';
 session_start();
 
 $user_id = $_SESSION['user_id'] ?? 1; // 測試用
-
+if (!$user_id) {
+    send_json(['error' => '尚未登入'], 401);
+}
 $conn = db_connect();
 
-// 假設有一張 friend_list (user_id, friend_id)
-// $sql = "SELECT p.*
-//     FROM passenger_info p
-//     JOIN users u ON u.id = p.user_id
-//     WHERE u.id = ?;
-$sql ="SELECT * FROM passenger_info WHERE user_id != ?";
+// 根據 saved_passengers 查找對應的旅客
+$sql = "SELECT p.*
+    FROM saved_passengers sp
+    JOIN passenger_info p ON p.id = sp.id
+    WHERE sp.user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
