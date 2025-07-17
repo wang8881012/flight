@@ -21,7 +21,7 @@
    <script>
     function submitCount() {
       const count = document.getElementById('passengerCount').value;
-      fetch('/flight-2//api/booking/save_passenger.php', {
+      fetch('/flight-2/api/booking/save_passenger.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ count })

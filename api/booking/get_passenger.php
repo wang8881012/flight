@@ -14,8 +14,8 @@ $passenger_id = $_SESSION['user_id'];
 
 $conn = db_connect();
 
-$sql = "SELECT passport_name, birthday, nationality, passport_number, passport_expiry
-        FROM passenger_info
+$sql = "SELECT passport_first_name, passport_last_name, birthday, nationality, passport_number, passport_expiry, gender
+        FROM users
         WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $passenger_id);
@@ -24,9 +24,6 @@ $result = $stmt->get_result();
 
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
-
-    // 拆名字
-    list($first_name, $last_name) = explode(',', $row['passport_name'] . ',');
 
     send_json([
         'first_name' => $first_name,
