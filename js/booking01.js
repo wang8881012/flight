@@ -169,6 +169,36 @@ console.log('next_btn', document.getElementById('next_btn'));
                 dropdown.style.display = 'none';
             }
         });
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/flight-2/api/booking/get_user_info.php')
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) {
+        const user = result.user;
+
+        // 自動填入表單欄位
+        document.getElementById('firstName').value = user.passport_first_name || '';
+        document.getElementById('lastName').value = user.passport_last_name || '';
+        document.getElementById('birthday').value = user.birthday || '';
+        document.getElementById('pwNation').value = user.nationality || '';
+        document.getElementById('pwNumber').value = user.passport_number || '';
+        document.getElementById('ex_date').value = user.passport_expiry || '';
+        document.getElementById('email').value = user.email || '';
+        document.getElementById('phone').value = user.phone || '';
+
+        // 處理性別（radio）
+        if (user.gender) {
+          const genderInput = document.querySelector(`input[name="gender"][value="${user.gender}"]`);
+          if (genderInput) genderInput.checked = true;
+        }
+      } else {
+        console.warn('無會員資料或尚未登入：', result.error);
+      }
+    })
+    .catch(err => {
+      console.error('❌ 無法取得會員資料', err);
+    });
+});
 
 
 
