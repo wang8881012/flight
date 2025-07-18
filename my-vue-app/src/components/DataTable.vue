@@ -63,8 +63,10 @@ defineProps({
                 <strong>友人名單：</strong>
                 <ul>
                   <li v-for="p in row.saved_passengers" :key="p.id">
-                    {{ p.name }} / {{ p.passport_number }} /
-                    {{ p.nationality }}
+                    姓名:{{ p.name }} <br />
+                    護照號碼: {{ p.passport_number }} <br />
+                    護照姓名: {{ p.passport_name }} <br />
+                    國籍: {{ p.nationality }}
                   </li>
                 </ul>
               </div>
@@ -72,8 +74,9 @@ defineProps({
                 <strong>同行乘客：</strong>
                 <ul>
                   <li v-for="p in row.passenger_info" :key="p.passport_number">
-                    {{ p.name }} / {{ p.passport_number }} /
-                    {{ p.nationality }}
+                    姓名:{{ p.name }} <br />
+                    護照號碼: {{ p.passport_number }} <br />
+                    國籍: {{ p.nationality }}
                   </li>
                 </ul>
               </div>

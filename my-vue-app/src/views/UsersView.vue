@@ -40,6 +40,14 @@ const editFields = [
   { key: "passport_name", label: "護照名", type: "text" },
 ];
 
+//詳細欄位
+const detailFields = [
+  "user_number",
+  "gender",
+  "passport_expiry",
+  "nationality",
+];
+
 //  CRUD composable
 const {
   items: users,
@@ -114,6 +122,7 @@ function handleSubmit(data) {
           :rows="users"
           :onEdit="handleEdit"
           :onDelete="openDeleteModal"
+          :detailFields="detailFields"
         />
 
         <Pagination
