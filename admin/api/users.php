@@ -38,7 +38,7 @@ $total = $stmt->fetchColumn();
 
 // 查詢資料
 $sql = "
-  SELECT id, name, email, phone, birthday, created_at, passport_name
+  SELECT id, name, email, phone, birthday, created_at, passport_name, user_number, gender, passport_expiry, nationality
   FROM users
   $where and is_deleted = 0
   ORDER BY created_at DESC
