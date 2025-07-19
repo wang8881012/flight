@@ -113,6 +113,8 @@ function handleSubmit(data) {
           @filter="
             (newFilters) => {
               Object.assign(filters, newFilters);
+              pagination.page = 1;
+              console.log('接收到的篩選條件:', newFilters);
               fetchItems();
             }
           "
