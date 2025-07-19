@@ -30,6 +30,11 @@ if (!empty($data['email'])) {
   $where .= " AND email LIKE :email ";
   $params[':email'] = '%' . $data['email'] . '%';
 }
+
+if (!empty($data['user_number'])) {
+  $where .= " AND user_number LIKE :user_number ";
+  $params[':user_number'] = '%' . $data['user_number'] . '%';
+}
 // 總筆數
 $sqlTotal = "SELECT COUNT(*) FROM users $where and is_deleted = 0 ";
 $stmt = $pdo->prepare($sqlTotal);

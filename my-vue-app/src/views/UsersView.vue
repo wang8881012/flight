@@ -29,6 +29,7 @@ const selectedUser = ref({});
 const filterFields = [
   { key: "name", label: "會員姓名", type: "text", placeholder: "請輸入姓名" },
   { key: "email", label: "Email", type: "text" },
+  { key: "user_number", label: "會員編號", type: "text" },
 ];
 
 //編輯欄位
@@ -41,12 +42,7 @@ const editFields = [
 ];
 
 //詳細欄位
-const detailFields = [
-  "user_number",
-  "gender",
-  "passport_expiry",
-  "nationality",
-];
+const detailFields = ["gender", "passport_expiry", "nationality", "created_at"];
 
 //  CRUD composable
 const {
@@ -103,6 +99,7 @@ function handleSubmit(data) {
           @filter="
             (newFilters) => {
               Object.assign(filters, newFilters);
+              pagination.page = 1;
               fetchItems();
             }
           "
@@ -113,11 +110,11 @@ function handleSubmit(data) {
         <DataTable
           :columns="[
             'name',
+            'user_number',
             'email',
             'phone',
             'birthday',
             'passport_name',
-            'created_at',
           ]"
           :rows="users"
           :onEdit="handleEdit"
