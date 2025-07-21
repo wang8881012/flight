@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <div class="container px-0 my-5" style="width: 70%; border-radius: 2rem; background-color: #455b80;">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column justify-content-around align-items-center"
+                style="color: #dbb37d; background-color: #2b3b52; border-radius: 2rem; width: 40%;">
+                <h2>AirGo航空</h2>
+                <div>
+                    <a href="login.html" class="btn btn-primary rounded-pill px-5">登入
+                        <i class="bi bi-airplane px-2"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card m-5" style="background-color: #f5f5f5; width: 50%; height: 40%; border-radius: 2rem;">
+                <div class="card-header border-0 mt-3">
+                    <h2 class="text-center">會員註冊</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="../api/auth/register.php" id="formRegister">
+                        <div class="row justify-content-center step" id="step1">
+                            <div class="col-12">
+                                <label for="account" class="form-label mb-2 px-0">帳號</label><br>
+                                <input class="form-control ps-2" type="email" name="account" id="account"
+                                    placeholder="請輸入email" required style="width: 100%; border-radius: 2rem;">
+                            </div>
+                            <div class="col-12 mt-3">
+                                <label for="password" class="form-label mb-2 px-0">
+                                    密碼
+                                    <span class="text-danger ms-2" id="passwordError"></span>
+                                </label><br>
+                                <input class="ps-2" type="password" name="password" id="password" placeholder="請輸入密碼" required
+                                    style="width: 100%; border-radius: 2rem;">
+                            </div>
+                            <div class="col-12 mt-3">
+                                <label for="confirmPassword" class="form-label mb-2 px-0">
+                                    確認密碼
+                                    <span class="text-danger ms-2" id="confirmError"></span>
+                                </label>
+                                <input class="ps-2" type="password" name="confirmPassword" id="confirmPassword" placeholder="請再次輸入密碼" required
+                                    style="width: 100%; border-radius: 2rem;">
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="button" class="btn px-5" onclick="goToStep('step2')"
+                                    style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">下一步</button>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center step" id="step2">
+                            <div class="col-12">
+                                <label for="username" class="form-label mb-2 px-0">中文姓名</label><br>
+                                <input class="form-control ps-2" type="text" name="username" id="username" required
+                                    style="width: 100%; border-radius: 2rem;">
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mt-3">
+                                    <label for="gender" class="form-label mb-2 px-0">性別</label><br>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" id="male"
+                                                value="male" required style="width: 100%; border-radius: 2rem;">
+                                            <label for="form-check-label">男</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" id="female"
+                                                value="female" required style="width: 100%; border-radius: 2rem;">
+                                            <label for="form-check-label">女</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="nationality" class="mb-2 px-0">國籍</label>
+                                    <select id="nationality" name="nationality" class="form-select"
+                                        style="width: 100%; border-radius: 2rem;">
+                                        <option selected>TW</option>
+                                        <option>JPN</option>
+                                        <option>USA</option>
+                                        <option>THA</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="phonenum" class="mb-2 px-0">電話號碼</label><br>
+                                <input class="ps-2" type="text" name="phonenum" id="phonenum" required
+                                    style="width: 100%; border-radius: 2rem;">
+                            </div>
+                            <div class="col-12">
+                                <label for="birth" class="mb-2 px-0">出生日期</label><br>
+                                <input class="px-2" type="date" name="birth" id="birth" required
+                                    style="width: 100%; border-radius: 2rem;">
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="button" class="btn px-5" onclick="goToStep('step1')"
+                                    style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">上一步</button>
+                                <button type="button" class="btn px-5" onclick="goToStep('step3')"
+                                    style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">下一步</button>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center step" id="step3">
+                            <div class="col-12">
+                                <label for="passportSurname" class="mb-2 px-0">護照姓</label><br>
+                                <input class="ps-2" type="text" name="passportSurname" id="passportSurname"
+                                    placeholder="如 : CHEN"
+                                    style="width: 100%; border-radius: 2rem; text-transform: uppercase;">
+                            </div>
+                            <div class="col-12 mt-2">
+                                <label for="passportGivenname" class="mb-2 px-0">護照名</label><br>
+                                <input class="ps-2" type="text" name="passportGivenname" id="passportGivenname"
+                                    placeholder="如 : LI-WEN"
+                                    style="width: 100%; border-radius: 2rem; text-transform: uppercase;">
+                            </div>
+                            <div class="col-12 mt-2">
+                                <label for="passportNumber" class="mb-2 px-0">護照號碼</label><br>
+                                <input class="ps-2" type="text" name="passportNumber" id="passportNumber"
+                                    style="width: 100%; border-radius: 2rem;">
+                            </div>
+                            <div class="col-12 mt-2">
+                                <label for="expiryDate" class="mb-2 px-0">有效期限</label><br>
+                                <input class="px-2" type="date" name="expiryDate" id="expiryDate"
+                                    style="width: 100%; border-radius: 2rem;">
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="button" class="btn px-5 me-2" onclick="goToStep('step2')"
+                                    style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">上一步</button>
+                                <button type="button" class="btn px-5 me-2" onclick="trySkip()"
+                                    style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">跳過填寫</button>
+                                <button type="button" class="btn px-5 mt-2" onclick="tryNext()"
+                                    style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">下一步</button>
+                            </div>
+                        </div>
+                        <!-- 資料確認頁 -->
+                        <div class="row justify-content-center step" id="step4">
+                            <p>確認資訊：</p>
+                            <div class="row" id="confirm">
+                                <div class="col-12">
+                                    <label for="cf_account" class="form-label mb-2 px-0">帳號</label><br>
+                                    <input class="form-control ps-2" type="email" id="cf_account" readonly
+                                        style="width: 100%; border-radius: 2rem;">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="cf_password" class="form-label mb-2 px-0">密碼</label><br>
+                                    <input class="ps-2" type="text" id="cf_password" readonly
+                                        style="width: 100%; border-radius: 2rem;">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="cf_username" class="form-label mb-2 px-0">中文姓名</label><br>
+                                    <input class="form-control ps-2" type="text" id="cf_username" readonly
+                                        style="width: 100%; border-radius: 2rem;">
+                                </div>
+                                <div class="col-6 mt-2">
+                                    <label for="cf_gender" class="form-label mb-2 px-0">性別</label><br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="cf_male" value="male" readonly
+                                            style="width: 100%; border-radius: 2rem;">
+                                        <label for="form-check-label">男</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="cf_female" value="female"
+                                            readonly style="width: 100%; border-radius: 2rem;">
+                                        <label for="form-check-label">女</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 mt-2">
+                                    <label for="cf_nationality" class="mb-2 px-0">國籍</label>
+                                    <input class="ps-2" type="text" id="cf_nationality" readonly
+                                        style="width: 100%; border-radius: 2rem;">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="cf_phonenum" class="mb-2 px-0">電話號碼</label><br>
+                                    <input class="ps-2" type="text" id="cf_phonenum" readonly
+                                        style="width: 100%; border-radius: 2rem;">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="cf_birth" class="mb-2 px-0">出生日期</label><br>
+                                    <input class="ps-2" type="text" id="cf_birth" readonly
+                                        style="width: 100%; border-radius: 2rem;">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="cf_passportSurname" class="mb-2 px-0">護照姓</label><br>
+                                    <input class="ps-2" type="text" id="cf_passportSurname" readonly
+                                        style="width: 100%; border-radius: 2rem; text-transform: uppercase;">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="cf_passportGivenname" class="mb-2 px-0">護照名</label><br>
+                                    <input class="ps-2" type="text" id="cf_passportGivenname" readonly
+                                        style="width: 100%; border-radius: 2rem; text-transform: uppercase;">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="cf_passportNumber" class="mb-2 px-0">護照號碼</label><br>
+                                    <input class="ps-2" type="text" id="cf_passportNumber" readonly
+                                        style="width: 100%; border-radius: 2rem;">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="cf_expiryDate" class="mb-2 px-0">有效期限</label><br>
+                                    <input class="px-2" type="text" id="cf_expiryDate" readonly
+                                        style="width: 100%; border-radius: 2rem;">
+                                </div>
+                                <div class="text-center mt-4">
+                                    <button type="button" class="btn px-5 me-2" onclick="goToStep('step3')"
+                                        style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">上一步</button>
+                                    <button type="submit" class="btn px-5 me-2" onclick="submitForm()"
+                                        style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">註冊</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <p id="msg"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer"></div>
+
+
+    <script src="../js/shared.js"></script>
+    <script src="../js/register.js"></script>
+</body>
+
+</html>
