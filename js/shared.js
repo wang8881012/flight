@@ -9,6 +9,24 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         navbarContainer.innerHTML = navbarHtml;
         footerContainer.innerHTML = footerHtml;
+
+        // logout
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", async () => {
+                try {
+                    const res = await fetch("../api/auth/logout.php");
+                    if (res.ok) {
+                        window.location.href = "../public/login.html";
+                    } else {
+                        alert("登出失敗，請稍後再試");
+                    }
+                } catch (err) {
+                    console.error("登出錯誤：", err);
+                    alert("伺服器錯誤，請稍後再試");
+                }
+            });
+        }
     } catch (err) {
         console.error("navbar footer載入失敗", err)
     };
