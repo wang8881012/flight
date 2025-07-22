@@ -2,7 +2,7 @@
 //撈取資料並echo出去，模擬訂購資訊
 
 header('Content-Type: application/json');
-require '../db.inc.php';
+require '../inc/db.inc.php';
 
 // 確認有帶 booking_id
 if (!isset($_GET['booking_id'])) {

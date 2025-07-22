@@ -12,7 +12,8 @@
 </head>
 
 <body class="p-0 m-0">
-    <div id="header"></div>
+    
+    <header id="header"></header>
 
     <div class="container my-4">
         <div class="row justify-content-center" id="accordionExample">
@@ -60,7 +61,8 @@
                         <!-- 中間：飛行資訊 -->
                         <div class="col-12 col-lg-2 d-flex flex-column justify-content-center text-start">
                             <div class="blue-text fs-4 fw-bolder"><i class="bi bi-clock-history"></i> 2h 40m</div>
-                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-airplane-engines-fill"></i> CI 157</div>
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-airplane-engines-fill"></i> CI 157
+                            </div>
                             <div class="blue-text fs-4 fw-bolder"><i class="bi bi-ticket-perforated-fill"></i> 2張</div>
                         </div>
 
@@ -178,7 +180,8 @@
                         <!-- 中間 -->
                         <div class="col-12 col-lg-2 d-flex flex-column justify-content-center text-start">
                             <div class="blue-text fs-4 fw-bolder"><i class="bi bi-clock-history"></i> 3h 30m</div>
-                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-airplane-engines-fill"></i> NH 854</div>
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-airplane-engines-fill"></i> NH 854
+                            </div>
                             <div class="blue-text fs-4 fw-bolder"><i class="bi bi-ticket-perforated-fill"></i> 1張</div>
                         </div>
 
@@ -369,24 +372,25 @@
         </div>
     </div>
 
-    <div id="footer"></div>
+    <footer id="footer"></footer>
 
     <script>
-    // 載入 header.html
-    fetch('header.html')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('header').innerHTML = data;
-      });
+        // 載入 header.html
+        fetch('header.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            });
 
-    // 載入 footer.html
-    fetch('footer.html')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('footer').innerHTML = data;
-      });
-  </script>
-    <script src="../js/saveData.js"></script> <!-- 儲存測試資料 -->
+        // 載入 footer.html
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+    <script src="../js/confirm.js"></script>
+    <script src="../js/fake_passengers.js"></script> <!-- 儲存測試資料 -->
     <script src="../js/renderPassengers.js"></script> <!-- 動態生成旅客資訊 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
