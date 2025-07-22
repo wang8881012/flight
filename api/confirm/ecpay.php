@@ -78,3 +78,14 @@ echo $service->generate($input, $action);
 // $_SESSION['booking_id'] = 11; // 或更大的值
 // $_SESSION['total_amount'] = 1000; // 實際金額
 // $_SESSION['booking_info'] = [/* 航班資訊等 */];
+
+// 補充創建臨時資料庫的語法
+// CREATE TABLE temp_orders (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     temp_id VARCHAR(50) NOT NULL,
+//     booking_id INT NOT NULL,
+//     total_amount INT NOT NULL,
+//     booking_info TEXT NOT NULL,
+//     created_at DATETIME NOT NULL,
+//     INDEX (temp_id)
+// );
