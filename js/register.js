@@ -73,7 +73,6 @@ function tryNext() {
 // 確認頁面的資料抓取
 function confirmFprm() {
     const account = document.getElementById("account").value;
-    const password = document.getElementById("password").value;
     const username = document.getElementById("username").value;
     const gender = document.querySelector("input[name='gender']:checked")?.value;
     const nationality = document.getElementById("nationality").value;
@@ -85,7 +84,6 @@ function confirmFprm() {
     const expiryDate = document.getElementById("expiryDate").value;
 
     document.getElementById("cf_account").value = account;
-    document.getElementById("cf_password").value = password;
     document.getElementById("cf_username").value = username;
     document.getElementById("cf_nationality").value = nationality;
     document.getElementById("cf_phonenum").value = phonenum;
@@ -95,9 +93,9 @@ function confirmFprm() {
     document.getElementById("cf_passportNumber").value = passportNumber;
     document.getElementById("cf_expiryDate").value = expiryDate;
 
-    if (gender === "male") {
+    if (gender === "男") {
         document.getElementById("cf_male").checked = true;
-    } else if (gender === "female") {
+    } else if (gender === "女") {
         document.getElementById("cf_female").checked = true;
     }
 }
