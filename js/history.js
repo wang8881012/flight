@@ -1,18 +1,43 @@
 // 篩選資料設定
-document.getElementById("historySearchBtn").addEventListener("click", filterOrder);
-document.getElementById("historySearch").addEventListener("keyup", e => {
+const historySearch = document.getElementById("historySearch");
+const historySearchBtn = document.getElementById("historySearchBtn");
+const historyCleanBtn = document.getElementById("historyCleanBtn");
+
+historySearchBtn.addEventListener("click", filterOrder);
+historySearch.addEventListener("keyup", e => {
     if (e.key === "Enter") filterOrder();
 })
 
 function filterOrder() {
-    const keyword = document.getElementById("historySearch").value.trim();
-    const rows = document.querySelectorAll("#historyTable tbody tr");
+    const keyword = historySearch.value.trim();
+    const rows = document.querySelectorAll("#historyTable tbody tr:not(#noDataRow)");
+    let hasVisibleRow = false;
 
+    // 如果沒輸入關鍵字，直接全部顯示
+    if (!keyword) {
+        rows.forEach(row => {
+            row.style.display = "";
+        });
+        document.getElementById("noDataRow").style.display = "none";
+        return;
+    }
+
+    // 有輸入關鍵字才篩選
     rows.forEach(row => {
-        const orderId = row.querySelector("th").textContent.trim();
-        row.style.display = !keyword || orderId.toLowerCase().includes(keyword.toLowerCase()) ? "" : "none";
+        const orderId = row.querySelector("th").textContent.trim().toLowerCase();
+        const match = orderId.includes(keyword);
+        row.style.display = match ? "" : "none";
+        if (match) hasVisibleRow = true;
     });
+
+    // 沒有符合條件顯示「無資料」
+    document.getElementById("noDataRow").style.display = hasVisibleRow ? "none" : "";
 }
+//清除
+historyCleanBtn.addEventListener("click", () => {
+    historySearch.value = "";
+    filterOrder(); // 重新執行 filterOrder 來顯示全部資料
+});
 
 
 // api

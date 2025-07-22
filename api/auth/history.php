@@ -62,7 +62,10 @@ $sql = "
         left join booking_addons ba on ba.booking_id = b.id
         left join addons a on a.id = ba.addon_id
 
-        where b.user_id = ?
+        where b.user_id = ? 
+        and f.departure_time < NOW() 
+        and f.arrival_time < NOW()
+
 
         union all
 
@@ -89,6 +92,8 @@ $sql = "
         left join addons a on a.id = ba.addon_id
 
         where b.user_id = ?
+        and f.departure_time < NOW() 
+        and f.arrival_time < NOW()
     ) AS all_orders
 
     order by 訂單編號 ASC
