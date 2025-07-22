@@ -3,7 +3,6 @@ session_start();
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Ecpay\Sdk\Factories\Factory;
-use Ecpay\Sdk\Services\UrlService;
 
 $factory = new Factory([
     'hashKey' => 'pwFHCqoQZGmho4w6',
@@ -24,8 +23,8 @@ $input = [
     'ChoosePayment'     => 'Credit',                    // 付款方式
     'EncryptType'       => 1,                           // 加密類型
 
-    'ReturnURL'         => 'http://rnccw-150-117-19-191.a.free.pinggy.link/flight/public/complete.html?booking_id=1',
-    'OrderResultURL'    => 'https://rnccw-150-117-19-191.a.free.pinggy.link/flight/public/complete.html?booking_id=1'
+    'ReturnURL'         => 'http://rnyex-150-117-19-191.a.free.pinggy.link/flight/api/confirm/ecpay_return.php',
+    'OrderResultURL'    => 'https://rnyex-150-117-19-191.a.free.pinggy.link/flight/api/confirm/ecpay_return.php'
 ];
 $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';
 
