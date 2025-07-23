@@ -64,11 +64,11 @@
         </div>
         <div class="row mb-3 align-items-center">
             <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">身分證</label>
+                <label type="text" class="col-form-label">E-MAIL</label>
           </div>
            <div class="col-md-4">
-            <input type="text" class="form-control" id="passport_number"></input>
-            <div id="passport_number_error" class="text-danger" style="display: none;"></div>
+            <input type="text" class="form-control" id="email"></input>
+            <div id="E-MAIL_error" class="text-danger" style="display: none;"></div>
            </div>
             <div class="col-md-2 text-center">
                 <label for="birthday" class="col-form-label">出生日期</label>
@@ -80,11 +80,11 @@
         </div>
         <div class="row mb-3 align-items-center">
             <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">國籍</label>
+                <label type="text" class="col-form-label">手機</label>
           </div>
            <div class="col-md-4">
-            <input type="text" class="form-control" id="nationality"></input>
-            <div id="nationality_error" class="text-danger" style="display: none;"></div>
+            <input type="text" class="form-control" id="phone"></input>
+            <div id="cellphone_error" class="text-danger" style="display: none;"></div>
            </div>
             <div class="col-md-2 text-center">
                 <label type="text" class="col-form-label">性別</label>
@@ -112,7 +112,7 @@
         </div>
         <hr class="border border-secondary border-2 opacity-50 my-4"> <!--劃一條線 -->
         <div class="row mb-3 align-items-center">
-            <h5 class="text-center">護照資料</h5>
+            <!-- <h5 class="text-center">護照資料</h5> -->
          <div class="col-12 col-md-6 text-center">
             <label class="card-text my-3">護照號碼</label>
         </div>
@@ -127,13 +127,6 @@
             <input id="pwNation" class="form-control"></input>
             <div id="pwNation_error" class="text-danger" style="display: none;"></div>
         </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">發行國家/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwIssuing_country" class="form-control"></input>
-            <div id="pwIssuing_country_error" class="text-danger" style="display: none;"></div>
-        </div>
         <div class="col-12 col-md-6 text-center">
             <label class="card-text my-3">有效期限</label>
         </div>
@@ -146,250 +139,136 @@
     </div>
   </div>
 </div>
-<!-- 旅客資料2 -->
-  <div class="card shadow my-5">
+<!-- 這裡開始：其他旅客會動態插入 -->
+<div id="extraPassengers"></div>
+
+<!-- 隱藏樣板：被 JS clone -->
+<!-- 旅客 1 (會員本人) 保留你現有的卡片 -->
+
+<!-- 這裡開始：其他旅客會動態插入 -->
+<div id="extraPassengers"></div>
+
+<!-- 隱藏樣板：被 JS clone -->
+<template id="passenger-template">
+  <div class="card shadow my-5 passenger-card" data-index="{{i}}">
     <div class="card-header text-center fw-bold">
-      旅客資料2
-      <i class="bi bi-caret-down-fill" data-bs-toggle="collapse" href="#collapsePassenger2" role="button" aria-expanded="false" aria-controls="collapsePassenger2"></i>
+      旅客資料{{i}}
+      <i class="bi bi-caret-down-fill"
+         data-bs-toggle="collapse"
+         data-bs-target="#collapsePassenger{{i}}"
+         aria-expanded="false"
+         aria-controls="collapsePassenger{{i}}"></i>
     </div>
-    <div class="collapsing" id="collapsePassenger2" data-bs-parent="#travelerAccordion">
-    <div class="card-body">
-<form>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label class="col-form-label">英文姓</label>
+    <div id="collapsePassenger{{i}}" class="collapse" data-bs-parent="#travelerAccordion">
+      <div class="card-body">
+        <form class="passenger-form" data-index="{{i}}">
+
+          <!-- 可選：複製本人 / 選好友（將來用） -->
+          <div class="row mb-3 align-items-center">
+            <div class="col-md-6 text-center">
+                <!-- 複製會員 -->
+                <div class="form-check">
+                <input class="form-check-input copySelf" type="checkbox" id="copySelf{{i}}">
+                <label class="form-check-label" for="copySelf{{i}}">使用會員資料</label>
+                </div>
+
+                <!-- 使用好友 -->
+                <div class="form-check">
+                <input class="form-check-input copyFriend" type="checkbox" id="copyFriend{{i}}">
+                <label class="form-check-label" for="copyFriend{{i}}">選擇好友</label>
+                </div>
+
+                <!-- 好友下拉 -->
+                <div class="dropdown friendDropdown" style="display:none;">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    選擇好友
+                </button>
+                <ul class="dropdown-menu"></ul>
+                </div>
+
+            </div>
           </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="lastName"></input>
-           </div>
+
+          <!-- 姓名 -->
+          <div class="row mb-3 align-items-center">
             <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">英文名</label>
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" id="firstName"></input>
-           </div>  
-        </div>
-        <div class="row mb-3 align-items-center">
+              <label class="col-form-label">英文姓</label>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" data-field="last_name">
+              <div class="error text-danger small" data-error="last_name" style="display:none;"></div>
+            </div>
             <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">身分證</label>
+              <label class="col-form-label">英文名</label>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" data-field="first_name">
+              <div class="error text-danger small" data-error="first_name" style="display:none;"></div>
+            </div>
           </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="passport_number"></input>
-           </div>
+
+          <!-- 生日 + 性別 -->
+          <div class="row mb-3 align-items-center">
             <div class="col-md-2 text-center">
-                <label for="birthday" class="col-form-label">出生日期</label>
-          </div>
-          <div class="col-md-4">
-            <input type="date" class="form-control" id="birthday"></input>
-           </div>  
-        </div>
-        <div class="row mb-3 align-items-center">
+              <label class="col-form-label">出生日期</label>
+            </div>
+            <div class="col-md-4">
+              <input type="date" class="form-control" data-field="birthday">
+              <div class="error text-danger small" data-error="birthday" style="display:none;"></div>
+            </div>
             <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">國籍</label>
+              <label class="col-form-label">性別</label>
+            </div>
+            <div class="col-md-4">
+              <div class="dropdown genderSelect">
+                <button class="btn btn-outline-secondary dropdown-toggle container-fluid genderBtn" type="button" data-bs-toggle="dropdown">
+                  請選擇性別
+                </button>
+                <ul class="dropdown-menu container-fluid">
+                  <li><a class="dropdown-item" href="#" data-value="男">男</a></li>
+                  <li><a class="dropdown-item" href="#" data-value="女">女</a></li>
+                </ul>
+                <input type="hidden" data-field="gender">
+                <div class="error text-danger small" data-error="gender" style="display:none;">請填寫性別！</div>
+              </div>
+            </div>
           </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="nationality"></input>
-           </div>
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">性別</label>
+
+          <hr class="border border-secondary border-2 opacity-50 my-4">
+
+          <!-- 護照 -->
+          <div class="row mb-3 align-items-center">
+            <div class="col-12 col-md-6 text-center">
+              <label class="card-text my-3">護照號碼</label>
+            </div>
+            <div class="col-12 col-md-6 text-center">
+              <input class="form-control" data-field="passport_number">
+              <div class="error text-danger small" data-error="passport_number" style="display:none;"></div>
+            </div>
+
+            <div class="col-12 col-md-6 text-center">
+              <label class="card-text my-3">國籍/地區</label>
+            </div>
+            <div class="col-12 col-md-6 text-center">
+              <input class="form-control" data-field="nationality">
+              <div class="error text-danger small" data-error="nationality" style="display:none;"></div>
+            </div>
+
+            <div class="col-12 col-md-6 text-center">
+              <label class="card-text my-3">有效期限</label>
+            </div>
+            <div class="col-12 col-md-6 text-center">
+              <input type="date" class="form-control" data-field="passport_expiry">
+              <div class="error text-danger small" data-error="passport_expiry" style="display:none;"></div>
+            </div>
           </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" id="gender"></input>
-           </div>  
-        </div>
-        <hr class="border border-secondary border-2 opacity-50 my-4"> <!--劃一條線 -->
-        <div class="row mb-3 align-items-center">
-            <h5 class="text-center">護照資料</h5>
-        <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">護照號碼</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwNumber" class="form-control"></input>
-        </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">國籍/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwNation" class="form-control"></input>
-        </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">發行國家/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwIssuing_country" class="form-control"></input>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">有效期限</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input type="date" class="form-control"></input>
-        </div>
-    </form>
-    </div>
+
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<!-- 旅客資料3 -->
-  <div class="card shadow my-5">
-    <div class="card-header text-center fw-bold">
-      旅客資料3
-      <i class="bi bi-caret-down-fill" data-bs-toggle="collapse" href="#collapsePassenger3" role="button" aria-expanded="false" aria-controls="collapsePassenger3"></i>
-    </div>
-    <div class="collapse multi-collapse" id="collapsePassenger3" data-bs-parent="#travelerAccordion">
-    <div class="card-body">
-  <form>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label class="col-form-label">英文姓</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="lastName"></input>
-           </div>
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">英文名</label>
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" id="firstName"></input>
-           </div>  
-        </div>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">身分證</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="passport_number"></input>
-           </div>
-            <div class="col-md-2 text-center">
-                <label for="birthday" class="col-form-label">出生日期</label>
-          </div>
-          <div class="col-md-4">
-            <input type="date" class="form-control" id="birthday"></input>
-           </div>  
-        </div>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">國籍</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="nationality"></input>
-           </div>
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">性別</label>
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" id="gender"></input>
-           </div>  
-        </div>
-        <hr class="border border-secondary border-2 opacity-50 my-4"> <!--劃一條線 -->
-        <div class="row mb-3 align-items-center">
-            <h5 class="text-center">護照資料</h5>
-        <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">護照號碼</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwNumber" class="form-control"></input>
-        </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">國籍/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwNation" class="form-control"></input>
-        </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">發行國家/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwIssuing_country" class="form-control"></input>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">有效期限</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input type="date" class="form-control"></input>
-        </div>
-    </form>
-    </div>
-    </div>
-  </div>
-</div>
-<!-- 旅客資料4 -->
-  <div class="card shadow my-5">
-    <div class="card-header text-center fw-bold">
-      旅客資料4
-      <i class="bi bi-caret-down-fill" data-bs-toggle="collapse" href="#collapsePassenger4" role="button" aria-expanded="false" aria-controls="collapsePassenger4"></i>
-    </div>
-    <div class="collapse" id="collapsePassenger4" data-bs-parent="#travelerAccordion">
-    <div class="card-body">
-      <form>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label class="col-form-label">英文姓</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="lastName"></input>
-           </div>
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">英文名</label>
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" id="firstName"></input>
-           </div>  
-        </div>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">身分證</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="idNumber"></input>
-           </div>
-            <div class="col-md-2 text-center">
-                <label for="birthday" class="col-form-label">出生日期</label>
-          </div>
-          <div class="col-md-4">
-            <input type="date" class="form-control" id="birthday"></input>
-           </div>  
-        </div>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">國籍</label>
-          </div>
-           <div class="col-md-4">
-            <input type="text" class="form-control" id="nationality"></input>
-           </div>
-            <div class="col-md-2 text-center">
-                <label type="text" class="col-form-label">性別</label>
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" id="gender"></input>
-           </div>  
-        </div>
-        <hr class="border border-secondary border-2 opacity-50 my-4"> <!--劃一條線 -->
-        <div class="row mb-3 align-items-center">
-            <h5 class="text-center">護照資料</h5>
-        <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">護照號碼</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwNumber" class="form-control"></input>
-        </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">國籍/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwNation" class="form-control"></input>
-        </div>
-       <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">發行國家/地區</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input id="pwIssuing_country" class="form-control"></input>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <label class="card-text my-3">有效期限</label>
-        </div>
-        <div class="col-12 col-md-6 text-center">
-            <input type="ex_date" class="form-control"></input>
-        </div>
+</template>
+
     </form>
     </div>
     </div>
