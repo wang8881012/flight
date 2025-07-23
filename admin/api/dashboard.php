@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin'])) {
   exit;
 }
 
-require_once __DIR__ . '/../inc/db.inc.php';
+require_once __DIR__ . '../../../api/inc/db.inc.php';
 
 
 

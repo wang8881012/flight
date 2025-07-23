@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 session_start();
-require_once __DIR__ . '/../inc/db.inc.php';
+require_once __DIR__ . '../../../api/inc/db.inc.php';
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     //  JSON 
