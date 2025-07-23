@@ -1,0 +1,63 @@
+.hidden {
+    display: none;
+}
+
+.trip-btn {
+    padding: 8px 16px;
+    margin-right: 8px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+    border-bottom: 2px solid transparent;
+    color: #2b3b52b5;
+}
+
+.trip-btn.active {
+    border-bottom: 2px solid #2b3b52;
+    color: #2b3b52;
+}
+
+.trip-btn:focus {
+    outline: none;
+}
+
+.trip-btn h4 {
+    margin: 0;
+    font-weight: bold;
+}
+
+
+/* 輪播 */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 100%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #2b3b52;
+    border-radius: 50%;
+}
+
+
+.carousel-item .row>div>div {
+    height: 200px;
+    background-color: #2b3b52;
+}
+
+.carousel-item .row>div>div {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#card-background {
+    background-image: url('../assets/images/Group.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
