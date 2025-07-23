@@ -13,18 +13,6 @@ $arrival2 = $_GET['arrival2'] ?? null;
 $departure = $_GET['departure'] ?? null;
 $arrival = $_GET['arrival'] ?? null;
 
-// 機場名稱對應
-function getFullAirportName($city) {
-    $mapping = [
-        '台北' => '台北桃園國際機場',
-        '東京' => '東京成田國際機場',
-        '大阪' => '大阪關西國際機場',
-        '北海道' => '北海道新千歲機場',
-        // 可擴充更多
-    ];
-    return $mapping[$city] ?? $city;
-}
-
 // 加入艙等資訊
 function enrichFlights($pdo, $flights) {
     $flightIds = array_column($flights, 'id');
@@ -52,11 +40,11 @@ function enrichFlights($pdo, $flights) {
             'from_airport' => $f['from_airport'],
             'to_airport' => $f['to_airport'],
             'departure' => [
-                'city' => getFullAirportName($f['from_airport_name']),
+                'city' => $f['from_airport_name'],
                 'time' => date('Y-m-d (H:i)', strtotime($f['departure_time']))
             ],
             'arrival' => [
-                'city' => getFullAirportName($f['to_airport_name']),
+                'city' => $f['to_airport_name'],
                 'time' => date('Y-m-d (H:i)', strtotime($f['arrival_time']))
             ],
             'direction' => $f['direction'],

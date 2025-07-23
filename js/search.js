@@ -243,13 +243,12 @@ function bindFlightSelectEvents() {
     document.querySelectorAll('.OutboundRightTicket').forEach(btn => {
         btn.addEventListener('click', () => {
             const flightId = btn.dataset.id;
-            const direction = btn.dataset.direction;
             const selectedClass = btn.dataset.class;
+            const direction = btn.dataset.direction;
 
-            const flightArray = direction === 'outbound' ? flightsGo : flightsReturn;
-            const selectedFlight = flightArray.find(f => String(f.id) === flightId);
+            // 找出對應航班
+            const selectedFlight = [...flightsGo, ...flightsReturn].find(f => String(f.id) === flightId);
             const classDetail = selectedFlight?.class_details.find(cls => cls.class_type === selectedClass);
-
             if (!selectedFlight || !classDetail) return;
 
             const selectedData = {
@@ -257,16 +256,20 @@ function bindFlightSelectEvents() {
                 selectedClass,
                 selectedPrice: classDetail.price
             };
-
+            
+            // 自動判斷是去程或回程
             if (direction === 'outbound') {
                 selectedOutbound = selectedData;
+                localStorage.setItem('selectedOutbound', JSON.stringify(selectedData));
             } else {
                 selectedReturn = selectedData;
+                localStorage.setItem('selectedReturn', JSON.stringify(selectedData));
             }
 
-            // 樣式切換
+            //只清除相同方向的 active
             document.querySelectorAll(`.OutboundRightTicket[data-direction="${direction}"]`)
                 .forEach(b => b.classList.remove('active'));
+
             btn.classList.add('active');
 
             updateNextButton();
@@ -343,7 +346,7 @@ function updateNextButton() {
 
     nextBtn.disabled = tripType === 'round'
         ? !(selectedOutbound && selectedReturn)
-        : !selectedOutbound;
+        : !(selectedOutbound || selectedReturn);
 
     updateSelectedFlightInfo();
 }
@@ -351,23 +354,31 @@ function updateNextButton() {
 // 綁定下一步按鈕點擊事件
 function setupNextButton(tripType) {
     document.getElementById('NextButton').addEventListener('click', () => {
-        if (tripType === 'round' && selectedOutbound && selectedReturn) {
+        const outboundValid = selectedOutbound !== null;
+        const returnValid = selectedReturn !== null;
+
+        if (tripType === 'round' && outboundValid && returnValid) {
             localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
             localStorage.setItem('selectedReturn', JSON.stringify(selectedReturn));
             localStorage.setItem('tripType', 'round');
             localStorage.setItem('passengerCount', count);
-            window.location.href = 'nextPage.html';//跳下一個
-        } else if (tripType === 'oneway' && selectedOutbound) {
-            localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
-            localStorage.removeItem('selectedReturn');
+            window.location.href = 'nextPage.html';
+        } else if (tripType === 'oneway' && (outboundValid || returnValid)) {
+            if (outboundValid) {
+                localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
+            }
+            if (returnValid) {
+                localStorage.setItem('selectedReturn', JSON.stringify(selectedReturn));
+            }
             localStorage.setItem('tripType', 'oneway');
             localStorage.setItem('passengerCount', count);
-            window.location.href = 'nextPage.html';//跳下一個
+            window.location.href = 'nextPage.html';
         } else {
-            alert('請選擇航班');
+            console.log('請至少選擇一段航班');
         }
     });
 }
+
 
 // 購物車圖示顯示選擇資訊切換
 let cartToggleBound = false;
