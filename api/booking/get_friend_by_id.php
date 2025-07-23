@@ -5,7 +5,7 @@ require_once __DIR__ . '/api_helper.php';
 $conn = db_connect();
 
 // 驗證並取得 id 參數
-$friend_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$friend_id = isset($_GET['id']) ? intval($_GET['id']) : null;
 if (!$friend_id) {
     send_json(['error' => '缺少或錯誤的 ID'], 400);
 }

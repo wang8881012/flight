@@ -1,3 +1,18 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---------- 0. 取得共用 DOM ---------- */
+  const seatModalEl   = document.getElementById('seatConfirmModal');
+  const seatModal     = new bootstrap.Modal(seatModalEl);   // 只 new 一次
+  const seatInfoSpan  = seatModalEl.querySelector('#seatInfo span');
+
+  const seatInputHidden  = document.getElementById('seatInput');
+  const outwardSeatLabel = document.getElementById('outward_seat');
+
+  const confirmSeatBtn = document.getElementById('confirmSeatBtn');
+  const nextBtn        = document.getElementById('Next_btn');
+
+  const seatErr  = document.getElementById('seat_error');
+  const mealErr  = document.getElementById('meal_error');
 const rows = [
     { count: 4, y: 100, class: 'bs', size: 30, row: 1, aisleGap: 0 },
     { count: 4, y: 140, class: 'bs', size: 30, row: 2, aisleGap: 0 },
@@ -24,7 +39,7 @@ let selectedSeat = null; //選擇座位 一開始預設null
 let hoveredSeat = null; // 當滑鼠移動到座位上時，顯示座位資訊
 
 // 選擇座位modalbox
-const seatModal = new bootstrap.Modal(document.getElementById('seatConfirmModal'));
+// const seatModal = new bootstrap.Modal(document.getElementById('seatConfirmModal'));
 const seatInfo = document.querySelector('#seatInfo span');
 
 const canvas = document.getElementById('seatCanvas');
@@ -205,49 +220,52 @@ canvas.addEventListener('click', e => {
     }
   });
 
-  if (!clicked) seatModal.hide();
-});
-// document.getElementById('confirmSeatBtn').addEventListener('click', () => {
-//   alert(`你已確認座位：${selectedSeat}`);
-//   seatModal.hide(); // 關掉 modal
-// });
-// 確認座位按鈕
-let confirmSeatBtn = document.getElementById('confirmSeatBtn');
-let seatinput=document.getElementById('outward_seat');
-document.getElementById('confirmSeatBtn').addEventListener('click', () => {
-    if (selectedSeat) {
-        selectedSeat.value=seatinput.textContent; // 更新按鈕文字
-        outward_seat.textContent = selectedSeat; // 更新顯示的座位
-        seatModal.hide(); // 關掉 modal
-        document.getElementById('seatInput').value = selectedSeat; // 將選擇的座位存入隱藏欄位
-    }
+   /* ---------- 2. 當 Modal 關閉時，把焦點固定移到 Next ---------- */
+  seatModalEl.addEventListener('hidden.bs.modal', () => {
+    nextBtn.focus();
+  });
 });
 
 
-// 托運行李數量++,--
-// const checked_ad = document.getElementById('checked_ad')
-// const checked_mi = document.getElementById('checked_mi')
-// const checked_amount = document.getElementById('checked_amount')
-// checked_ad.addEventListener('click', () => {
-//     let current = parseInt(checked_amount.textContent) || 0;
-//     if (current >= 1) {
-//         alert(`已超過最大數量`);
-//         return;
-//     }
-//     current++;
-//     checked_amount.textContent = current;
-// });
-// checked_mi.addEventListener('click', () => {
-//     let current = parseInt(checked_amount.textContent) || 0;
-//     if (current <= 0) {
-//         alert(`不可為負`);
-//         return;
-//     }
-//     current--;
-//     checked_amount.textContent = current;
-// })
 
-//行李
+/* ---------- 2. 點「確認座位」：關閉 Modal，寫入隱藏欄位 ---------- */
+ confirmSeatBtn.addEventListener('click', () => {
+    if (!selectedSeat) return;                 // 理論上不會發生
+    seatInputHidden.value = selectedSeat;      // 寫入隱藏欄位
+    outwardSeatLabel.textContent = selectedSeat;
+    seatModal.hide();                          // hidden.bs.modal → 焦點自動到 Next
+  });
+
+  /* ---------- 4. 「Next」按鈕：驗證 → 若 modal 開啟就關 → 跳頁 ---------- */
+  nextBtn.addEventListener('click', () => {
+
+    /* === 4‑1. 驗證 === */
+    let ok = true;
+
+    if (!selectedSeat) { seatErr.style.display = 'block'; ok = false; }
+    else               { seatErr.style.display = 'none';  }
+
+    const pickedMeal = document.querySelector('.meal-btn.selected');
+    if (!pickedMeal)  { mealErr.style.display = 'block';  ok = false; }
+    else              { mealErr.style.display = 'none';   }
+
+    if (!ok) return;
+
+    /* === 4‑2. 若還在 modal，先關掉 === */
+    bootstrap.Modal.getInstance(seatModalEl)?.hide();
+
+    /* === 4‑3. 延遲 400 ms (淡出動畫) 後跳轉 === */
+    setTimeout(() => {
+      window.location.href = 'booking00.html';   // ← 依實際路徑調整
+    }, 400);
+  });
+
+  /* ---------- 5. 其餘：行李下拉、餐點單選、fetch 航班資料 ---------- */
+  /* ……這些區塊與跳轉無關，保留原實作即可…… */
+
+});
+
+
 
 const checked_wt_btn = document.getElementById('checked_wt_btn');
 const weightItems = document.querySelectorAll('.dropdown-item');
@@ -257,11 +275,7 @@ weightItems.forEach(item => {
         e.preventDefault(); //不要跳頁
         const selectedType = item.dataset.type;  // "carryon" 或 "checked"
         const selectedWeight = item.dataset.weight;
-        if (selectedType == 'carryon') {
-            carryon_wt_btn.textContent = selectedWeight;
-            document.getElementById('carryon_baggageWeight').value = selectedWeight;
-            console.log('手提行李重量:', selectedWeight);
-        } else if (selectedType == 'checked') {
+        if  (selectedType == 'checked') {
             checked_wt_btn.textContent = selectedWeight;
             document.getElementById('checked_baggageWeight').value = selectedWeight;
             console.log('托運行李重量:', selectedWeight);
@@ -288,36 +302,22 @@ mealButtons.forEach(btn => {
 });
   });
 
-//Next按鈕驗證表單
-Next_btn.addEventListener('click', () => {
-    let isValid = true; //預設通過
-    // 座位選1個
-    const seatError = document.getElementById('seat_error');
-    if (!selectedSeat) {
-        seatError.style.display = 'block';
-        isValid = false;
-    } else {
-        seatError.style.display = 'none';
-    }
 
-    // meal-btn選一個
-    const selectedMeal = document.querySelector('.meal-btn.selected');
-    const mealError = document.getElementById('meal_error');
-    if (selectedMeal === null) {
-        mealError.style.display = 'block';
-        isValid = false;
-        console.log('請選擇餐點');
-    } else {
-        mealError.style.display = 'none';
-        console.log(`已選擇餐點：${selectedMeal.dataset.value}`);
-    }
-    //所有通過才送出
-    if (isValid) {
-        console.log('所有欄位填寫正確，可以送出！')// 例如跳轉頁面或送出表單
-    }
+fetch('/flight-2/api/booking/get_meals.php')
+  .then(r => r.json())
+  .then(res => {
+     res.data.forEach(meal => {
+      const btn = document.querySelector(`.meal-btn[data-id="${meal.id}"]`);
+      if (!btn) return;                           // 只有在 HTML 找得到才更新
+      const badge = btn.querySelector('.price-badge');
+      badge.textContent = `${meal.price}元`;
+      badge.classList.remove('d-none');
+      btn.dataset.price = meal.price;     // 儲存價格到 data-price
+      
+      });
+  });
 
 
-});
 
 fetch('/flight-2/api/booking/get_flight_data.php')
   .then(res => res.json())
@@ -334,4 +334,19 @@ fetch('/flight-2/api/booking/get_flight_data.php')
     }
   });
     // .catch(err => console.error("無法載入航班資料", err));
+
+fetch('/flight-2/api/booking/get_baggage.php')
+  .then(r => r.json())
+  .then(res => {
+    const ul = document.querySelector('#checked_wt_btn + .dropdown-menu');
+    res.data.forEach(bag => {
+       const btn = document.querySelector(
+        `.dropdown-item[data-weight="${bag.name}"]`
+      );
+      if (!btn) return;                  // 只有找到對應重量才更新
+      btn.dataset.price = bag.price;     // 價格存進 dataset
+      btn.textContent   = `${bag.name}（${bag.price}元）`;
+    });
+  });
+
 
