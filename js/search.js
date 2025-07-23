@@ -362,7 +362,7 @@ function setupNextButton(tripType) {
             localStorage.setItem('selectedReturn', JSON.stringify(selectedReturn));
             localStorage.setItem('tripType', 'round');
             localStorage.setItem('passengerCount', count);
-            window.location.href = 'nextPage.html';
+            window.location.href = 'booking01.html';
         } else if (tripType === 'oneway' && (outboundValid || returnValid)) {
             if (outboundValid) {
                 localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
@@ -372,7 +372,7 @@ function setupNextButton(tripType) {
             }
             localStorage.setItem('tripType', 'oneway');
             localStorage.setItem('passengerCount', count);
-            window.location.href = 'nextPage.html';
+            window.location.href = 'booking01.html';
         } else {
             console.log('請至少選擇一段航班');
         }
