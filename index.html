@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>AirGo航空</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans TC', sans-serif;
+      background: url('your-background-image.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+    header {
+      background-color: #2b3a55;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+    }
+    header .logo {
+      font-size: 24px;
+    }
+    header nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+    }
+    .search-box {
+      background: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+    }
+    .search-box h2 {
+      margin-bottom: 20px;
+    }
+    .form-row {
+      margin: 10px 0;
+    }
+    select, input {
+      width: 80%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .passenger-counter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .passenger-counter button {
+      padding: 5px 10px;
+      margin: 0 10px;
+      font-size: 16px;
+    }
+    button.search {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: orange;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .destinations {
+      padding: 40px;
+      background-color: white;
+      text-align: center;
+    }
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      width: 200px;
+      border-radius: 50% 50% 0 0;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+    .card img {
+      width: 100%;
+    }
+    .card .info {
+      padding: 10px;
+    }
+    footer {
+      background: #2b3a55;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">✈️ AirGo航空</div>
+  <nav>
+    <a href="#">聯絡我們</a>
+    <a href="#">登入</a>
+  </nav>
+</header>
+
+<section class="search-box">
+  <div>
+    <button>來回</button>
+    <button>單程</button>
+  </div>
+  <div class="form-row">
+    <label>出發地：</label>
+    <select>
+      <option>台北</option>
+      <option>台中</option>
+      <option>高雄</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label>目的地：</label>
+    <select>
+      <option>大阪</option>
+      <option>東京</option>
+      <option>釜山</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label>日期：</label>
+    <input type="date">
+  </div>
+  <div class="form-row passenger-counter">
+    <label>人數：</label>
+    <button>-</button>
+    <span>0</span>
+    <button>+</button>
+  </div>
+  <button class="search">搜尋航班</button>
+</section>
+
+<section class="destinations">
+  <h2>熱門目的地</h2>
+  <div class="cards">
+    <div class="card">
+      <img src="osaka.jpg" alt="大阪">
+      <div class="info">
+        桃園 → 大阪<br>
+        2025/10/12 起飛<br>
+        NT$13,935 起
+      </div>
+    </div>
+    <div class="card">
+      <img src="osaka.jpg" alt="大阪">
+      <div class="info">
+        桃園 → 大阪<br>
+        2025/10/12 起飛<br>
+        NT$13,935 起
+      </div>
+    </div>
+    <div class="card">
+      <img src="osaka.jpg" alt="大阪">
+      <div class="info">
+        桃園 → 大阪<br>
+        2025/10/12 起飛<br>
+        NT$13,935 起
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    法令規章<br>
+    運送條款 | 隱私權政策<br>
+    網站使用條款
+  </div>
+  <div>
+    聯絡我們<br>
+    打給 AirGo 的專線客服
+  </div>
+  <div>
+    熱門常見問題
+  </div>
+</footer>
+
+</body>
+</html>
