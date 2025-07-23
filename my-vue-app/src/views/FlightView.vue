@@ -56,6 +56,9 @@ const editFields = [
   { key: "arrival_time", label: "到達時間", type: "date" },
 ];
 
+//詳細頁面
+const detailFields = ["from_airport_name", "to_airport_name", "duration"];
+
 //  useCrud 統一管理
 const {
   items: flights,
@@ -110,6 +113,8 @@ function handleSubmit(data) {
           @filter="
             (newFilters) => {
               Object.assign(filters, newFilters);
+              pagination.page = 1;
+              console.log('接收到的篩選條件:', newFilters);
               fetchItems();
             }
           "
@@ -124,12 +129,12 @@ function handleSubmit(data) {
             'to_airport',
             'departure_time',
             'arrival_time',
-            'duration',
             'direction',
           ]"
           :rows="flights"
           :onEdit="handleEdit"
           :onDelete="openDeleteModal"
+          :detailFields
         />
 
         <Pagination

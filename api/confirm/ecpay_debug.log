@@ -1,0 +1,142 @@
+2025-07-22 15:20:53 - POST: Array
+(
+    [CustomField1] => 
+    [CustomField2] => 
+    [CustomField3] => 
+    [CustomField4] => 
+    [MerchantID] => 3002607
+    [MerchantTradeNo] => ads12
+    [PaymentDate] => 2025/07/22 21:20:49
+    [PaymentType] => Credit_CreditCard
+    [PaymentTypeChargeFee] => 50
+    [RtnCode] => 1
+    [RtnMsg] => Succeeded
+    [SimulatePaid] => 0
+    [StoreID] => 
+    [TradeAmt] => 2000
+    [TradeDate] => 2025/07/22 21:20:28
+    [TradeNo] => 2507222120291996
+    [CheckMacValue] => 3D52027FF0EC32C256E0270F050D81CD65320494E09DBF4745D29E4C777E66E2
+)
+
+2025-07-22 15:20:53 - SESSION: Array
+(
+)
+
+2025-07-22 15:20:53 - 資料庫連接正常
+2025-07-22 15:20:53 - 發生異常: 缺少訂單資訊 - SESSION: Array
+(
+)
+
+2025-07-22 15:35:38 - POST: Array
+(
+    [CustomField1] => 
+    [CustomField2] => 
+    [CustomField3] => 
+    [CustomField4] => 
+    [MerchantID] => 3002607
+    [MerchantTradeNo] => dsa12
+    [PaymentDate] => 2025/07/22 21:35:34
+    [PaymentType] => Credit_CreditCard
+    [PaymentTypeChargeFee] => 50
+    [RtnCode] => 1
+    [RtnMsg] => Succeeded
+    [SimulatePaid] => 0
+    [StoreID] => 
+    [TradeAmt] => 2000
+    [TradeDate] => 2025/07/22 21:34:56
+    [TradeNo] => 2507222134562021
+    [CheckMacValue] => E101A8F09724A541C0B7DC71EF534A8773553C272DD5EC199C2A38F79C6FD34E
+)
+
+2025-07-22 15:35:38 - SESSION: Array
+(
+)
+
+2025-07-22 15:35:38 - 資料庫連接正常
+2025-07-22 15:35:38 - 準備插入資料: booking_id=11, amount=2000, trade_no=2507222134562021
+2025-07-22 15:35:38 - 成功插入資料，ID: 14
+2025-07-22 16:16:06 - POST: Array
+(
+    [CustomField1] => 
+    [CustomField2] => 
+    [CustomField3] => 
+    [CustomField4] => 
+    [MerchantID] => 3002607
+    [MerchantTradeNo] => 687f9d0cb46ec
+    [PaymentDate] => 2025/07/22 22:16:01
+    [PaymentType] => Credit_CreditCard
+    [PaymentTypeChargeFee] => 50
+    [RtnCode] => 1
+    [RtnMsg] => Succeeded
+    [SimulatePaid] => 0
+    [StoreID] => 
+    [TradeAmt] => 2000
+    [TradeDate] => 2025/07/22 22:15:38
+    [TradeNo] => 2507222215382057
+    [CheckMacValue] => A9049B3C1D1EBF70A1489165CB266218B83CB6D1C2ABE48DA5E4585C08B4A0ED
+)
+
+2025-07-22 16:16:06 - SESSION: Array
+(
+)
+
+2025-07-22 16:16:06 - 資料庫連接正常
+2025-07-22 16:16:06 - 準備插入資料: booking_id=12, amount=2000, trade_no=2507222215382057
+2025-07-22 16:16:06 - 成功插入資料，ID: 15
+2025-07-22 16:28:47 - POST: Array
+(
+    [CustomField1] => 
+    [CustomField2] => 
+    [CustomField3] => 
+    [CustomField4] => 
+    [MerchantID] => 3002607
+    [MerchantTradeNo] => 687fa007788ca
+    [PaymentDate] => 2025/07/22 22:28:42
+    [PaymentType] => Credit_CreditCard
+    [PaymentTypeChargeFee] => 62
+    [RtnCode] => 1
+    [RtnMsg] => Succeeded
+    [SimulatePaid] => 0
+    [StoreID] => 
+    [TradeAmt] => 2500
+    [TradeDate] => 2025/07/22 22:28:21
+    [TradeNo] => 2507222228212067
+    [CheckMacValue] => C5A61FDA855E7004BF4D5EEBAF0281321CD88BB90CB5C388B52F2F771D97F4A9
+)
+
+2025-07-22 16:28:47 - SESSION: Array
+(
+)
+
+2025-07-22 16:28:47 - 資料庫連接正常
+2025-07-22 16:28:47 - 準備插入資料: booking_id=15, amount=2500, trade_no=2507222228212067
+2025-07-22 16:28:47 - 成功插入資料，ID: 16
+2025-07-22 17:07:12 - POST: Array
+(
+    [CustomField1] => 
+    [CustomField2] => 
+    [CustomField3] => 
+    [CustomField4] => 
+    [MerchantID] => 3002607
+    [MerchantTradeNo] => 687fa9075c22f
+    [PaymentDate] => 2025/07/22 23:07:07
+    [PaymentType] => Credit_CreditCard
+    [PaymentTypeChargeFee] => 62
+    [RtnCode] => 1
+    [RtnMsg] => Succeeded
+    [SimulatePaid] => 0
+    [StoreID] => 
+    [TradeAmt] => 2500
+    [TradeDate] => 2025/07/22 23:06:45
+    [TradeNo] => 2507222306452087
+    [CheckMacValue] => 3CACEE21AAEAD8FF95D3B619BC58B519EB71DEB862A5C4A45C4ED89BDA72ECCA
+)
+
+2025-07-22 17:07:12 - SESSION: Array
+(
+)
+
+2025-07-22 17:07:12 - 資料庫連接正常
+2025-07-22 17:07:12 - 準備插入資料: booking_id=15, amount=2500, trade_no=2507222306452087
+2025-07-22 17:07:12 - 成功插入資料，ID: 17

@@ -1,6 +1,6 @@
 <template>
   <form class="row g-3 mb-3" @submit.prevent="submit">
-    <div v-for="field in fields" :key="field.key" class="col-md-3">
+    <div v-for="field in fields" :key="field.key" class="col-md-2">
       <label class="form-label">{{ field.label }}</label>
 
       <!-- 文字欄位 -->
@@ -37,8 +37,15 @@
       />
     </div>
 
+    <div
+      class="col-md-2 offset-md-2 d-flex justify-content-end align-items-end"
+    >
+      <button class="btn w-50" @click="submitFilters" type="button">
+        篩選
+      </button>
+    </div>
     <div class="col-md-2 d-flex align-items-end">
-      <button class="btn w-50" type="submit">篩選</button>
+      <button class="btn" @click="resetFilters" type="button">清除篩選</button>
     </div>
   </form>
 </template>
@@ -55,13 +62,13 @@ const emit = defineEmits(["update:modelValue", "filter"]);
 const form = reactive({});
 
 // 初始化欄位值（for v-model）
-watchEffect(() => {
-  if (props.modelValue) {
-    Object.assign(form, props.modelValue); // 賦予新值
-  }
-});
+// watchEffect(() => {
+//   if (props.modelValue) {
+//     Object.assign(form, props.modelValue); // 賦予新值
+//   }
+// });
 
-const submit = () => {
+const submitFilters = () => {
   const cleaned = {};
 
   for (const key in form) {
@@ -75,6 +82,15 @@ const submit = () => {
   }
 
   emit("filter", cleaned);
+};
+
+const resetFilters = () => {
+  for (const key in form) {
+    form[key] = "";
+  }
+  const newFilters = {};
+  emit("update:modelValue", newFilters);
+  emit("filter", newFilters);
 };
 </script>
 <style scoped>

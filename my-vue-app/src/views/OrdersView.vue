@@ -128,6 +128,7 @@ function handleSubmit(data) {
           @filter="
             (newFilters) => {
               Object.assign(filters, newFilters);
+              pagination.page = 1;
               fetchItems();
             }
           "

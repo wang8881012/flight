@@ -184,7 +184,7 @@ onMounted(async () => {
             <div class="card card-custom p-3">
               <h5 class="text-center mb-4">艙等訂票分布</h5>
               <div class="canvas-container">
-                <canvas id="classChart" class="chart-fixed"></canvas>
+                <canvas id="classChart" class="register"></canvas>
               </div>
             </div>
           </div>
@@ -203,4 +203,12 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.register {
+  height: 400px;
+}
+
+.canvas-container {
+height: 400px;
+}
+</style>

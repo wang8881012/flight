@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin'])) {
   exit;
 }
 
-require_once __DIR__ . '/../inc/db.inc.php';
+require_once __DIR__ . '../../../api/inc/db.inc.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 $action = $data['action'] ?? [];
@@ -30,6 +30,11 @@ if (!empty($data['email'])) {
   $where .= " AND email LIKE :email ";
   $params[':email'] = '%' . $data['email'] . '%';
 }
+
+if (!empty($data['user_number'])) {
+  $where .= " AND user_number LIKE :user_number ";
+  $params[':user_number'] = '%' . $data['user_number'] . '%';
+}
 // 總筆數
 $sqlTotal = "SELECT COUNT(*) FROM users $where and is_deleted = 0 ";
 $stmt = $pdo->prepare($sqlTotal);
@@ -38,7 +43,7 @@ $total = $stmt->fetchColumn();
 
 // 查詢資料
 $sql = "
-  SELECT id, name, email, phone, birthday, created_at, passport_name
+  SELECT id, name, email, phone, birthday, created_at, passport_name, user_number, gender, passport_expiry, nationality
   FROM users
   $where and is_deleted = 0
   ORDER BY created_at DESC
