@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>訂票完成</title>
+    <title>付款狀態</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="../scss/pages/complete.css">
@@ -15,7 +15,9 @@
 
 <body class="p-0 m-0">
 
-    <div class="container-fluid">
+    <header id="header"></header>
+
+    <section class="container-fluid">
         <div class="row row-cols-12 row-cols-md-12 p-2 justify-content-center">
             <div class="col-lg-9 d-flex flex-column gap-3 px-3">
                 <h2 class="text-center blue-text">訂票完成</h2>
@@ -64,11 +66,11 @@
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-between align-items-center mt-4">
-                    <h5 class="fw-bold text-primary">總金額：88888888</h5>
+                    <h5 id="final-price" class="fw-bold text-primary">總金額：88888888</h5>
                     <button class="btn gold-bg btn-lg rounded-pill">回到首頁</button>
                 </div>
                 <hr class="border-4">
-                <div class="mt-4 small text-secondary">
+                <div class="small text-secondary">
                     <p class="fw-bold">登機須知（適用於飛往亞洲的國際航班）</p>
                     <p>您的資料與付款已完成，感謝您。系統將發送一封電子郵件至您填寫資料時的信箱，內容為 PDF 格式的正式行程表，請務必在完成付款後 1 小時內確認收到，並妥善保存或列印後備查。</p>
                     <p>特惠票旅客搭機前，請務必確認列印完成的行程表並攜帶以下文件，否則航空公司將無法提供登機服務：</p>
@@ -85,8 +87,27 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script src="../js/confirm.js"></script>
+    </section>
+
+    <footer id="footer"></footer>
+
+    <script>
+        // 載入 header.html
+        fetch('header.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            });
+
+        // 載入 footer.html
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+    <script src="../js/complete.js"></script>
+    <!-- <script src="../js/confirm.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
