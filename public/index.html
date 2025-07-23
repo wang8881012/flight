@@ -50,8 +50,9 @@
         }
     </style>
 </head>
-
-<body class="container py-4">
+ 
+<body class="py-4">
+    <div id="navbar"></div>
     <div>
         <button type="button" id="btnRound" class="trip-btn active">來回票</button>
         <button type="button" id="btnOneWay" class="trip-btn">單程</button>
@@ -102,7 +103,7 @@
 
     <hr>
     <!-- 輪播 -->
-    <div id="multiItemCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div id="multiItemCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
         <div class="carousel-inner">
             <!-- 第一組：三個 div -->
             <div class="carousel-item active">
@@ -145,8 +146,9 @@
             <span class="visually-hidden">下一張</span>
         </button>
     </div>
-
+<div id="footer"></div>
     <!-- JS 套件 -->
+     <script src="../js/shared.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
