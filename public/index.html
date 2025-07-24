@@ -15,7 +15,7 @@
 
 <body>
     <div id="navbar"></div>
-    <div id="card-background" class="container-fluid p-5 mb-5"style="height: 700px;">
+    <div id="card-background" class="container-fluid p-5 mb-5" style="height: 700px;">
         <div class="card col-md-7 offset-md-3 p-5 " style="height: 550px; background-color: #C5D2E4; opacity: 0.8; border-radius: 100px; box-shadow: 30px 30px 30px rgba(43, 59, 82, 0.9);
 ">
             <div class="row">
@@ -31,19 +31,27 @@
 
 
                 <!-- 來回票 -->
-                <div id="roundTripSelects">
-                    <label>去程 出發：</label>
+                <div id="roundTripSelects" class="mt-2">
+                    <label>
+                        <p>去程 出發：</p>
+                    </label>
                     <select id="departureCityRound1"></select>
-                    <label>目的：</label>
+                    <label>
+                        <p>目的：</p>
+                    </label>
                     <select id="arrivalCityRound1"></select><br />
-                    <label>回程 出發：</label>
+                    <label>
+                        <p>回程 出發：</p>
+                    </label>
                     <select id="departureCityRound2"></select>
-                    <label>目的：</label>
+                    <label>
+                        <p>目的：</p>
+                    </label>
                     <select id="arrivalCityRound2"></select>
                 </div>
 
                 <!-- 單程 -->
-                <div id="oneWaySelects" class="hidden">
+                <div id="oneWaySelects" class="hidden mt-2">
                     <label>出發：</label>
                     <select id="departureCityOneWay"></select>
                     <label>目的：</label>
@@ -51,8 +59,8 @@
                 </div>
 
                 <!-- 日期選擇 -->
-                <div class="my-2">
-                    <div class="row align-items-center">
+                <div class="my-2 ">
+                    <div class="row align-items-center mt-3">
                         <div class="col-6">
                             <label for="dateRangePicker" class="form-label">選擇日期區間</label>
                             <input type="text" id="dateRangePicker" class="form-control my-3" readonly />
@@ -62,6 +70,7 @@
 
                     <!-- 選擇人數 -->
                     <div>
+                        <p>人數</p>
                         <button id="btnMinus">-</button>
                         <span id="passengerCount">1</span>
                         <button id="btnPlus">+</button>

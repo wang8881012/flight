@@ -1,19 +1,29 @@
 <?php
+session_start();
 header('Content-Type: application/json');
 require_once __DIR__ . '/../inc/db.inc.php';
 
-// 取得查詢參數
-$tripType = $_GET['tripType'] ?? 'round';
-$startDate = $_GET['startDate'] ?? null;
-$endDate = $_GET['endDate'] ?? null;
-$departure1 = $_GET['departure1'] ?? null;
-$arrival1 = $_GET['arrival1'] ?? null;
-$departure2 = $_GET['departure2'] ?? null;
-$arrival2 = $_GET['arrival2'] ?? null;
-$departure = $_GET['departure'] ?? null;
-$arrival = $_GET['arrival'] ?? null;
+// 開發階段開啟錯誤顯示，正式上線可關閉
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// 加入艙等資訊
+// 讀取 JSON 格式 POST 資料
+$inputJSON = file_get_contents('php://input');
+$input = json_decode($inputJSON, true);
+
+// 將接收到的參數存進 SESSION（方便跨頁使用）
+$_SESSION['tripType'] = $input['tripType'] ?? 'round';
+$_SESSION['startDate'] = $input['startDate'] ?? null;
+$_SESSION['endDate'] = $input['endDate'] ?? null;
+$_SESSION['departure1'] = $input['departure1'] ?? null;
+$_SESSION['arrival1'] = $input['arrival1'] ?? null;
+$_SESSION['departure2'] = $input['departure2'] ?? null;
+$_SESSION['arrival2'] = $input['arrival2'] ?? null;
+$_SESSION['departure'] = $input['departure'] ?? null;
+$_SESSION['arrival'] = $input['arrival'] ?? null;
+
+// 輔助函式：為航班加入艙等資訊
 function enrichFlights($pdo, $flights) {
     $flightIds = array_column($flights, 'id');
     if (empty($flightIds)) return [];
@@ -56,12 +66,13 @@ function enrichFlights($pdo, $flights) {
     return $output;
 }
 
-// 查詢航班
+// 查詢航班結果初始陣列
 $outboundFlights = [];
 $inboundFlights = [];
 
-if ($tripType === 'round') {
-    if ($departure1 && $arrival1 && $startDate) {
+// 依 tripType 決定查詢邏輯
+if ($_SESSION['tripType'] === 'round') {
+    if ($_SESSION['departure1'] && $_SESSION['arrival1'] && $_SESSION['startDate']) {
         $stmt1 = $pdo->prepare("
             SELECT * FROM flights
             WHERE from_airport_name = :departure1 
@@ -70,14 +81,14 @@ if ($tripType === 'round') {
             ORDER BY id ASC
         ");
         $stmt1->execute([
-            ':departure1' => $departure1,
-            ':arrival1' => $arrival1,
-            ':startDate' => $startDate
+            ':departure1' => $_SESSION['departure1'],
+            ':arrival1' => $_SESSION['arrival1'],
+            ':startDate' => $_SESSION['startDate']
         ]);
         $outboundFlights = $stmt1->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    if ($departure2 && $arrival2 && $endDate) {
+    if ($_SESSION['departure2'] && $_SESSION['arrival2'] && $_SESSION['endDate']) {
         $stmt2 = $pdo->prepare("
             SELECT * FROM flights
             WHERE from_airport_name = :departure2 
@@ -86,15 +97,15 @@ if ($tripType === 'round') {
             ORDER BY id ASC
         ");
         $stmt2->execute([
-            ':departure2' => $departure2,
-            ':arrival2' => $arrival2,
-            ':endDate' => $endDate
+            ':departure2' => $_SESSION['departure2'],
+            ':arrival2' => $_SESSION['arrival2'],
+            ':endDate' => $_SESSION['endDate']
         ]);
         $inboundFlights = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     }
 
-} elseif ($tripType === 'oneway') {
-    if ($departure && $arrival && $startDate) {
+} elseif ($_SESSION['tripType'] === 'oneway') {
+    if ($_SESSION['departure'] && $_SESSION['arrival'] && $_SESSION['startDate']) {
         $stmt = $pdo->prepare("
             SELECT * FROM flights
             WHERE from_airport_name = :departure 
@@ -103,15 +114,15 @@ if ($tripType === 'round') {
             ORDER BY id ASC
         ");
         $stmt->execute([
-            ':departure' => $departure,
-            ':arrival' => $arrival,
-            ':startDate' => $startDate
+            ':departure' => $_SESSION['departure'],
+            ':arrival' => $_SESSION['arrival'],
+            ':startDate' => $_SESSION['startDate']
         ]);
         $outboundFlights = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 
-// 輸出結果
+// 輸出 JSON 格式航班資料
 echo json_encode([
     'outbound' => enrichFlights($pdo, $outboundFlights),
     'inbound' => enrichFlights($pdo, $inboundFlights),

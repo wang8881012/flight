@@ -1,3 +1,35 @@
+fetch("../api/flights/list.php")
+    .then((res) => {
+        return res.text(); // 先拿原始文字內容
+    })
+    .then((text) => {
+        try {
+            const data = JSON.parse(text); // 再嘗試解析為 JSON
+            if (data.status === "success") {
+                const flights = data.flights;
+
+                const fromAirports = flights.map(f => f.from_airport_name);
+                const toAirports = flights.map(f => f.to_airport_name);
+
+                setOptions(document.getElementById("departureCityRound1"), fromAirports);
+                setOptions(document.getElementById("arrivalCityRound1"), toAirports);
+                setOptions(document.getElementById("departureCityRound2"), toAirports);
+                setOptions(document.getElementById("arrivalCityRound2"), fromAirports);
+                setOptions(document.getElementById("departureCityOneWay"), fromAirports);
+                setOptions(document.getElementById("arrivalCityOneWay"), toAirports);
+            } else {
+                alert("載入航班資料失敗");
+            }
+        } catch (err) {
+            console.error("無法解析為 JSON：", text);
+            alert("伺服器回傳錯誤：\n" + text);
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+        alert("載入資料時發生錯誤");
+    });
+
 let selectedStartDate = null;
 let selectedEndDate = null;
 let tripType = "round";
