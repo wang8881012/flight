@@ -12,6 +12,26 @@ fetch('/flight-2/api/booking/get_passenger.php')
     }
   });
 
+  // 購物車圖示顯示選擇資訊切換
+// let cartToggleBound = false;
+
+// function setupCartToggle() {
+//     if (cartToggleBound) return;
+//     cartToggleBound = true;
+
+//     const cartIcon = document.getElementById('cartIcon');
+//     const infoBox = document.querySelector('.SelectedFlightsInfo');
+
+//     cartIcon.addEventListener('click', () => {
+//         const isVisible = infoBox.style.display === 'block';
+//         if (!selectedOutbound && !selectedReturn) {
+//             alert('您尚未選擇航班！');
+//             return;
+//         }
+//         infoBox.style.display = isVisible ? 'none' : 'block';
+//         updateSelectedFlightInfo();
+//     });
+// }
 
 function validateTextField(inputId, errorId, options = {}) {
   const input = document.getElementById(inputId);

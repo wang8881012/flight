@@ -24,3 +24,38 @@ button.meal-btn.selected {
     border-color: red !important;
 }
 
+/* ---- ConfirmIconCard 通用區塊 ---- */
+.ConfirmIconCard {
+  position: fixed;     /* 讓它固定在視窗底部 */
+  bottom: 0;
+  right: 0;
+  width: 10%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  align-items: center;
+  padding: 0 50px 10px; /* 右邊留 50px，底部留 10px */
+  background: var(--bs-body-bg); /* 或直接寫 #fff */
+  z-index: 900;        /* 確保浮在最上層 */
+}
+
+/* 下拉的航班明細框 */
+.SelectedFlightsInfo {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 90px;        /* 與圖示垂直間隔 */
+  padding: 10px 15px;
+  border: 1px solid var(--bs-card-bg);
+  background: var(--bs-body-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+}
+
+/* 購物車圖示 */
+.CartContainer .bicard {
+  font-size: 32px;
+  color: var(--bs-primary);
+  cursor: pointer;
+}
+
