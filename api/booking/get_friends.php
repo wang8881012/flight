@@ -3,8 +3,8 @@
 require_once __DIR__ . '/api_helper.php';
 
 session_start();
-
-$user_id = $_SESSION['user_id'] ?? 1; // 測試用
+// 測試用填1
+$user_id = $_SESSION['user_id'] ?? 1;
 if (!$user_id) {
     send_json(['error' => '尚未登入'], 401);
 }

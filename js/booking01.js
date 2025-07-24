@@ -318,18 +318,40 @@ passengers.push({
 });
 
 // ✅ 2. 收集第 2~N 位旅客（由 JS 動態產生）
-document.querySelectorAll('.passenger-form').forEach(form => {
-  const passenger = {
-    first_name: form.querySelector('[data-field="first_name"]').value.trim(),
-    last_name: form.querySelector('[data-field="last_name"]').value.trim(),
-    birthday: form.querySelector('[data-field="birthday"]').value,
-    nationality: form.querySelector('[data-field="nationality"]').value,
-    passport_number: form.querySelector('[data-field="passport_number"]').value,
-    passport_expiry: form.querySelector('[data-field="passport_expiry"]').value,
-    gender: form.querySelector('[data-field="gender"]').value
-  };
-  passengers.push(passenger);
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('[debug] booking.js loaded – start get_passenger');
+
+  fetch('/flight-2/api/booking/get_passenger.php')   // ← 確定路徑正確
+    .then(r => {
+      console.log('[debug] response status', r.status);
+      return r.json();
+    })
+    .then(res => {
+      console.log('[debug] get_passenger result', res);
+
+      if (!res.success) {
+        console.warn('API 回傳失敗：', res.error);
+        return;
+      }
+
+      const totalPassengers = parseInt(res.count, 10) || 1;
+      console.log('[debug] passenger count', totalPassengers);
+
+      const extra = totalPassengers - 1;
+      if (extra <= 0) return;                // 只有一人
+
+      const tpl = document.getElementById('passenger-template').innerHTML;
+      const container = document.getElementById('extraPassengers');
+
+      for (let i = 2; i <= totalPassengers; i++) {
+        container.insertAdjacentHTML('beforeend', tpl.replace(/{{i}}/g, i));
+      }
+      console.log('[debug] 已插入額外旅客', extra, '位');
+    })
+    .catch(err => console.error('[debug] fetch error', err));
 });
+
+
 
 console.log("開始送出 fetch");
     fetch('/flight-2/api/booking/save_passenger.php', {
@@ -352,3 +374,7 @@ console.log("開始送出 fetch");
       });
   });
 });
+// 跳轉至加價購畫面
+document.getElementById('next_btn').addEventListener('click', function () {
+    window.location.href = 'booking.html';
+  });
