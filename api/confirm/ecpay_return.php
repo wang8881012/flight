@@ -29,7 +29,7 @@ if ($order) {
     $_SESSION['booking_info'] = json_decode($order['booking_info'], true);
     
     // 刪除臨時記錄
-    $pdo->prepare("DELETE FROM temp_orders WHERE temp_id = ?")->execute(['temp_' . $tempId]);
+    $pdo->prepare("DELETE FROM temp_orders WHERE temp_id = ?")->execute([$tempId]);
 }
 
 // 綠界付款結果回傳格式範例

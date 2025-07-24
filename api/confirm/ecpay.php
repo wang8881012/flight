@@ -2,18 +2,18 @@
 session_start();
 
 // 測試數據 - 模擬 session 內容
-$_SESSION['booking_id'] = 15;
-$_SESSION['total_amount'] = 2500; // 測試金額
+$_SESSION['booking_id'] = 11;
+$_SESSION['total_amount'] = 32000; // 測試金額
 $_SESSION['booking_info'] = [
     'departure' => [
-        'passenger' => 'BB',
+        'passenger' => 'Greace',
         'route' => '台北(TPE) / 東京(NRT)',
         'time' => '2025-08-01 08:00 / 2025-08-01 12:00',
         'flight_no' => 'BR198',
         'seat' => '12A'
     ],
     'return' => [
-        'passenger' => 'BB',
+        'passenger' => 'ABC',
         'route' => '東京(NRT) / 台北(TPE)',
         'time' => '2025-08-10 18:00 / 2025-08-10 21:30',
         'flight_no' => 'BR197',
@@ -31,7 +31,7 @@ if (!isset($_SESSION['booking_id'], $_SESSION['total_amount'])) {
     die('訂單資訊不完整');
 }
 
-//將訂單資訊存入臨時表
+// 將訂單資訊存入臨時表
 $tempOrderId = uniqid();
 //die(print($tempOrderId));
 
@@ -65,8 +65,8 @@ $input = [
     'ChoosePayment'     => 'Credit',                    // 付款方式
     'EncryptType'       => 1,                           // 加密類型
 
-    'ReturnURL'         => 'http://rnsfv-150-117-19-191.a.free.pinggy.link/flight/api/confirm/ecpay_return.php',
-    'OrderResultURL'    => 'https://rnsfv-150-117-19-191.a.free.pinggy.link/flight/api/confirm/ecpay_return.php'
+    'ReturnURL'         => 'http://rnjcj-61-66-147-97.a.free.pinggy.link/flight/api/confirm/ecpay_return.php',
+    'OrderResultURL'    => 'https://rnjcj-61-66-147-97.a.free.pinggy.link/flight/api/confirm/ecpay_return.php'
 ];
 
 $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';

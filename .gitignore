@@ -11,3 +11,8 @@ admin/js
 admin/css
 .vscode
 vendor
+composer.json
+composer.lock
+package-lock.json
+package.json
+project.lnk

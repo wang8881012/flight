@@ -140,3 +140,87 @@
 2025-07-22 17:07:12 - 資料庫連接正常
 2025-07-22 17:07:12 - 準備插入資料: booking_id=15, amount=2500, trade_no=2507222306452087
 2025-07-22 17:07:12 - 成功插入資料，ID: 17
+2025-07-23 07:24:07 - POST: Array
+(
+    [CustomField1] => 
+    [CustomField2] => 
+    [CustomField3] => 
+    [CustomField4] => 
+    [MerchantID] => 3002607
+    [MerchantTradeNo] => 688071cbdcba5
+    [PaymentDate] => 2025/07/23 13:23:58
+    [PaymentType] => Credit_CreditCard
+    [PaymentTypeChargeFee] => 62
+    [RtnCode] => 1
+    [RtnMsg] => Succeeded
+    [SimulatePaid] => 0
+    [StoreID] => 
+    [TradeAmt] => 2500
+    [TradeDate] => 2025/07/23 13:23:24
+    [TradeNo] => 2507231323242591
+    [CheckMacValue] => 3171E85C13F4CB1DA881372728AF48FA43D6AB124FFFE2A12569B0DA95312A1E
+)
+
+2025-07-23 07:24:07 - SESSION: Array
+(
+)
+
+2025-07-23 07:24:07 - 資料庫連接正常
+2025-07-23 07:24:07 - 準備插入資料: booking_id=15, amount=2500, trade_no=2507231323242591
+2025-07-23 07:24:07 - 成功插入資料，ID: 11
+2025-07-24 03:09:36 - POST: Array
+(
+    [CustomField1] => 
+    [CustomField2] => 
+    [CustomField3] => 
+    [CustomField4] => 
+    [MerchantID] => 3002607
+    [MerchantTradeNo] => 688187887e0be
+    [PaymentDate] => 2025/07/24 09:09:31
+    [PaymentType] => Credit_CreditCard
+    [PaymentTypeChargeFee] => 785
+    [RtnCode] => 1
+    [RtnMsg] => Succeeded
+    [SimulatePaid] => 0
+    [StoreID] => 
+    [TradeAmt] => 32000
+    [TradeDate] => 2025/07/24 09:08:23
+    [TradeNo] => 2507240908234178
+    [CheckMacValue] => 852710810A0064701648C0B596A76981AD4187B45AECCE101A4F561C25793214
+)
+
+2025-07-24 03:09:36 - SESSION: Array
+(
+)
+
+2025-07-24 03:09:36 - 資料庫連接正常
+2025-07-24 03:09:36 - 準備插入資料: booking_id=11, amount=32000, trade_no=2507240908234178
+2025-07-24 03:09:36 - 成功插入資料，ID: 12
+2025-07-24 05:15:03 - POST: Array
+(
+    [CustomField1] => 
+    [CustomField2] => 
+    [CustomField3] => 
+    [CustomField4] => 
+    [MerchantID] => 3002607
+    [MerchantTradeNo] => 6881a523df407
+    [PaymentDate] => 2025/07/24 11:15:00
+    [PaymentType] => Credit_CreditCard
+    [PaymentTypeChargeFee] => 785
+    [RtnCode] => 1
+    [RtnMsg] => Succeeded
+    [SimulatePaid] => 0
+    [StoreID] => 
+    [TradeAmt] => 32000
+    [TradeDate] => 2025/07/24 11:14:44
+    [TradeNo] => 2507241114444401
+    [CheckMacValue] => DCF708D9D872C24AF8CF09FAFED6FAE76C017A1D1E3FCF0E033827B2DA9668A2
+)
+
+2025-07-24 05:15:03 - SESSION: Array
+(
+)
+
+2025-07-24 05:15:03 - 資料庫連接正常
+2025-07-24 05:15:03 - 準備插入資料: booking_id=11, amount=32000, trade_no=2507241114444401
+2025-07-24 05:15:03 - 成功插入資料，ID: 13
