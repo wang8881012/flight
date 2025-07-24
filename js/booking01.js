@@ -1,4 +1,18 @@
 // ✅ 通用欄位驗證函式
+// const passengerCount = Number(localStorage.getItem('passenger_count') || 4);
+// renderExtraPassengers(passengerCount);
+
+fetch('/flight-2/api/booking/get_passenger.php')
+  .then(res => res.json())
+  .then(data => {
+    if (data.success && data.count) {
+      renderExtraPassengers(data.count);
+    } else {
+      renderExtraPassengers(1); // 預設只顯示會員
+    }
+  });
+
+
 function validateTextField(inputId, errorId, options = {}) {
   const input = document.getElementById(inputId);
   const error = document.getElementById(errorId);
@@ -267,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
   next_btn.addEventListener('click', function (event) {
     event.preventDefault();
     let hasError = false;
-
+    const passengers = [];
     // 性別驗證
     if (genderInput.value === '') {
       genderDropdown.classList.add('border-error');
@@ -301,55 +315,105 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (hasError) return;
 
+      // 收集會員資料
+  passengers.push({
+    first_name: document.getElementById('firstName').value.trim(),
+    last_name: document.getElementById('lastName').value.trim(),
+    birthday: document.getElementById('birthday').value,
+    nationality: document.getElementById('pwNation').value,
+    passport_number: document.getElementById('pwNumber').value,
+    passport_expiry: document.getElementById('ex_date').value,
+    gender: genderInput.value
+  });
+
+    // 🔽 放在送出按鈕 click 裡面、會員驗證之後
+document.querySelectorAll('.passenger-form').forEach(form => {
+  const get = field => form.querySelector(`[data-field="${field}"]`);
+  const showError = (field, msg) => {
+    const error = form.querySelector(`[data-error="${field}"]`);
+    if (error) {
+      error.textContent = msg;
+      error.style.display = 'block';
+    }
+  };
+  const hideError = field => {
+    const error = form.querySelector(`[data-error="${field}"]`);
+    if (error) error.style.display = 'none';
+  };
+
+  const val = {};
+  ['first_name', 'last_name', 'birthday', 'gender', 'passport_number', 'nationality', 'passport_expiry']
+    .forEach(f => val[f] = get(f)?.value.trim());
+
+  // 驗證規則
+  if (!val.last_name || !/^[a-zA-Z]+$/.test(val.last_name)) {
+    showError('last_name', '請填寫正確英文姓');
+    hasError = true;
+  } else hideError('last_name');
+
+  if (!val.first_name || !/^[a-zA-Z\-]+$/.test(val.first_name)) {
+    showError('first_name', '請填寫正確英文名');
+    hasError = true;
+  } else hideError('first_name');
+
+  if (!val.birthday || !/^\d{4}-\d{2}-\d{2}$/.test(val.birthday)) {
+    showError('birthday', '請填寫正確生日格式');
+    hasError = true;
+  } else {
+    const today = new Date();
+    const bday = new Date(val.birthday);
+    if (bday > today) {
+      showError('birthday', '生日不能是未來時間');
+      hasError = true;
+    } else {
+      hideError('birthday');
+    }
+  }
+
+  if (!val.gender) {
+    showError('gender', '請填寫性別');
+    hasError = true;
+  } else hideError('gender');
+
+  if (!val.passport_number || !/^[0-9]{9}$/.test(val.passport_number)) {
+    showError('passport_number', '護照格式錯誤：請填 9 位數字');
+    hasError = true;
+  } else hideError('passport_number');
+
+  if (!val.nationality) {
+    showError('nationality', '請填寫國籍');
+    hasError = true;
+  } else hideError('nationality');
+
+  if (!val.passport_expiry || !/^\d{4}-\d{2}-\d{2}$/.test(val.passport_expiry)) {
+    showError('passport_expiry', '請填寫護照有效期限');
+    hasError = true;
+  } else hideError('passport_expiry');
+
+  // ✅ 收集資料 push 進 passengers 陣列（如果沒有錯）
+  if (!hasError) {
+    passengers.push(val);
+  }
+});
+ // ✅ 若旅客有錯，停止送出
+  if (hasError) return;
+
 
     // 傳送資料
- const passengers = [];
+
  console.log("🚀 passengers to be sent:", passengers); // ✅ 新增這行
 
 // ✅ 1. 收集會員本人資料（第一位旅客）
-passengers.push({
-  first_name: document.getElementById('firstName').value.trim(),
-  last_name: document.getElementById('lastName').value.trim(),
-  birthday: document.getElementById('birthday').value,
-  nationality: document.getElementById('pwNation').value,
-  passport_number: document.getElementById('pwNumber').value,
-  passport_expiry: document.getElementById('ex_date').value,
-  gender: genderInput.value
-});
+// passengers.push({
+//   first_name: document.getElementById('firstName').value.trim(),
+//   last_name: document.getElementById('lastName').value.trim(),
+//   birthday: document.getElementById('birthday').value,
+//   nationality: document.getElementById('pwNation').value,
+//   passport_number: document.getElementById('pwNumber').value,
+//   passport_expiry: document.getElementById('ex_date').value,
+//   gender: genderInput.value
+// });
 
-// ✅ 2. 收集第 2~N 位旅客（由 JS 動態產生）
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('[debug] booking.js loaded – start get_passenger');
-
-  fetch('/flight-2/api/booking/get_passenger.php')   // ← 確定路徑正確
-    .then(r => {
-      console.log('[debug] response status', r.status);
-      return r.json();
-    })
-    .then(res => {
-      console.log('[debug] get_passenger result', res);
-
-      if (!res.success) {
-        console.warn('API 回傳失敗：', res.error);
-        return;
-      }
-
-      const totalPassengers = parseInt(res.count, 10) || 1;
-      console.log('[debug] passenger count', totalPassengers);
-
-      const extra = totalPassengers - 1;
-      if (extra <= 0) return;                // 只有一人
-
-      const tpl = document.getElementById('passenger-template').innerHTML;
-      const container = document.getElementById('extraPassengers');
-
-      for (let i = 2; i <= totalPassengers; i++) {
-        container.insertAdjacentHTML('beforeend', tpl.replace(/{{i}}/g, i));
-      }
-      console.log('[debug] 已插入額外旅客', extra, '位');
-    })
-    .catch(err => console.error('[debug] fetch error', err));
-});
 
 
 
@@ -363,7 +427,7 @@ console.log("開始送出 fetch");
       .then(result => {
         if (result.success) {
           console.log('✅ 儲存成功，送出表單');
-          // window.location.href = 'booking.html';  // ✅ 成功才跳轉
+          window.location.href = 'booking.html';  // ✅ 成功才跳轉
         } else {
           alert('❌ 儲存失敗：' + result.error);
         }
@@ -374,7 +438,3 @@ console.log("開始送出 fetch");
       });
   });
 });
-// 跳轉至加價購畫面
-document.getElementById('next_btn').addEventListener('click', function () {
-    window.location.href = 'booking.html';
-  });
