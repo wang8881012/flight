@@ -1,0 +1,214 @@
+@use 'color' as *;
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    background-color: $body-bg !important;
+}
+
+nav {
+    ul {
+        list-style: none;
+        background-color: $brand-primary;
+    }
+
+    li {
+        display: inline-block;
+        color: $text-accent;
+    }
+
+    a {
+        display: block;
+        padding: 24px 12px;
+        text-decoration: none;
+        color: $text-accent;
+    }
+}
+
+.schedule {
+    width: 80%;
+    margin: 0 auto;
+    background-color: $body-bg;
+
+    .middle {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    p {
+        color: $text-primary;
+    }
+
+    .Currentlocation {
+        text-decoration: underline;
+    }
+
+    button {
+        background-color: $body-bg;
+        color: $text-accent;
+        border: none;
+    }
+}
+
+.journey {
+    color: $text-secondary;
+    width: 65%;
+    margin: 0 auto;
+
+    p {
+        margin-bottom: 1rem;
+    }
+
+    .Outbound {
+        display: flex;
+        flex-direction: row;
+        white-space: normal;
+        text-align: center;
+
+        .OutboundLeft {
+            width: 30%;
+            background-color: $brand-secondary;
+            color: $text-inverse;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height: 130px;
+        }
+
+        .OutboundLeftCenter {
+            width: 15%;
+            background-color: $brand-secondary;
+            color: $text-inverse;
+            flex-direction: row;
+            text-align: center;
+            line-height: 65px;
+
+            .FlightLine {
+                width: 50%;
+                display: block;
+                margin: 0 auto;
+            }
+        }
+    }
+
+    .OutboundRight {
+        width: 30%;
+        background-color: $sidebar-bg;
+        color: $text-primary;
+        display: flex;
+        flex-direction: column;
+
+        .OutboundRightTicket {
+            background-color: $sidebar-bg;
+            color: $text-primary;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .OutboundRightTicket.active {
+            background-color: $card-bg-inverse;
+            color: $text-inverse;
+            font-weight: bold;
+        }
+
+    }
+
+    .ConfirmIcon {
+        font-size: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .bi {
+            color: $text-primary;
+        }
+
+        .btn {
+            padding: 0px 13px;
+            border: 0;
+            color: $text-inverse;
+            background-color: $brand-primary;
+        }
+
+        .btn-active {
+            background-color: $card-bg-alt;
+            color: $text-primary;
+        }
+
+        .btn-inactive {
+            background-color: $brand-primary;
+            color: $text-inverse;
+        }
+    }
+}
+
+.ConfirmIconCard {
+    width: 52%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 50px;
+
+    .SelectedFlightsInfo {
+        display: none;
+        position: absolute;
+        bottom: 35px;
+        right: 0;
+        bottom: 90px;
+        background-color: $body-bg;
+        border: 1px solid $card-bg-alt;
+        padding: 10px 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+    }
+
+    .CartContainer {
+        .bicard {
+            color: $text-primary;
+            cursor: pointer;
+            font-size: 32px;
+        }
+    }
+
+    .BtnNext {
+        width: 80px;
+        height: 40px;
+        border-radius: 8px;
+        background-color: $sidebar-bg;
+        color: $text-primary;
+    }
+
+    .SelectedPrices {
+        font-size: 14px;
+        margin-top: 1px;
+        color: $text-primary;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.SelectedFlightsInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.SelectedFlightsInfo p {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    white-space: normal;
+    text-align: right;
+}
