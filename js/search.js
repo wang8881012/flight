@@ -70,6 +70,7 @@ function renderFlightList(flights, containerId, directionKey) {
     const card = `
       <div class="flight-card ${isSelected ? "selected" : ""}">
         <h5>${flight.flight_no} (${flight.class_type})</h5>
+        <p>${flight.from_airport} ➜ ${flight.to_airport}</p>
         <p>${flight.from_airport_name} ➜ ${flight.to_airport_name}</p>
         <p>出發: ${formatDateTime(flight.departure_time)}</p>
         <p>抵達: ${formatDateTime(flight.arrival_time)}</p>
