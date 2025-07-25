@@ -3,11 +3,6 @@ session_start();
 header('Content-Type: application/json');
 require_once __DIR__ . '/../inc/db.inc.php';
 
-// 開發階段開啟錯誤顯示，正式上線可關閉
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // 讀取 JSON 格式 POST 資料
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, true);
@@ -16,115 +11,97 @@ $input = json_decode($inputJSON, true);
 $_SESSION['tripType'] = $input['tripType'] ?? 'round';
 $_SESSION['startDate'] = $input['startDate'] ?? null;
 $_SESSION['endDate'] = $input['endDate'] ?? null;
+//去程
 $_SESSION['departure1'] = $input['departure1'] ?? null;
 $_SESSION['arrival1'] = $input['arrival1'] ?? null;
 $_SESSION['departure2'] = $input['departure2'] ?? null;
 $_SESSION['arrival2'] = $input['arrival2'] ?? null;
+//單程
 $_SESSION['departure'] = $input['departure'] ?? null;
 $_SESSION['arrival'] = $input['arrival'] ?? null;
+$_SESSION['passengerCount'] = $input['passengerCount'] ?? $_SESSION['passengerCount'] ?? 1;
 
-// 輔助函式：為航班加入艙等資訊
-function enrichFlights($pdo, $flights) {
-    $flightIds = array_column($flights, 'id');
-    if (empty($flightIds)) return [];
+// die(print_r($_SESSION));
 
-    $placeholders = implode(',', array_fill(0, count($flightIds), '?'));
-    $stmt = $pdo->prepare("SELECT * FROM flight_classes WHERE flight_id IN ($placeholders) ORDER BY flight_id, price ASC");
-    $stmt->execute($flightIds);
-    $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$tripType = $_SESSION['tripType'];
 
-    $prices = [];
-    foreach ($classes as $c) {
-        $prices[$c['flight_id']][] = [
-            'class_type' => $c['class_type'],
-            'price' => (int)$c['price'],
-            'seats_available' => (int)$c['seats_available']
-        ];
-    }
+if ($tripType === 'oneway') {
+    // 單程查詢
 
-    $output = [];
-    foreach ($flights as $f) {
-        $output[] = [
-            'id' => $f['id'],
-            'flight_no' => $f['flight_no'],
-            'from_airport' => $f['from_airport'],
-            'to_airport' => $f['to_airport'],
-            'departure' => [
-                'city' => $f['from_airport_name'],
-                'time' => date('Y-m-d (H:i)', strtotime($f['departure_time']))
-            ],
-            'arrival' => [
-                'city' => $f['to_airport_name'],
-                'time' => date('Y-m-d (H:i)', strtotime($f['arrival_time']))
-            ],
-            'direction' => $f['direction'],
-            'center' => floor($f['duration'] / 60) . 'h ' . ($f['duration'] % 60) . 'm',
-            'class_details' => $prices[$f['id']] ?? [],
-        ];
-    }
+    $departure = $_SESSION['departure'];
+    $arrival = $_SESSION['arrival'];
+    $date = $_SESSION['startDate'];
+    $sql = "SELECT f.*, fc.class_type, fc.price, fc.seats_available
+            FROM flights f
+            JOIN flight_classes fc ON f.id = fc.flight_id
+            WHERE f.from_airport_name = ? AND f.to_airport_name = ?
+              AND DATE(f.departure_time) = ?
+              AND f.is_deleted = 0
+              AND f.direction = 'outbound'";
+    
+    $params = [$departure, $arrival, $date];
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $flights = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // die(print_r($flights));
 
-    return $output;
+} elseif ($tripType === 'round') {
+    // 去程查詢
+    $departure1 = $_SESSION['departure1'];
+    $arrival1 = $_SESSION['arrival1'];
+    $startDate = $_SESSION['startDate'];
+
+    $sql_outbound = "SELECT f.*, fc.class_type, fc.price, fc.seats_available
+                     FROM flights f
+                     JOIN flight_classes fc ON f.id = fc.flight_id
+                     WHERE f.from_airport_name = ? AND f.to_airport_name = ?
+                       AND DATE(f.departure_time) = ?
+                       AND f.is_deleted = 0
+                       AND f.direction = 'outbound'";
+    
+    $params_outbound = [$departure1, $arrival1, $startDate];
+
+    // 回程查詢
+    $departure2 = $_SESSION['departure2'];
+    $arrival2 = $_SESSION['arrival2'];
+    $endDate = $_SESSION['endDate'];
+
+    $sql_inbound = "SELECT f.*, fc.class_type, fc.price, fc.seats_available
+                    FROM flights f
+                    JOIN flight_classes fc ON f.id = fc.flight_id
+                    WHERE f.from_airport_name = ? AND f.to_airport_name = ?
+                      AND DATE(f.departure_time) = ?
+                      AND f.is_deleted = 0
+                      AND f.direction = 'inbound'";
+    
+    $params_inbound = [$departure2, $arrival2, $endDate];
+    $stmt_out = $pdo->prepare($sql_outbound);
+    $stmt_out->execute($params_outbound);
+    $outboundFlights = $stmt_out->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt_in = $pdo->prepare($sql_inbound);
+    $stmt_in->execute($params_inbound);
+    $inboundFlights = $stmt_in->fetchAll(PDO::FETCH_ASSOC);
+    // die(var_dump($outboundFlights, $inboundFlights));
 }
 
-// 查詢航班結果初始陣列
-$outboundFlights = [];
-$inboundFlights = [];
+error_log('outbound: ' . print_r($outboundFlights, true));
+error_log('inbound: ' . print_r($inboundFlights, true));
 
-// 依 tripType 決定查詢邏輯
-if ($_SESSION['tripType'] === 'round') {
-    if ($_SESSION['departure1'] && $_SESSION['arrival1'] && $_SESSION['startDate']) {
-        $stmt1 = $pdo->prepare("
-            SELECT * FROM flights
-            WHERE from_airport_name = :departure1 
-              AND to_airport_name = :arrival1 
-              AND DATE(departure_time) = :startDate
-            ORDER BY id ASC
-        ");
-        $stmt1->execute([
-            ':departure1' => $_SESSION['departure1'],
-            ':arrival1' => $_SESSION['arrival1'],
-            ':startDate' => $_SESSION['startDate']
-        ]);
-        $outboundFlights = $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    if ($_SESSION['departure2'] && $_SESSION['arrival2'] && $_SESSION['endDate']) {
-        $stmt2 = $pdo->prepare("
-            SELECT * FROM flights
-            WHERE from_airport_name = :departure2 
-              AND to_airport_name = :arrival2 
-              AND DATE(departure_time) = :endDate
-            ORDER BY id ASC
-        ");
-        $stmt2->execute([
-            ':departure2' => $_SESSION['departure2'],
-            ':arrival2' => $_SESSION['arrival2'],
-            ':endDate' => $_SESSION['endDate']
-        ]);
-        $inboundFlights = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-} elseif ($_SESSION['tripType'] === 'oneway') {
-    if ($_SESSION['departure'] && $_SESSION['arrival'] && $_SESSION['startDate']) {
-        $stmt = $pdo->prepare("
-            SELECT * FROM flights
-            WHERE from_airport_name = :departure 
-              AND to_airport_name = :arrival 
-              AND DATE(departure_time) = :startDate
-            ORDER BY id ASC
-        ");
-        $stmt->execute([
-            ':departure' => $_SESSION['departure'],
-            ':arrival' => $_SESSION['arrival'],
-            ':startDate' => $_SESSION['startDate']
-        ]);
-        $outboundFlights = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+if ($tripType === 'oneway') {
+    // 回傳單程
+    $result = ['flights' => $flights];
+} else {
+    // 回傳來回
+    $result = [
+        'outbound' => $outboundFlights,
+        'inbound' => $inboundFlights
+    ];
 }
 
-// 輸出 JSON 格式航班資料
-echo json_encode([
-    'outbound' => enrichFlights($pdo, $outboundFlights),
-    'inbound' => enrichFlights($pdo, $inboundFlights),
-], JSON_UNESCAPED_UNICODE);
-exit;
+// die(var_dump($result));
+echo json_encode($result);
+
+
+
+

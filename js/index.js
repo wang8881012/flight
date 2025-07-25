@@ -236,83 +236,14 @@ fetch("../api/flights/list.php")
         alert("載入資料時發生錯誤");
     });
 
-document
-    .getElementById("nextPageBtn")
-    .addEventListener("click", () => {
-        let url;
-        const baseParams = {};
+let passengerCount = 1;
 
-        if (selectedStartDate) {
-            baseParams.startDate = selectedStartDate;
-        }
-        if (selectedEndDate) {
-            baseParams.endDate = selectedEndDate;
-        }
-
-        if (tripType === "round") {
-            const d1 = document.getElementById(
-                "departureCityRound1"
-            ).value;
-            const a1 =
-                document.getElementById("arrivalCityRound1").value;
-            const d2 = document.getElementById(
-                "departureCityRound2"
-            ).value;
-            const a2 =
-                document.getElementById("arrivalCityRound2").value;
-
-            if (d1 === a1 || d2 === a2) {
-                alert("出發地與目的地不可相同");
-                return;
-            }
-
-            const params = new URLSearchParams({
-                ...baseParams,
-                tripType: "round",
-                departure1: d1,
-                arrival1: a1,
-                departure2: d2,
-                arrival2: a2,
-            });
-
-            url = `search.html?${params.toString()}`;
-        } else {
-            const d = document.getElementById(
-                "departureCityOneWay"
-            ).value;
-            const a =
-                document.getElementById("arrivalCityOneWay").value;
-
-            if (d === a) {
-                alert("出發地與目的地不可相同");
-                return;
-            }
-
-            const params = new URLSearchParams({
-                ...baseParams,
-                tripType: "oneway",
-                departure: d,
-                arrival: a,
-            });
-
-            url = `search.html?${params.toString()}`;
-        }
-
-        window.location.href = url;
-    });
-
-// 選擇人數
-let passengerCount =
-    parseInt(localStorage.getItem("passengerCount")) || 1;
-
-const passengerCountSpan =
-    document.getElementById("passengerCount");
+const passengerCountSpan = document.getElementById("passengerCount");
 const btnMinus = document.getElementById("btnMinus");
 const btnPlus = document.getElementById("btnPlus");
 
 function updatePassengerDisplay() {
     passengerCountSpan.textContent = passengerCount;
-    localStorage.setItem("passengerCount", passengerCount);
 }
 
 btnMinus.addEventListener("click", () => {
@@ -328,3 +259,46 @@ btnPlus.addEventListener("click", () => {
 });
 
 updatePassengerDisplay(); // 初始化顯示人數
+
+document.getElementById("nextPageBtn").addEventListener("click", async () => {
+    const baseParams = {};
+
+    if (selectedStartDate) baseParams.startDate = selectedStartDate;
+    if (selectedEndDate) baseParams.endDate = selectedEndDate;
+    baseParams.passengerCount = passengerCount;
+
+    if (tripType === "round") {
+        baseParams.tripType = "round";
+        baseParams.departure1 = document.getElementById("departureCityRound1").value;
+        baseParams.arrival1 = document.getElementById("arrivalCityRound1").value;
+        baseParams.departure2 = document.getElementById("departureCityRound2").value;
+        baseParams.arrival2 = document.getElementById("arrivalCityRound2").value;
+        if (baseParams.departure1 === baseParams.arrival1 || baseParams.departure2 === baseParams.arrival2) {
+            alert("出發地與目的地不可相同");
+            return;
+        }
+    } else {
+        baseParams.tripType = "oneway";
+        baseParams.departure = document.getElementById("departureCityOneWay").value;
+        baseParams.arrival = document.getElementById("arrivalCityOneWay").value;
+        if (baseParams.departure === baseParams.arrival) {
+            alert("出發地與目的地不可相同");
+            return;
+        }
+    }
+    // POST 傳送選擇資料到 search.php，等待回應再跳轉
+    try {
+        const res = await fetch("../api/flights/search.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(baseParams)
+        });
+        const data = await res.json();
+        // 可依 data.status 做錯誤處理
+        // console.log(baseParams)
+        window.location.href = "search.html";
+    } catch (err) {
+        alert("搜尋失敗，請稍後再試");
+        console.error(err);
+    }
+});
