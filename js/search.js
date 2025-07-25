@@ -126,7 +126,20 @@ function initFlightData() {
     document.getElementById('noFlightMessageReturn').style.display = 'none';
     document.getElementById('noFlightMessageOneWay').style.display = 'none';
 
-    fetch('../api/flights/search.php' + window.location.search)
+    // 先把 query string 轉成物件
+    const params = new URLSearchParams(window.location.search);
+    const bodyData = {};
+    for (const [key, value] of params.entries()) {
+        bodyData[key] = value;
+    }
+
+    fetch('../api/flights/search.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bodyData)
+    })
         .then(res => res.json())
         .then(data => {
             if (data.outbound && data.inbound) {
@@ -145,6 +158,7 @@ function initFlightData() {
             console.error('資料載入錯誤：', err);
             alert('無法載入航班資料，請稍後再試。');
         });
+
 }
 
 // 頁面初始化
@@ -256,7 +270,7 @@ function bindFlightSelectEvents() {
                 selectedClass,
                 selectedPrice: classDetail.price
             };
-            
+
             // 自動判斷是去程或回程
             if (direction === 'outbound') {
                 selectedOutbound = selectedData;
