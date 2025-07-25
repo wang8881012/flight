@@ -100,8 +100,12 @@ if ($tripType === 'oneway') {
 }
 
 // die(var_dump($result));
-echo json_encode($result);
-
+$_SESSION['searchResult'] = $result;
+if (isset($_SESSION['searchResult'])) {
+    echo json_encode(["status" => "ok"]);
+} else {
+    echo json_encode(["error" => "查無搜尋結果"]);
+}
 
 
 
