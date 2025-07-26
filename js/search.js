@@ -1,420 +1,301 @@
-let flightsGo = [];
-let flightsReturn = [];
-const itemsPerPage = 2;
-let currentPageGo = 1;
-let currentPageReturn = 1;
-let currentPageOneWayGo = 1;
-let currentPageOneWayReturn = 1;
-let selectedOutbound = null;
-let selectedReturn = null;
+let currentData = null; // 從 API 拿到的整包資料（含 outbound / inbound / flights）
+let selected = {
+  outbound: null, // { id, class_type, price, ... }
+  inbound: null,
+  oneway: null,
+};
+let passengerCount = 1; // 從後端回傳帶出來
 
-// 取得 URL Query 參數
-function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
+// ---- 頁面載入：拿資料 ----
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("../api/flights/get_search_result.php", {
+    credentials: "include",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.error) {
+        console.error("錯誤：", data.error);
+        return;
+      }
 
-// 根據 tripType 顯示對應區塊
-// 顯示無航班訊息
-function showFlightSection(type) {
-    // 先隱藏所有無航班訊息
-    document.getElementById('noFlightMessageGo').style.display = 'none';
-    document.getElementById('noFlightMessageReturn').style.display = 'none';
-    document.getElementById('noFlightMessageOneWay').style.display = 'none';
+      currentData = data.searchResult;
+      passengerCount = data.passengerCount || 1;
 
-    if (type === 'round') {
-        document.getElementById('roundTripSection').style.display = 'block';
-        document.getElementById('oneWaySection').style.display = 'none';
-        goToPageGo(currentPageGo);
-        goToPageReturn(currentPageReturn);
-    } else {
-        document.getElementById('roundTripSection').style.display = 'none';
-        document.getElementById('oneWaySection').style.display = 'block';
-        goToPageOneWay(1);
-        selectedReturn = null;
-        document.querySelectorAll('.OutboundRightTicket[data-direction="inbound"]').forEach(btn => btn.classList.remove('active'));
-    }
-
-    // 呼叫顯示無航班訊息函式
-    showNoFlightMessage(type);
-}
-
-function goToPageGo(page) {
-    currentPageGo = page;
-    renderFlights('flight-containerGo', flightsGo, currentPageGo, 'outbound');
-    renderPagination('PaginationControlsGo', flightsGo.length, currentPageGo, 'goToPageGo');
-}
-
-function goToPageReturn(page) {
-    currentPageReturn = page;
-    renderFlights('flight-containerReturn', flightsReturn, currentPageReturn, 'inbound');
-    renderPagination('PaginationControlsReturn', flightsReturn.length, currentPageReturn, 'goToPageReturn');
-}
-
-
-
-
-const roundTripSection = document.getElementById('roundTripSection');
-const oneWaySection = document.getElementById('oneWaySection');
-
-
-initFlightData();
-
-// 載入並初始化航班資料
-function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
-
-// 顯示對應區塊並渲染頁面
-// 顯示「無航班訊息」
-function showNoFlightMessage(type) {
-    const noFlightGo = document.getElementById('noFlightMessageGo');
-    const noFlightReturn = document.getElementById('noFlightMessageReturn');
-    const noFlightOneWay = document.getElementById('noFlightMessageOneWay');
-
-    noFlightGo.innerText = '';
-    noFlightReturn.innerText = '';
-    noFlightOneWay.innerText = '';
-
-    if (type === 'round') {
-        if (flightsGo.length === 0) {
-            noFlightGo.innerText = '查無去程航班，請改其他時段';
-            noFlightGo.style.display = 'block';
-        }
-        if (flightsReturn.length === 0) {
-            noFlightReturn.innerText = '查無回程航班，請改其他時段';
-            noFlightReturn.style.display = 'block';
-        }
-    } else {
-        if (flightsGo.length === 0 && flightsReturn.length === 0) {
-            noFlightOneWay.innerText = '查無單程航班，請改其他時段';
-            noFlightOneWay.style.display = 'block';
-        }
-    }
-}
-
-function showFlightSection(tripType) {
-    // 隱藏所有無航班訊息
-    document.getElementById('noFlightMessageGo').style.display = 'none';
-    document.getElementById('noFlightMessageReturn').style.display = 'none';
-    document.getElementById('noFlightMessageOneWay').style.display = 'none';
-
-    if (tripType === 'round') {
-        roundTripSection.style.display = 'block';
-        oneWaySection.style.display = 'none';
-        goToPageGo(currentPageGo);
-        goToPageReturn(currentPageReturn);
-    } else {
-        roundTripSection.style.display = 'none';
-        oneWaySection.style.display = 'block';
-        goToPageOneWay(1);
-        selectedReturn = null;
-        document.querySelectorAll('.OutboundRightTicket[data-direction="inbound"]').forEach(btn => btn.classList.remove('active'));
-    }
-
-    // 顯示無航班訊息
-    showNoFlightMessage(tripType);
-}
-
-// 載入並初始化航班資料
-function initFlightData() {
-    const tripType = getQueryParam('tripType') || 'round';
-
-    // 先隱藏所有無航班訊息
-    document.getElementById('noFlightMessageGo').style.display = 'none';
-    document.getElementById('noFlightMessageReturn').style.display = 'none';
-    document.getElementById('noFlightMessageOneWay').style.display = 'none';
-
-    // 先把 query string 轉成物件
-    const params = new URLSearchParams(window.location.search);
-    const bodyData = {};
-    for (const [key, value] of params.entries()) {
-        bodyData[key] = value;
-    }
-
-    fetch('../api/flights/search.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(bodyData)
+      renderFlights(data.searchResult);
+      bindCartButton();
+      bindNextButton();
     })
-        .then(res => res.json())
-        .then(data => {
-            if (data.outbound && data.inbound) {
-                flightsGo = data.outbound;
-                flightsReturn = data.inbound;
-            } else {
-                flightsGo = [];
-                flightsReturn = [];
-            }
+    .catch((err) => {
+      console.error("查詢失敗：", err);
+    });
+});
 
-            showFlightSection(tripType);
-            setupNextButton(tripType);
-            setupCartToggle();
-        })
-        .catch(err => {
-            console.error('資料載入錯誤：', err);
-            alert('無法載入航班資料，請稍後再試。');
-        });
+// ---- 渲染整體畫面 ----
+function renderFlights(data) {
+  const isRoundTrip = !!data.outbound && !!data.inbound;
 
+  if (isRoundTrip) {
+    document.getElementById("roundTripSection").style.display = "block";
+    document.getElementById("oneWaySection").style.display = "none";
+
+    renderFlightList(data.outbound, "flight-containerGo", "outbound");
+    renderFlightList(data.inbound, "flight-containerReturn", "inbound");
+  } else if (data.flights) {
+    document.getElementById("roundTripSection").style.display = "none";
+    document.getElementById("oneWaySection").style.display = "block";
+
+    renderFlightList(data.flights, "flight-containerOneWayGo", "oneway");
+  } else {
+    document.getElementById("roundTripSection").style.display = "none";
+    document.getElementById("oneWaySection").style.display = "none";
+    document.getElementById("noFlightMessageGo").innerHTML = "查無航班";
+  }
 }
 
-// 頁面初始化
-initFlightData();
+// ---- 渲染每一筆航班 ----
+// directionKey: 'outbound' | 'inbound' | 'oneway'
+function renderFlightList(flights, containerId, directionKey) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
 
-// 去程分頁渲染
-function goToPageGo(page) {
-    currentPageGo = page;
-    renderFlights('flight-containerGo', flightsGo, currentPageGo);
-    renderPagination('PaginationControlsGo', flightsGo.length, currentPageGo, 'goToPageGo');
-}
+  if (!flights || !flights.length) {
+    container.innerHTML = `<p class="text-danger">沒有 ${directionKey} 航班</p>`;
+    return;
+  }
 
-// 回程分頁渲染
-function goToPageReturn(page) {
-    currentPageReturn = page;
-    renderFlights('flight-containerReturn', flightsReturn, currentPageReturn);
-    renderPagination('PaginationControlsReturn', flightsReturn.length, currentPageReturn, 'goToPageReturn');
-}
+  // 把同 flight_no 的艙等 class 分組在同一個 card 裡面
+  const groupedFlights = {};
 
-// 單程分頁渲染
-function goToPageOneWay(page) {
-    renderFlights('flight-containerOneWayGo', flightsGo, page);
-    renderPagination('PaginationControlsOneWayGo', flightsGo.length, page, 'goToPageOneWayGo');
+  flights.forEach((f) => {
+    if (!groupedFlights[f.flight_no]) groupedFlights[f.flight_no] = [];
+    groupedFlights[f.flight_no].push(f);
+  });
 
-    renderFlights('flight-containerOneWayReturn', flightsReturn, page);
-    renderPagination('PaginationControlsOneWayReturn', flightsReturn.length, page, 'goToPageOneWayReturn');
-}
+  Object.entries(groupedFlights).forEach(([flight_no, classOptions]) => {
+    const base = classOptions[0]; // 拿第一個作為時間、機場資訊顯示
 
-// 去程單程分頁
-function goToPageOneWayGo(page) {
-    renderFlights('flight-containerOneWayGo', flightsGo, page);
-    renderPagination('PaginationControlsOneWayGo', flightsGo.length, page, 'goToPageOneWayGo');
-}
+    function formatDuration(minutes) {
+      const hrs = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      return `${hrs} 小時 ${mins} 分鐘`;
+    }
 
-// 回程單程分頁
-function goToPageOneWayReturn(page) {
-    renderFlights('flight-containerOneWayReturn', flightsReturn, page);
-    renderPagination('PaginationControlsOneWayReturn', flightsReturn.length, page, 'goToPageOneWayReturn');
-}
+    const durationText = formatDuration(parseInt(base.duration));
 
-
-// 渲染航班清單（支援去程或回程）
-function renderFlights(containerId, data, page) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    container.innerHTML = '';
-    const start = (page - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    const pageItems = data.slice(start, end);
-
-    pageItems.forEach(flight => {
-        if (!flight || !flight.class_details) return;
-
-        const div = document.createElement('div');
-        let buttonsHTML = '';
-
-        flight.class_details.forEach(cls => {
-            buttonsHTML += `
-            <div class="btn OutboundRightTicket"
-                 data-id="${flight.id}"
-                 data-direction="${flight.direction}"
-                 data-class="${cls.class_type}">
-                 ${cls.class_type.toUpperCase()}<br>$${cls.price}
-            </div>`;
-        });
-
-        div.innerHTML = `
-            <div class="Outbound">
-                <div class="OutboundLeft">
-                    <p>當地時間為 <br><strong>${flight.departure.time}</strong></p>
-                    <p>${flight.from_airport} - ${flight.departure.city}</p>
-                </div>
-                <div class="OutboundLeftCenter">
-                    ${flight.center}
-                    <img src="../assets/images/Line%206.svg" alt="flight path" class="FlightLine">
-                </div>
-                <div class="OutboundLeft">
-                    <p>當地時間為 <strong><br>${flight.arrival.time}</strong></p>
-                    <p>${flight.to_airport} - ${flight.arrival.city}</p>
-                </div>
-                <div class="OutboundRight">
-                    ${buttonsHTML}
-                </div>
-            </div><br>
+    const classButtons = classOptions
+      .map((flight, idx) => {
+        const isSelected = isThisSelected(directionKey, flight);
+        return `
+          <div class="class-option ${isSelected ? "selected" : ""}">
+            <div class="class-type">${flight.class_type}</div>
+            <div class="class-price">NT$${flight.price.toLocaleString()}</div>
+            <button 
+              class="btn-select" 
+              data-direction="${directionKey}" 
+              data-flight-no="${flight_no}" 
+              data-class-type="${flight.class_type}"
+              data-idx="${flights.indexOf(flight)}"
+            >
+              ${isSelected ? "selected" : "select"}
+            </button>
+          </div>
         `;
-        container.appendChild(div);
-    });
+      })
+      .join("");
 
-    bindFlightSelectEvents();
-}
-
-
-// 綁定航班選擇按鈕事件
-function bindFlightSelectEvents() {
-    document.querySelectorAll('.OutboundRightTicket').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const flightId = btn.dataset.id;
-            const selectedClass = btn.dataset.class;
-            const direction = btn.dataset.direction;
-
-            // 找出對應航班
-            const selectedFlight = [...flightsGo, ...flightsReturn].find(f => String(f.id) === flightId);
-            const classDetail = selectedFlight?.class_details.find(cls => cls.class_type === selectedClass);
-            if (!selectedFlight || !classDetail) return;
-
-            const selectedData = {
-                ...selectedFlight,
-                selectedClass,
-                selectedPrice: classDetail.price
-            };
-
-            // 自動判斷是去程或回程
-            if (direction === 'outbound') {
-                selectedOutbound = selectedData;
-                localStorage.setItem('selectedOutbound', JSON.stringify(selectedData));
-            } else {
-                selectedReturn = selectedData;
-                localStorage.setItem('selectedReturn', JSON.stringify(selectedData));
-            }
-
-            //只清除相同方向的 active
-            document.querySelectorAll(`.OutboundRightTicket[data-direction="${direction}"]`)
-                .forEach(b => b.classList.remove('active'));
-
-            btn.classList.add('active');
-
-            updateNextButton();
-        });
-    });
-}
-
-// 分頁元件渲染
-function renderPagination(containerId, totalItems, currentPageVar, onPageChangeFn) {
-    const pagination = document.getElementById(containerId);
-    if (!pagination) return;
-
-    pagination.innerHTML = '';
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-    pagination.innerHTML += `
-        <button onclick="${onPageChangeFn}(1)"><i class="bi bi-rewind-btn-fill"></i></button>
-        <button onclick="${onPageChangeFn}(${Math.max(1, currentPageVar - 1)})"><i class="bi bi-skip-start-btn-fill"></i></button>
+    const cardHTML = `
+      <div class="flight-card flight-card-full">
+        <div class="flight-info-left">
+          <div class="time-row">
+            <div class="depart-time">${base.departure_time.slice(11, 16)}</div>
+            <div class="duration">${durationText}</div>
+            <div class="arrive-time">${base.arrival_time.slice(11, 16)}</div>
+          </div>
+          <div class="airport-row">
+            <div>${base.from_airport}</div>
+            <div class="arrow">→</div>
+            <div>${base.to_airport}</div>
+          </div>
+          <div class="airport-name-row">
+            <div>${base.from_airport_name}</div>
+            <div></div>
+            <div>${base.to_airport_name}</div>
+          </div>
+        </div>
+        <div class="flight-info-right">
+          ${classButtons}
+        </div>
+      </div>
     `;
 
-    let start = Math.max(1, currentPageVar - 1);
-    let end = Math.min(totalPages, start + 2);
-    if (end - start < 2) start = Math.max(1, end - 2);
+    container.innerHTML += cardHTML;
+  });
 
-    for (let i = start; i <= end; i++) {
-        const activeClass = i === currentPageVar ? 'btn-active' : 'btn-inactive';
-        pagination.innerHTML += `<button class="btn ${activeClass}" onclick="${onPageChangeFn}(${i})">${i}</button>`;
-    }
+  // 綁定選擇按鈕
+  container.querySelectorAll(".btn-select").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const idx = Number(e.currentTarget.dataset.idx);
+      const direction = e.currentTarget.dataset.direction;
+      const flight = flights[idx];
 
-    pagination.innerHTML += `
-        <button onclick="${onPageChangeFn}(${Math.min(totalPages, currentPageVar + 1)})"><i class="bi bi-skip-end-btn-fill"></i></button>
-        <button onclick="${onPageChangeFn}(${totalPages})"><i class="bi bi-fast-forward-btn-fill"></i></button>
-    `;
-}
-
-// 更新已選航班資訊顯示
-function updateSelectedFlightInfo() {
-    const infoBox = document.querySelector('.SelectedFlightsInfo');
-    infoBox.innerHTML = '';
-
-    if (selectedOutbound) {
-        const { departure, arrival } = selectedOutbound;
-        infoBox.innerHTML += `<p>去程：${departure.city} ${departure.time} → ${arrival.city} ${arrival.time}</p>`;
-    }
-    if (selectedReturn) {
-        const { departure, arrival } = selectedReturn;
-        infoBox.innerHTML += `<p>回程：${departure.city} ${departure.time} → ${arrival.city} ${arrival.time}</p>`;
-    }
-
-    updateTotalPrice();
-}
-
-// 計算並顯示總價格
-let passengerCount = 1;
-let count = parseInt(localStorage.getItem('passengerCount')) || 1;
-
-function updateTotalPrice() {
-    const priceBox = document.querySelector('.SelectedPrices');
-    let total = 0;
-    if (selectedOutbound) total += selectedOutbound.selectedPrice;
-    if (selectedReturn) total += selectedReturn.selectedPrice;
-    const count = parseInt(localStorage.getItem('passengerCount')) || 1;
-    const totalPrice = total * count;
-
-    priceBox.innerHTML = `
-        <p>人數：${count}人</p>
-        <p>總價：$${totalPrice.toLocaleString()}</p>
-    `;
-}
-// 下一步按鈕狀態控制
-function updateNextButton() {
-    const nextBtn = document.getElementById('NextButton');
-    const tripType = getQueryParam('tripType') || 'round';
-
-    nextBtn.disabled = tripType === 'round'
-        ? !(selectedOutbound && selectedReturn)
-        : !(selectedOutbound || selectedReturn);
-
-    updateSelectedFlightInfo();
-}
-
-// 綁定下一步按鈕點擊事件
-function setupNextButton(tripType) {
-    document.getElementById('NextButton').addEventListener('click', () => {
-        const outboundValid = selectedOutbound !== null;
-        const returnValid = selectedReturn !== null;
-
-        if (tripType === 'round' && outboundValid && returnValid) {
-            localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
-            localStorage.setItem('selectedReturn', JSON.stringify(selectedReturn));
-            localStorage.setItem('tripType', 'round');
-            localStorage.setItem('passengerCount', count);
-            window.location.href = 'booking01.html';
-        } else if (tripType === 'oneway' && (outboundValid || returnValid)) {
-            if (outboundValid) {
-                localStorage.setItem('selectedOutbound', JSON.stringify(selectedOutbound));
-            }
-            if (returnValid) {
-                localStorage.setItem('selectedReturn', JSON.stringify(selectedReturn));
-            }
-            localStorage.setItem('tripType', 'oneway');
-            localStorage.setItem('passengerCount', count);
-            window.location.href = 'booking01.html';
-        } else {
-            console.log('請至少選擇一段航班');
-        }
+      selectFlight(direction, flight);
+      renderFlights(currentData);
+      updateCartPreview();
     });
+  });
 }
 
+// 判斷該航班是否已被選
+function isThisSelected(directionKey, flight) {
+  const picked = selected[directionKey];
+  if (!picked) return false;
+  return picked.id == flight.id && picked.class_type == flight.class_type;
+}
 
-// 購物車圖示顯示選擇資訊切換
-let cartToggleBound = false;
+// ---- 選擇航班後的處理 ----
+function selectFlight(direction, flight) {
+  selected[direction] = {
+    id: flight.id,
+    flight_no: flight.flight_no,
+    class_type: flight.class_type,
+    price: flight.price,
+    from_airport_name: flight.from_airport_name,
+    to_airport_name: flight.to_airport_name,
+    departure_time: flight.departure_time,
+    arrival_time: flight.arrival_time,
+    duration: flight.duration,
+  };
+  toggleNextButton();
+}
 
-function setupCartToggle() {
-    if (cartToggleBound) return;
-    cartToggleBound = true;
+// ---- 顯示購物車資訊 ----
+function bindCartButton() {
+  const cartIcon = document.getElementById("cartIcon");
+  const infoBox = document.querySelector(".SelectedFlightsInfo");
+  const priceBox = document.querySelector(".SelectedPrices");
 
-    const cartIcon = document.getElementById('cartIcon');
-    const infoBox = document.querySelector('.SelectedFlightsInfo');
+  cartIcon.addEventListener("click", () => {
+    const isVisible = infoBox.style.display === "block";
 
-    cartIcon.addEventListener('click', () => {
-        const isVisible = infoBox.style.display === 'block';
-        if (!selectedOutbound && !selectedReturn) {
-            alert('您尚未選擇航班！');
-            return;
-        }
-        infoBox.style.display = isVisible ? 'none' : 'block';
-        updateSelectedFlightInfo();
+    if (isVisible) {
+      // 隱藏
+      infoBox.style.display = "none";
+      priceBox.style.display = "none";
+    } else {
+      // 顯示 + 更新內容
+      updateCartPreview(true);
+    }
+  });
+}
+
+// 更新（或顯示）購物車內的資訊
+function updateCartPreview(forceShow = false) {
+  const infoBox = document.querySelector(".SelectedFlightsInfo");
+  const priceBox = document.querySelector(".SelectedPrices");
+
+  const isRoundTrip = !!(currentData?.outbound && currentData?.inbound);
+
+  let total = 0;
+  const lines = [];
+
+  if (isRoundTrip) {
+    if (selected.outbound) {
+      total += selected.outbound.price;
+      lines.push(
+        `[去程] ${selected.outbound.flight_no} (${selected.outbound.class_type}) $${selected.outbound.price}`
+      );
+    }
+    if (selected.inbound) {
+      total += selected.inbound.price;
+      lines.push(
+        `[回程] ${selected.inbound.flight_no} (${selected.inbound.class_type}) $${selected.inbound.price}`
+      );
+    }
+  } else {
+    if (selected.oneway) {
+      total += selected.oneway.price;
+      lines.push(
+        `[單程] ${selected.oneway.flight_no} (${selected.oneway.class_type}) $${selected.oneway.price}`
+      );
+    }
+  }
+
+  const count = passengerCount || 1;
+  const totalForAll = total * count;
+
+  infoBox.innerHTML = lines.length ? lines.join("<br>") : "尚未選擇航班";
+  priceBox.innerHTML = lines.length
+    ? `人數：${count} 人<br>小計：$${total} x ${count} = <strong>$${totalForAll}</strong>`
+    : "";
+
+  if (forceShow) {
+    infoBox.style.display = "block";
+    priceBox.style.display = "block";
+  }
+}
+
+// ---- 控制下一步按鈕是否可點 ----
+function bindNextButton() {
+  const nextBtn = document.getElementById("NextButton");
+  nextBtn.addEventListener("click", async () => {
+    await saveSelectionToSession();
+  });
+  toggleNextButton();
+}
+
+function toggleNextButton() {
+  const nextBtn = document.getElementById("NextButton");
+  const isRoundTrip = !!(currentData?.outbound && currentData?.inbound);
+
+  let canGo = false;
+  if (isRoundTrip) {
+    canGo = !!(selected.outbound && selected.inbound);
+  } else {
+    canGo = !!selected.oneway;
+  }
+  nextBtn.disabled = !canGo;
+}
+
+// ---- 把選擇送到 PHP Session ----
+async function saveSelectionToSession() {
+  const isRoundTrip = !!(currentData?.outbound && currentData?.inbound);
+
+  let total = 0;
+  if (isRoundTrip) {
+    total += selected.outbound?.price || 0;
+    total += selected.inbound?.price || 0;
+  } else {
+    total += selected.oneway?.price || 0;
+  }
+  const totalForAll = total * (passengerCount || 1);
+
+  const payload = {
+    tripType: isRoundTrip ? "round" : "oneway",
+    passengerCount: passengerCount,
+    selectedFlights: {
+      outbound: selected.outbound,
+      inbound: selected.inbound,
+      oneway: selected.oneway,
+    },
+    totalPrice: totalForAll,
+  };
+
+  try {
+    const res = await fetch("../api/flights/save_selection.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(payload),
     });
+    const data = await res.json();
+    if (data.status === "success") {
+      // 進入下一步（填寫旅客資料）
+      window.location.href = "test.html"; // 你自己的下一步頁面
+    } else {
+      alert("儲存選擇失敗：" + (data.message || ""));
+    }
+  } catch (err) {
+    console.error(err);
+    alert("儲存選擇失敗，請稍後再試");
+  }
 }
-
-
-// 頁面初始化
-initFlightData();
