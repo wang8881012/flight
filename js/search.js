@@ -1,4 +1,3 @@
-// ---- 全域狀態 ----
 let currentData = null; // 從 API 拿到的整包資料（含 outbound / inbound / flights）
 let selected = {
   outbound: null, // { id, class_type, price, ... }
@@ -64,37 +63,84 @@ function renderFlightList(flights, containerId, directionKey) {
     return;
   }
 
-  flights.forEach((flight, index) => {
-    const isSelected = isThisSelected(directionKey, flight);
+  // 把同 flight_no 的艙等 class 分組在同一個 card 裡面
+  const groupedFlights = {};
 
-    const card = `
-      <div class="flight-card ${isSelected ? "selected" : ""}">
-        <h5>${flight.flight_no} (${flight.class_type})</h5>
-        <p>${flight.from_airport} ➜ ${flight.to_airport}</p>
-        <p>${flight.from_airport_name} ➜ ${flight.to_airport_name}</p>
-        <p>出發: ${formatDateTime(flight.departure_time)}</p>
-        <p>抵達: ${formatDateTime(flight.arrival_time)}</p>
-        <p>價格: $${flight.price}</p>
-        <p>座位剩餘: ${flight.seats_available}</p>
-        <button data-direction="${directionKey}" data-index="${index}" class="btn-select">
-          ${isSelected ? "已選擇" : "選擇"}
-        </button>
-      </div>
-    `;
-    container.innerHTML += card;
+  flights.forEach((f) => {
+    if (!groupedFlights[f.flight_no]) groupedFlights[f.flight_no] = [];
+    groupedFlights[f.flight_no].push(f);
   });
 
-  // 綁定每個 card 的選擇按鈕
+  Object.entries(groupedFlights).forEach(([flight_no, classOptions]) => {
+    const base = classOptions[0]; // 拿第一個作為時間、機場資訊顯示
+
+    function formatDuration(minutes) {
+      const hrs = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      return `${hrs} 小時 ${mins} 分鐘`;
+    }
+
+    const durationText = formatDuration(parseInt(base.duration));
+
+    const classButtons = classOptions
+      .map((flight, idx) => {
+        const isSelected = isThisSelected(directionKey, flight);
+        return `
+          <div class="class-option ${isSelected ? "selected" : ""}">
+            <div class="class-type">${flight.class_type}</div>
+            <div class="class-price">NT$${flight.price.toLocaleString()}</div>
+            <button 
+              class="btn-select" 
+              data-direction="${directionKey}" 
+              data-flight-no="${flight_no}" 
+              data-class-type="${flight.class_type}"
+              data-idx="${flights.indexOf(flight)}"
+            >
+              ${isSelected ? "selected" : "select"}
+            </button>
+          </div>
+        `;
+      })
+      .join("");
+
+    const cardHTML = `
+      <div class="flight-card flight-card-full">
+        <div class="flight-info-left">
+          <div class="time-row">
+            <div class="depart-time">${base.departure_time.slice(11, 16)}</div>
+            <div class="duration">${durationText}</div>
+            <div class="arrive-time">${base.arrival_time.slice(11, 16)}</div>
+          </div>
+          <div class="airport-row">
+            <div>${base.from_airport}</div>
+            <div class="arrow">→</div>
+            <div>${base.to_airport}</div>
+          </div>
+          <div class="airport-name-row">
+            <div>${base.from_airport_name}</div>
+            <div></div>
+            <div>${base.to_airport_name}</div>
+          </div>
+        </div>
+        <div class="flight-info-right">
+          ${classButtons}
+        </div>
+      </div>
+    `;
+
+    container.innerHTML += cardHTML;
+  });
+
+  // 綁定選擇按鈕
   container.querySelectorAll(".btn-select").forEach((btn) => {
     btn.addEventListener("click", (e) => {
+      const idx = Number(e.currentTarget.dataset.idx);
       const direction = e.currentTarget.dataset.direction;
-      const idx = Number(e.currentTarget.dataset.index);
       const flight = flights[idx];
 
       selectFlight(direction, flight);
-      // 重新渲染，讓選中的樣式更新
       renderFlights(currentData);
-      updateCartPreview(); // 順便更新右下角的已選航班摘要
+      updateCartPreview();
     });
   });
 }
@@ -117,6 +163,7 @@ function selectFlight(direction, flight) {
     to_airport_name: flight.to_airport_name,
     departure_time: flight.departure_time,
     arrival_time: flight.arrival_time,
+    duration: flight.duration,
   };
   toggleNextButton();
 }
@@ -124,8 +171,20 @@ function selectFlight(direction, flight) {
 // ---- 顯示購物車資訊 ----
 function bindCartButton() {
   const cartIcon = document.getElementById("cartIcon");
+  const infoBox = document.querySelector(".SelectedFlightsInfo");
+  const priceBox = document.querySelector(".SelectedPrices");
+
   cartIcon.addEventListener("click", () => {
-    updateCartPreview(true); // 點擊時顯示
+    const isVisible = infoBox.style.display === "block";
+
+    if (isVisible) {
+      // 隱藏
+      infoBox.style.display = "none";
+      priceBox.style.display = "none";
+    } else {
+      // 顯示 + 更新內容
+      updateCartPreview(true);
+    }
   });
 }
 
@@ -239,16 +298,4 @@ async function saveSelectionToSession() {
     console.error(err);
     alert("儲存選擇失敗，請稍後再試");
   }
-}
-
-// ---- 公用：格式化時間 ----
-function formatDateTime(datetimeStr) {
-  const dt = new Date(datetimeStr);
-  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}-${String(dt.getDate()).padStart(2, "0")} ${String(dt.getHours()).padStart(
-    2,
-    "0"
-  )}:${String(dt.getMinutes()).padStart(2, "0")}`;
 }

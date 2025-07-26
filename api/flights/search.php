@@ -85,8 +85,7 @@ if ($tripType === 'oneway') {
     // die(var_dump($outboundFlights, $inboundFlights));
 }
 
-error_log('outbound: ' . print_r($outboundFlights, true));
-error_log('inbound: ' . print_r($inboundFlights, true));
+
 
 if ($tripType === 'oneway') {
     // 回傳單程
