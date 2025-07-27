@@ -1,61 +1,138 @@
-/* 餐點按鈕被選中變色 */
-button.meal-btn.selected {
-  background-color: #343a40;  /* 深色 */
-  color: white;
-  border: 2px solid black;
+@charset "UTF-8";
+.sidebar {
+  background-color: #455B80;
+  color: #455B80;
 }
-.error {
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 4px;
+.sidebar h4, .sidebar h5, .sidebar h6, .sidebar .fw-bold, .sidebar .text-end {
+  color: #fff !important;
 }
-.meal-btn img {
-  pointer-events: none;
+.sidebar .card {
+  background-color: #455B80 !important;
+  border: none;
 }
-
-
-/* #seatPopover {
-  position: absolute;
-  z-index: 1050;
-  display: none;
-} */
-
-.border-error {
-    border-color: red !important;
+.sidebar .card .card-body {
+  background-color: #455B80 !important;
+}
+.sidebar a.btn-primary {
+  background-color: #DBB37D #455B80, 10%;
+  color: #2B3B52;
+  border: none;
+}
+.sidebar a.btn-primary:hover {
+  background-color: rgb(77.9314720812, 102.7791878173, 144.5685279188);
 }
 
-/* ---- ConfirmIconCard 通用區塊 ---- */
+.keep-white {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.btn {
+  background-color: #DBB37D;
+  color: #2B3B52;
+}
+.btn :hover {
+  background-color: #DBB37D;
+}
+
+.meal-btn.btn {
+  background-color: #455B80;
+  color: #fff;
+}
+.meal-btn.btn:hover {
+  color: rgb(146.7142857143, 116.0714285714, 74.2857142857);
+}
+.meal-btn.btn.selected {
+  background-color: #AF8E61;
+  color: #F5F5F5;
+}
+
+.nav-link {
+  color: #2B3B52;
+}
+.nav-link.active {
+  color: #455B80;
+  font-weight: bold;
+}
+.nav-link:hover {
+  color: rgb(25.456, 34.928, 48.544);
+}
+
+.card {
+  background-color: #455B80;
+}
+.card .card-header {
+  color: #DBB37D;
+}
+
+.dropdown-toggle {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+@media (max-width: 991.98px) {
+  .d-lg-flex {
+    display: none !important;
+  }
+}
 .ConfirmIconCard {
-  position: fixed;     /* 讓它固定在視窗底部 */
-  bottom: 0;
-  right: 0;
-  width: 10%;
+  width: 52%;
+  position: relative;
   display: flex;
   justify-content: space-between;
-  flex-direction: row-reverse;
   align-items: center;
-  padding: 0 50px 10px; /* 右邊留 50px，底部留 10px */
-  background: var(--bs-body-bg); /* 或直接寫 #fff */
-  z-index: 900;        /* 確保浮在最上層 */
+  margin-left: auto;
+  padding-right: 50px;
 }
-
-/* 下拉的航班明細框 */
-.SelectedFlightsInfo {
+.ConfirmIconCard .SelectedFlightsInfo {
   display: none;
   position: absolute;
+  bottom: 35px;
   right: 0;
-  bottom: 90px;        /* 與圖示垂直間隔 */
+  bottom: 90px;
+  background-color: #F5F5F5;
+  border: 1px solid #C5D2E4;
   padding: 10px 15px;
-  border: 1px solid var(--bs-card-bg);
-  background: var(--bs-body-bg);
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
 }
-
-/* 購物車圖示 */
-.CartContainer .bicard {
-  font-size: 32px;
-  color: var(--bs-primary);
+.ConfirmIconCard .CartContainer .bicard {
+  color: #2B3B52;
   cursor: pointer;
+  font-size: 32px;
+}
+.ConfirmIconCard .BtnNext {
+  width: 80px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #DBB37D;
+  color: #2B3B52;
+}
+.ConfirmIconCard .SelectedPrices {
+  font-size: 14px;
+  margin-top: 1px;
+  color: #2B3B52;
+}
+.ConfirmIconCard s p {
+  margin: 0;
 }
 
+.canvas-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto; /* ✅ 可選，加上橫向滾動條 */
+}
+
+canvas {
+  width: 100% !important; /* ✅ 視覺上的寬度佔滿容器 */
+  height: auto !important; /* ✅ 自動等比例縮放 */
+  display: block;
+}
+
+.custom-popover {
+  font-size: 1.25rem; /* ✅ 自訂字體大小 */
+  padding: 0.5rem 1rem;
+}
+
+/*# sourceMappingURL=booking.css.map */
