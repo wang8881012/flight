@@ -26,7 +26,8 @@
         </div>
         <div class="modal fade" id="addMember" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <form class="modal-content" method="post" style="background-color: #f5f5f5; border-radius: 2rem;">
+                <form class="modal-content" id="addCompanionForm" method="post"
+                    style="background-color: #f5f5f5; border-radius: 2rem;">
                     <div class="modal-header">
                         <h2 class="modal-title mx-auto">新增成員</h2>
                         <button type="button" class="btn-close position-absolute end-0 me-3"
@@ -35,6 +36,13 @@
                     <div class="modal-body pb-0">
                         <div class="container">
                             <div class="row">
+                                <div class="col-6 mb-3">
+                                    <div class="d-flex justify-content-around">
+                                        <label for="name" class="form-label pe-2">中文姓名</label>
+                                        <input type="text" class="form-control" name="name" id="name"
+                                            style="width: 70%;" required>
+                                    </div>
+                                </div>
                                 <div class="col-6 mb-3">
                                     <div class="d-flex justify-content-around">
                                         <label for="lastname" class="form-label pe-2">英文姓</label>
@@ -67,7 +75,7 @@
                                 <div class="col-6 mb-3">
                                     <div class="d-flex justify-content-between">
                                         <label for="birth" class="form-label pe-2">出生日期</label>
-                                        <input type="text" class="form-control" name="birth" id="birth"
+                                        <input type="date" class="form-control pe-2" name="birth" id="birth"
                                             style="width: 70%;" required>
                                     </div>
                                 </div>
@@ -92,15 +100,18 @@
                         </div>
                     </div>
                     <div class="modal-footer" style="border-top: none;">
-                        <button type="submit" class="btn px-3" data-bs-dismiss="modal"
+                        <button type="button" class="btn px-3" data-bs-dismiss="modal"
                             style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">取消</button>
-                        <button type="button" class="btn px-3"
+                        <button type="submit" class="btn px-3"
                             style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">確認新增</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <div id="companionsList" class="container-fluid my-3"></div>
+    <p id="no_companion_msg" class="text-center text-muted" style="display: none;">目前沒有同行旅客</p>
+
     <div class="d-flex align-items-start mx-auto" style="width: 70%;">
         <div class="me-3 pt-4">
             <input type="radio" style="transform: scale(1.5); accent-color: #dbb37d;">
@@ -121,11 +132,19 @@
                 </div>
             </div>
             <div class="collapse" id="passenger">
-                <div class="card shadow overflow-hidden" style="background-color: #f5f5f5; border-radius: 0 0 2rem 2rem;">
+                <div class="card shadow overflow-hidden"
+                    style="background-color: #f5f5f5; border-radius: 0 0 2rem 2rem;">
                     <div class="card-body p-0">
                         <form method="post" action="../api/auth/update_profile.php" id="formProfile"
                             class="p-3 row justify-content-center align-items-center">
                             <div class="row">
+                                <div class="col-6 mb-3">
+                                    <div class="d-flex justify-content-around">
+                                        <label for="name" class="form-label pe-2">中文姓名</label>
+                                        <input type="text" class="form-control" name="name" id="name"
+                                            style="width: 70%;" required>
+                                    </div>
+                                </div>
                                 <div class="col-6 mb-3">
                                     <div class="d-flex justify-content-between">
                                         <label for="lastname" class="form-label pe-2">英文姓</label>
@@ -158,7 +177,7 @@
                                 <div class="col-6 mb-3">
                                     <div class="d-flex justify-content-between">
                                         <label for="birth" class="form-label pe-2">出生日期</label>
-                                        <input type="text" class="form-control" name="birth" id="birth"
+                                        <input type="date" class="form-control pe-2" name="birth" id="birth"
                                             style="width: 70%;" required>
                                     </div>
                                 </div>
@@ -181,8 +200,12 @@
                                         <div class="d-flex align-items-center">
                                             <label for="nationality" class="form-label me-2 mb-0"
                                                 style="width: 40%;">國籍/地區</label>
-                                            <input type="text" class="form-control" name="nationality" id="nationality"
-                                                required>
+                                            <select id="nationality" name="nationality" class="form-select" id="nationality">
+                                                <option selected>TW</option>
+                                                <option>JPN</option>
+                                                <option>USA</option>
+                                                <option>KOR</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -194,6 +217,12 @@
                                                 required>
                                         </div>
                                     </div>
+                                    <div class="text-center" style="border-top: none;">
+                                        <button type="button" class="btn px-3"
+                                            style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">取消</button>
+                                        <button type="submit" class="btn px-3"
+                                            style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">確認新增</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -203,6 +232,7 @@
             </div>
         </div>
     </div>
+    <div id="footer">這是footer</div>
 
     <script src="../js/shared.js"></script>
     <script src="../js/guest.js"></script>
