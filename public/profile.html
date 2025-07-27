@@ -169,43 +169,42 @@
                 <h1 style="color: #dbb37d;">修改密碼</h1>
             </div>
             <div class="card-body">
-                <form id="formPwd" class="p-3 row justify-content-center align-items-center">
+                <div id="responseMsg" class="text-center text-danger"></div>
+                <form id="changePasswordForm" class="p-3 row justify-content-center align-items-center">
                     <div class="row justify-content-center align-items-center my-3">
                         <div class="col-4 text-start">
-                            <label for="newPassword" class="form-label">原密碼</label>
+                            <label for="oldPassword" class="form-label">原密碼</label>
                         </div>
                         <div class="col-4 text-end">
                             <div class="position-relative">
-                                <input id="newPassword" type="text" class="form-control">
-                                <i class="bi bi-pencil-square position-absolute top-50 translate-middle-y fs-4 px-2 end-0"></i>
+                                <input id="oldPassword" name="oldPassword" type="password" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row justify-content-center align-items-center my-3">
                         <div class="col-4 text-start">
-                            <label for="setPassword" class="form-label">設定新密碼</label>
+                            <label for="newPassword" class="form-label">設定新密碼</label>
                         </div>
                         <div class="col-4 text-end">
                             <div class="position-relative">
-                                <input id="setPassword" type="text" class="form-control">
-                                <i class="bi bi-pencil-square position-absolute top-50 translate-middle-y fs-4 px-2 end-0"></i>
+                                <input id="newPassword" name="newPassword" type="password" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row justify-content-center align-items-center my-3">
                         <div class="col-4 text-start">
                             <label for="confirmPassword" class="form-label">確定新密碼</label>
+                            <span class="text-danger ms-2" id="confirmError"></span>
                         </div>
                         <div class="col-4 text-end">
                             <div class="position-relative">
-                                <input id="confirmPassword" type="text" class="form-control">
-                                <i class="bi bi-pencil-square position-absolute top-50 translate-middle-y fs-4 px-2 end-0"></i>
+                                <input id="confirmPassword" name="confirmPassword" type="password" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="text-center mt-4">
-                            <button type="submit" class="btn px-5" style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">確認修改</button>
-                        </div>
+                        <button type="submit" class="btn px-5" style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">確認修改</button>
+                    </div>
                 </form>
             </div>
         </div>
