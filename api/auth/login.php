@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../inc/db.php';
+require '../inc/db.inc.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $account = $_POST["account"] ?? '';

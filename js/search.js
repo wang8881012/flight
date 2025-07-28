@@ -289,8 +289,8 @@ async function saveSelectionToSession() {
     });
     const data = await res.json();
     if (data.status === "success") {
-      // 進入下一步（填寫旅客資料）
-      window.location.href = "test.html"; // 你自己的下一步頁面
+      // 進入下一步（登入畫面）
+      window.location.href = "login.html"; // 下一步頁面
     } else {
       alert("儲存選擇失敗：" + (data.message || ""));
     }
