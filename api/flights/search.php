@@ -107,4 +107,4 @@ if (isset($_SESSION['searchResult'])) {
 }
 
 
-
+// die(var_dump($_SESSION['searchResult']));

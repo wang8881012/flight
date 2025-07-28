@@ -21,7 +21,8 @@ h1 {
   background-color: #f9f9f9;
   padding: 24px;
   margin: 20px auto;
-  max-width: 900px;
+  max-width: 1000px;
+  font-size: 18px;
 }
 
 .middle {
@@ -61,10 +62,17 @@ h1 {
 .flight-card p {
   margin: 4px 0;
   color: #ffffff;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 /* 航班卡片內容區塊 */
+.date {
+  margin-left: 15px;
+  margin-bottom: 15px;
+  color: #f1eee7;
+}
+
+
 .flight-card-full {
   display: flex;
   justify-content: space-between;
@@ -130,7 +138,7 @@ h1 {
   color: #785427;
   border: none;
   padding: 5px 10px;
-  font-size: 13px;
+  font-size: 14px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -196,12 +204,12 @@ h1 {
 
 .SelectedFlightsInfo,
 .SelectedPrices {
-  font-size: 13px;
+  font-size: 14px;
   color: #333;
 }
 
 .SelectedPrices strong {
-  font-size: 15px;
+  font-size: 16px;
   color: #d9534f;
 }
 
