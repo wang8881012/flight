@@ -31,7 +31,8 @@
                     <h2 class="text-center">會員註冊</h2>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="../api/auth/register.php" id="formRegister">
+                    <div id="result" class="text-center"></div>
+                    <form method="post" id="formRegister">
                         <div class="row justify-content-center step" id="step1">
                             <div class="col-12">
                                 <label for="account" class="form-label mb-2 px-0">帳號</label><br>
@@ -206,13 +207,12 @@
                                 <div class="text-center mt-4">
                                     <button type="button" class="btn px-5 me-2" onclick="goToStep('step3')"
                                         style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">上一步</button>
-                                    <button type="submit" class="btn px-5 me-2" onclick="submitForm()"
+                                    <button type="button" class="btn px-5 me-2" onclick="submitForm()"
                                         style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">註冊</button>
                                 </div>
                             </div>
                         </div>
                     </form>
-                    <p id="msg"></p>
                 </div>
             </div>
         </div>
