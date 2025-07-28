@@ -1,0 +1,165 @@
+@use 'color' as *;
+// 🔵 定義色彩變數
+$card-bg: #455B80;
+$white: #fff;
+
+// 左側整欄背景
+.sidebar {
+  background-color: $card-bg;
+  color:$card-bg;
+
+  h4, h5, h6, .fw-bold, .text-end {
+    color: $white !important;
+  }
+
+  .card {
+    background-color: $card-bg !important;
+    border: none;
+    
+
+    .card-body {
+      background-color: $card-bg !important;
+    
+  }
+    
+  }
+
+  a.btn-primary {
+    background-color: $btn-accent($card-bg, 10%);
+    color:$text-primary;
+    border: none;
+
+    &:hover {
+      background-color: lighten($card-bg, 5%);
+    }
+  }
+}
+.keep-white {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.btn {
+  background-color: $sidebar-bg;
+  color:$text-primary;
+  :hover {
+      background-color: $sidebar-bg;
+    }
+}
+
+.meal-btn.btn {
+  background-color: $card-bg;
+  color:$white;
+  &:hover {
+      color: darken($card-bg-inverse, 10%);
+    }
+    &.selected {
+      background-color: $card-bg-inverse;
+      color: $text-inverse;
+    }
+}
+
+ .nav-link {
+    color: $text-primary;
+
+    &.active {
+      color: $text-secondary; // 加價購那一頁高亮顏色
+      font-weight: bold;
+    }
+
+    &:hover {
+      color: darken($text-primary, 10%);
+    }
+  }
+
+  .card {
+    background-color: $card-bg;
+    .card-header {
+      color: $sidebar-bg;
+    }
+  }
+  
+  .dropdown-toggle {
+    background-color: #fff !important;
+  color: #000 !important;
+  }
+
+@media (max-width: 991.98px) {
+  .d-lg-flex {
+    display: none !important;
+  }
+}
+
+.ConfirmIconCard {
+    width: 52%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 50px;
+
+    .SelectedFlightsInfo {
+        display: none;
+        position: absolute;
+        bottom: 35px;
+        right: 0;
+        bottom: 90px;
+        background-color: $body-bg;
+        border: 1px solid $card-bg-alt;
+        padding: 10px 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+    }
+
+    .CartContainer {
+        .bicard {
+            color: $text-primary;
+            cursor: pointer;
+            font-size: 32px;
+        }
+    }
+
+    .BtnNext {
+        width: 80px;
+        height: 40px;
+        border-radius: 8px;
+        background-color: $sidebar-bg;
+        color: $text-primary;
+    }
+
+    .SelectedPrices {
+        font-size: 14px;
+        margin-top: 1px;
+        color: $text-primary;
+    }
+s
+    p {
+        margin: 0;
+    }
+}
+
+.canvas-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto; /* ✅ 可選，加上橫向滾動條 */
+}
+
+canvas {
+  width: 100% !important;   /* ✅ 視覺上的寬度佔滿容器 */
+  height: auto !important;  /* ✅ 自動等比例縮放 */
+  display: block;
+}
+.custom-popover {
+  font-size: 1.25rem; /* ✅ 自訂字體大小 */
+  padding: 0.5rem 1rem;
+}
+
+  // bug按鈕按下去會變白色
+  // .BtnNext {
+  // background-color: $btn-accent;
+  // &:hover {
+  //     color: darken($card-bg-inverse, 10%);
+  //   }
+  // }
