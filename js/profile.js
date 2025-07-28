@@ -45,3 +45,43 @@ document.getElementById("formProfile").addEventListener("submit", async e => {
     }
 });
 
+// 確認密碼比對
+const newPassword = document.getElementById("newPassword");
+const confirmPassword = document.getElementById("confirmPassword");
+const confirmError = document.getElementById("confirmError");
+
+function validatePassword() {
+    if (confirmPassword.value === "") {
+        confirmError.textContent = "";
+        return;
+    }
+
+    if (newPassword.value !== confirmPassword.value) {
+        confirmError.textContent = "密碼不一致";
+    } else {
+        confirmError.textContent = "";
+    }
+}
+
+newPassword.addEventListener("input", validatePassword);
+confirmPassword.addEventListener("input", validatePassword);
+
+// edit password form
+document.getElementById("changePasswordForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch("../api/auth/change_profile_pwd.php", {
+        method: "POST",
+        body: formData,
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            document.getElementById("responseMsg").textContent = data.message;
+        })
+        .catch((err) => {
+            document.getElementById("responseMsg").textContent = "伺服器錯誤";
+            console.error(err);
+        });
+});
