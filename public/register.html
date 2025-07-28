@@ -21,7 +21,8 @@
                 style="color: #dbb37d; background-color: #2b3b52; border-radius: 2rem; width: 40%;">
                 <h2>AirGo航空</h2>
                 <div>
-                    <a href="login.html" class="btn btn-primary rounded-pill px-5">登入
+                    <a href="login.html" class="btn px-5"
+                        style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">登入
                         <i class="bi bi-airplane px-2"></i>
                     </a>
                 </div>
@@ -36,24 +37,24 @@
                         <div class="row justify-content-center step" id="step1">
                             <div class="col-12">
                                 <label for="account" class="form-label mb-2 px-0">帳號</label><br>
-                                <input class="form-control ps-2" type="email" name="account" id="account"
-                                    placeholder="請輸入email" required style="width: 100%; border-radius: 2rem;">
+                                <input class="ps-2" type="email" name="account" id="account" placeholder="請輸入email"
+                                    required style="width: 100%; border-radius: 2rem;">
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="password" class="form-label mb-2 px-0">
                                     密碼
                                     <span class="text-danger ms-2" id="passwordError"></span>
                                 </label><br>
-                                <input class="ps-2" type="password" name="password" id="password" placeholder="請輸入密碼" required
-                                    style="width: 100%; border-radius: 2rem;">
+                                <input class="ps-2" type="password" name="password" id="password" placeholder="請輸入密碼"
+                                    required style="width: 100%; border-radius: 2rem;">
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="confirmPassword" class="form-label mb-2 px-0">
                                     確認密碼
                                     <span class="text-danger ms-2" id="confirmError"></span>
                                 </label>
-                                <input class="ps-2" type="password" name="confirmPassword" id="confirmPassword" placeholder="請再次輸入密碼" required
-                                    style="width: 100%; border-radius: 2rem;">
+                                <input class="ps-2" type="password" name="confirmPassword" id="confirmPassword"
+                                    placeholder="請再次輸入密碼" required style="width: 100%; border-radius: 2rem;">
                             </div>
                             <div class="text-center mt-4">
                                 <button type="button" class="btn px-5" onclick="goToStep('step2')"
@@ -62,23 +63,23 @@
                         </div>
                         <div class="row justify-content-center step" id="step2">
                             <div class="col-12">
-                                <label for="username" class="form-label mb-2 px-0">中文姓名</label><br>
-                                <input class="form-control ps-2" type="text" name="username" id="username" required
+                                <label for="username" class="mb-2 px-0">中文姓名</label><br>
+                                <input class="ps-2" type="text" name="username" id="username" required
                                     style="width: 100%; border-radius: 2rem;">
                             </div>
                             <div class="row">
                                 <div class="col-6 mt-3">
-                                    <label for="gender" class="form-label mb-2 px-0">性別</label><br>
+                                    <label for="gender" class="mb-2 px-0">性別</label><br>
                                     <div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="gender" id="male"
                                                 value="男" required style="width: 100%; border-radius: 2rem;">
-                                            <label for="form-check-label">男</label>
+                                            <label for="male">男</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="gender" id="female"
                                                 value="女" required style="width: 100%; border-radius: 2rem;">
-                                            <label for="form-check-label">女</label>
+                                            <label for="female">女</label>
                                         </div>
                                     </div>
                                 </div>
@@ -125,8 +126,8 @@
                             </div>
                             <div class="col-12 mt-2">
                                 <label for="passportNumber" class="mb-2 px-0">護照號碼</label><br>
-                                <input class="ps-2" type="text" name="passportNumber" id="passportNumber" pattern="[0-9]{9}"
-                                    style="width: 100%; border-radius: 2rem;">
+                                <input class="ps-2" type="text" name="passportNumber" id="passportNumber"
+                                    pattern="[0-9]{9}" style="width: 100%; border-radius: 2rem;">
                             </div>
                             <div class="col-12 mt-2">
                                 <label for="expiryDate" class="mb-2 px-0">有效期限</label><br>
@@ -161,12 +162,12 @@
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="cf_male" value="男" readonly
                                             style="width: 100%; border-radius: 2rem;">
-                                        <label for="form-check-label">男</label>
+                                        <label for="cf_male" class="">男</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="cf_female" value="女"
-                                            readonly style="width: 100%; border-radius: 2rem;">
-                                        <label for="form-check-label">女</label>
+                                        <input class="form-check-input" type="radio" id="cf_female" value="女" readonly
+                                            style="width: 100%; border-radius: 2rem;">
+                                        <label for="cf_female">女</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
@@ -207,7 +208,7 @@
                                 <div class="text-center mt-4">
                                     <button type="button" class="btn px-5 me-2" onclick="goToStep('step3')"
                                         style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">上一步</button>
-                                    <button type="button" class="btn px-5 me-2" onclick="submitForm()"
+                                    <button type="submit" class="btn px-5 me-2" onclick="submitForm()"
                                         style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">註冊</button>
                                 </div>
                             </div>
