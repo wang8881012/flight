@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 
 // 接收前端psot旅客資料，謝入資料庫
 
-require_once './db.inc.php'; // 假設這裡包含PDO連接
+require_once '../inc/db.inc.php'; // 假設這裡包含PDO連接
 
 // 驗證會話和用戶登入狀態
 // if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
