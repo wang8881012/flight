@@ -4,42 +4,29 @@
   <meta charset="UTF-8">
   <title>安全措施｜AirGo 航空</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Noto Sans TC', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-    header {
-      background-color: #003366;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-    .container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    footer {
-      background-color: #003366;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-    }
-  </style>
+<style>
+    .gold-text {
+    color: #DBB37D;
+}
+
+.gold-bg {
+    background-color: #DBB37D;
+}
+
+.blue-text {
+    color: #455C80;
+}
+
+.blue-bg {
+    background-color: #2B3B52;
+}
+
+.light-blue-bg {
+    background-color: #DBEAFF;
+}
+
+
+</style>
 </head>
 <body>
 
@@ -75,9 +62,43 @@
   <p>機組人員均受過急救與緊急撤離訓練，並定期進行演練，確保在各種突發狀況下可迅速保護乘客安全。</p>
 </div>
 
-<footer>
-  &copy; 2025 AirGo 航空. All rights reserved.
-</footer>
+<footer class="blue-bg text-light py-3" style="margin-top: 110px;">
+        <div class="container">
+            <div class="row">
+                <!-- Logo 區塊 -->
+                <div class="col-md-4 mb-4 mb-md-0 d-flex flex-column align-items-start">
+                    <div class="mb-2">
+                        <!-- 這邊建議放上 logo 圖片 <img src="logo.png" alt="AirGo Logo"> -->
+                        <img src="../assets/images/logo.svg" alt="Logo" width="160px">
+                    </div>
+                </div>
+
+                <!-- 法令規章 -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="gold-text mb-3">法令規章</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="gold-text text-decoration-none">個人資訊保護</a></li>
+                        <li><a href="#" class="gold-text text-decoration-none">網路協助工具</a></li>
+                        <li><a href="#" class="gold-text text-decoration-none">網頁政策</a></li>
+                        <li><a href="#" class="gold-text text-decoration-none">國際運送條款（旅客及行李）</a></li>
+                        <li><a href="#" class="gold-text text-decoration-none">國際包機運送條款（旅客、行李與貨物）</a></li>
+                    </ul>
+                </div>
+
+                <!-- 聯絡我們 -->
+                <div class="col-md-4">
+                    <h5 class="gold-text mb-3">聯絡我們</h5>
+                    <p class="gold-text">訂閱AirGo航空電子報</p>
+                    <div class="d-flex gap-3 mb-4">
+                        <a href="#"><i class="bi bi-line gold-text fs-5"></i></a>
+                        <a href="#"><i class="bi bi-instagram gold-text fs-5"></i></a>
+                        <a href="#"><i class="bi bi-facebook gold-text fs-5"></i></a>
+                    </div>
+                    <h6 class="gold-text">熱門常見問題</h6>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
