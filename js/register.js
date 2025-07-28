@@ -126,7 +126,7 @@ async function submitForm() {
     // 再次檢查確認密碼是否一致
     if (password !== confirmPassword) {
         confirmError.textContent = "密碼不一致";
-        return; 
+        return;
     } else {
         confirmError.textContent = "";
     }
@@ -135,12 +135,12 @@ async function submitForm() {
         account: document.getElementById("account").value,
         password: document.getElementById("password").value,
         username: document.getElementById("username").value,
-        gender: document.getElementById("gender").value,
+        gender: document.querySelector('input[name="gender"]:checked')?.value || "",
         nationality: document.getElementById("nationality").value,
         phonenum: document.getElementById("phonenum").value,
         birth: document.getElementById("birth").value,
-        pasportSurname: document.getElementById("pasportSurname").value,
-        pasportGivenname: document.getElementById("pasportGivenname").value,
+        passportSurname: document.getElementById("passportSurname").value,
+        passportGivenname: document.getElementById("passportGivenname").value,
         passportNumber: document.getElementById("passportNumber").value,
         expiryDate: document.getElementById("expiryDate").value,
     };
@@ -153,16 +153,24 @@ async function submitForm() {
         });
 
         const result = await res.json();
-        document.getElementById("result").textContent = result.message;
+        const resultBox = document.getElementById("result");
 
-        if (res.ok) {
-            alert("註冊成功！");
-            location.hash = "#step1";
+        console.log("API 回傳內容：", result);
+
+        if (res.ok && result.message === "註冊成功！") {
+            resultBox.style.color = "green";
+            resultBox.textContent = result.message + " 自動登入中...";
+
+            setTimeout(() => {
+                window.location.href = "../public/profile.html";
+            }, 1500);
         } else {
-            alert("註冊失敗：" + result.message);
+            resultBox.style.color = "red";
+            resultBox.textContent = result.message + " ，可直接登入" || "註冊失敗，請重試";
         }
     } catch (err) {
         console.error("錯誤：", err);
-        alert("伺服器錯誤，請稍後再試");
+        document.getElementById("result").style.color = "red";
+        document.getElementById("result").textContent = "伺服器錯誤，請稍後再試";
     }
 }

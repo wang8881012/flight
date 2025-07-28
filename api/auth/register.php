@@ -4,17 +4,31 @@ require "../inc/db.php";
 
 header("Content-Type: application/json");
 
-$account = $_POST["account"];
-$password = $_POST["password"];
-$username = $_POST["username"];
-$gender = $_POST["gender"];
-$nationality = $_POST["nationality"];
-$phonenum = $_POST["phonenum"];
-$birth = $_POST["birth"];
-$passportSurname = $_POST["passportSurname"];
-$passportGivenname = $_POST["passportGivenname"];
-$passportNumber = $_POST["passportNumber"];
-$expiryDate = $_POST["expiryDate"];
+// $account = $_POST["account"];
+// $password = $_POST["password"];
+// $username = $_POST["username"];
+// $gender = $_POST["gender"];
+// $nationality = $_POST["nationality"];
+// $phonenum = $_POST["phonenum"];
+// $birth = $_POST["birth"];
+// $passportSurname = $_POST["passportSurname"];
+// $passportGivenname = $_POST["passportGivenname"];
+// $passportNumber = $_POST["passportNumber"];
+// $expiryDate = $_POST["expiryDate"];
+
+$input = json_decode(file_get_contents("php://input"), true);
+
+$account = $input["account"];
+$password = $input["password"];
+$username = $input["username"];
+$gender = $input["gender"];
+$nationality = $input["nationality"];
+$phonenum = $input["phonenum"];
+$birth = $input["birth"];
+$passportSurname = $input["passportSurname"];
+$passportGivenname = $input["passportGivenname"];
+$passportNumber = $input["passportNumber"];
+$expiryDate = $input["expiryDate"];
 
 $stmt = $pdo->prepare("select id from users where email=?");
 $stmt->execute([$account]);
@@ -55,9 +69,21 @@ try {
         $userNum, $account, $hashedPwd, $username, $gender, $nationality, $phonenum, $birth, $passportSurname, $passportGivenname, $expiryDate, $passportNumber
     ]);
 
-    echo json_encode(["message" => "註冊成功！"]);
+    // 撈剛剛新增的使用者資料
+    $stmt = $pdo->prepare("select id, name from users where email = ?");
+    $stmt->execute([$account]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        $_SESSION["user_id"] = $user["id"];
+        $_SESSION["username"] = $user["name"];
+    }
+
+    echo json_encode([
+        "success" => true,
+        "message" => "註冊成功！",
+    ]);
 
 } catch (Exception $e) {
     echo json_encode(["message" => "錯誤：" . $e->getMessage()]);
 }
-#$_SESSION["user_id"] = $pdo->lastInsertid();
