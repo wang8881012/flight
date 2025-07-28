@@ -106,6 +106,7 @@ function renderFlightList(flights, containerId, directionKey) {
     const cardHTML = `
       <div class="flight-card flight-card-full">
         <div class="flight-info-left">
+        <div class="date">${base.departure_time.slice(0, 10)}</div>
           <div class="time-row">
             <div class="depart-time">${base.departure_time.slice(11, 16)}</div>
             <div class="duration">${durationText}</div>
