@@ -93,12 +93,12 @@ function drawMap() { /*畫背景+座位*/
         }
     });
     // 畫 hover 提示
-    if (hoveredSeat) {
-        ctx.fillStyle = '#000';
-        ctx.font = '14px sans-serif';
-        ctx.fillText(`座位：${hoveredSeat}`, 10, canvas.height - 10);
-    }
-}
+//     if (hoveredSeat) {
+//         ctx.fillStyle = '#000';
+//         ctx.font = '50px sans-serif';
+//         ctx.fillText(`座位：${hoveredSeat}`, 10, canvas.height - 10);
+//     }
+// }
 
 const popoverEl = document.getElementById('seatPopover');
 const popover = new bootstrap.Popover(popoverEl);
@@ -128,7 +128,7 @@ canvas.addEventListener('mousemove', e => {
         const clientX = e.clientX;
         const clientY = e.clientY;
 
-        popoverEl.style.left = `${clientX + 10}px`;
+        popoverEl.style.left = `${clientX + 1}px`;
         popoverEl.style.top = `${clientY - 10}px`;
         popoverEl.setAttribute('data-bs-content', `座位：${hoveredSeat}`);
         popoverEl.classList.remove('d-none');
@@ -225,6 +225,7 @@ canvas.addEventListener('click', e => {
     nextBtn.focus();
   });
 });
+}
 
 
 
