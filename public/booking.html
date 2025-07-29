@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>booking page</title>
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-            crossorigin="anonymous">
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-            rel="stylesheet">
-<<<<<<< HEAD
-        <link href="/flight/css/booking.css" rel="stylesheet">
-=======
-        <!-- <link href="/flight-2/css/booking.css" rel="stylesheet"> -->
-        <link rel="stylesheet" href="../css/booking.css">
-        <link rel="stylesheet" href="../css/confirm.css">
-        
->>>>>>> 881f0a25303767e1fc0743a2c34ac8ee11bc15c5
-    </head>
-    <body>
-        <!-- 桌面版：上層 Logo 和右側項目 -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>booking page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/booking.css">
+</head>
+
+
+<body>
+    <!-- 桌面版：上層 Logo 和右側項目 -->
     <nav class="navbar navbar-expand-lg navbar-dark blue-bg d-none d-lg-flex">
         <div class="container-fluid">
             <div class="d-flex align-items-center ms-4">
@@ -85,283 +76,228 @@
             </div>
         </div>
     </nav>
-  
-        <div class="container-fluid">
-            <div class="row min-vh-100">
-                <!-- 左側資訊欄 -->
-                <div
-                    class="col-12 col-md-3 d-flex flex-column sidebar p-3">
-                    <!--背景灰色 -->
-                    <div
-                        class="d-flex justify-content-center align-items-center">
-                        <h4 class="text-white">機票總價</h4>
 
-                    </div>
-                    <div class="card text-bg-light text-dark mb-3">
-                        <div class="card-body">
-
-                            <!-- 去程置中 -->
-                            <h5 class="text-center mb-4">去程</h5>
-
-                            <!-- 地點區塊 -->
-                            <div class="row mb-3">
-                                <div class="col-3 fw-bold">地點</div>
-                                <div class="col-9">
-                                    <div class="text-end"
-                                        id="outward_place_from">桃園機場</div>
-                                    <div class="text-end">⭣</div>
-                                    <div class="text-end"
-                                        id="outward_place_to">東京機場</div>
-                                </div>
-                            </div>
-
-                            <!-- 時間區塊 -->
-                            <div class="row mb-2">
-                                <div class="col-3 fw-bold">時間</div>
-                                <div class="col-9 text-end"
-                                    id="outward_time_from">2025-07-01
-                                    08:00</div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card text-bg-light text-dark mb-3">
-                        <div class="card-body">
-
-                            <!-- 去程置中 -->
-                            <h5 class="text-center mb-4">回程</h5>
-
-                            <!-- 地點區塊 -->
-                            <div class="row mb-3">
-                                <div class="col-3 fw-bold">地點</div>
-                                <div class="col-9">
-                                    <div class="text-end"
-                                        id="return_place_from">桃園機場</div>
-                                    <div class="text-end">⭣</div>
-                                    <div class="text-end"
-                                        id="return_place_to">東京機場</div>
-                                </div>
-                            </div>
-
-                            <!-- 時間區塊 -->
-                            <div class="row mb-2">
-                                <div class="col-3 fw-bold">時間</div>
-                                <div class="col-9 text-end"
-                                    id="return_time_to">2025-08-01 08:00</div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card text-bg-light text-dark mb-3">
-                        <div class="card-body">
-
-                            <!-- 去程置中 -->
-                            <h5 class="text-center mb-4">去程航班</h5>
-
-                            <!-- 地點區塊 -->
-                            <div class="row mb-3">
-                                <div class="col-3 fw-bold"
-                                    id="outward_ticket_level">一般票</div>
-                                <div class="col-9">
-                                    <div class="text-end"
-                                        id="outward_ticket_level_price">NT10,000</div>
-                                </div>
-                                 <h6 class="text-center mb-4"
-                                id="outward_checked">會員未加購行李</h6>
-                                <h6 class="text-center mb-4"
-                                id="outward_meal">-----膳食-----</h6>
-                                <h6 class="text-center mb-4"
-                                id="outward_seat">----------</h6>
-                                <h5 class="text-center mb-4">回程航班</h5>
-
-                            </div>
-
-                            <!-- 時間區塊 -->
-                            <div class="row mb-2">
-                                <div class="col-3 fw-bold"
-                                    id="return_ticket_level">一般票</div>
-                                <div class="col-9 text-end"
-                                    id="return_ticket_level_price">NT10,000</div>
-                                
-                            </div>
-                            <h6 class="text-center mb-4"
-                                id="return_checked">會員未加購行李</h6>
-                                <h6 class="text-center mb-4"
-                                id="return_meal">-----膳食-----</h6>
-                            <h6 class="text-center mb-4"
-                                id="total_price">共NT27,570</h6>
-
-                        </div>
-                    </div>
-
-                    <a href="booking00.html" class="btn btn-primary mt-3 w-100">回訂票頁</a> <!--回到Emily頁面-->
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- 左側資訊欄 -->
+            <div class="col-12 col-md-3 d-flex flex-column sidebar p-3">
+                <!--背景灰色 -->
+                <div class="d-flex justify-content-center align-items-center">
+                    <h4 class="text-white">機票總價</h4>
 
                 </div>
-                <div class="col-12 col-md-9">
-                    <ul class="nav nav-tabs nav-fill justify-content-center d-none d-lg-flex">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page"
-                                href="#">確認明細</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="booking01.html">填寫旅客資料</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="booking.html">加價購</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">付款</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">完成</a>
-                        </li>
-                    </ul>
-                    <h4 class="my-3">加價購(會員本人)</h4>
-                    <div class="d-flex align-items-center gap-2">
-                        <h4 class="my-3">位置</h4>
-                        <div class="error text-danger" id="seat_error"
-                            style="display:none">請選擇座位</div>
-                    </div>
-                    <div class="seat-map">
-                        <!-- 飛機座位表 -->
-                         <div class="canvas-container">
-                        <canvas id="seatCanvas"></canvas>
-                        </div>
-                        <!-- ✅ 加在你的表單中 -->
-                        <input type="hidden" id="seatInput" name="seat">
-                        <!-- 座位確認 Modal -->
-                        <!-- 動態 popover -->
-                        <div id="seatPopover"
-                            class="position-absolute d-none"
-                            data-bs-toggle="popover"
-                            data-bs-trigger="manual"
-                            data-bs-placement="top"
-                            style="z-index: 9999;"></div>
-                        <div class="modal fade" id="seatConfirmModal"
-                            tabindex="-1" aria-labelledby="seatModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title"
-                                            id="seatModalLabel">座位確認</h5>
-                                        <button type="button" class="btn-close"
-                                            data-bs-dismiss="modal"
-                                            aria-label="關閉"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p id="seatInfo">你選擇了座位：<span
-                                                class="fw-bold"></span></p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button"
-                                            class="btn btn-secondary"
-                                            data-bs-dismiss="modal">取消</button>
-                                        <button type="button"
-                                            class="btn btn-primary"
-                                            id="confirmSeatBtn">確認</button>
-                                    </div>
-                                </div>
+                <div class="card text-bg-light text-dark mb-3">
+                    <div class="card-body">
+
+                        <!-- 去程置中 -->
+                        <h5 class="text-center mb-4">去程</h5>
+
+                        <!-- 地點區塊 -->
+                        <div class="row mb-3">
+                            <div class="col-3 fw-bold">地點</div>
+                            <div class="col-9">
+                                <div class="text-end" id="outward_place_from">桃園機場</div>
+                                <div class="text-end">⭣</div>
+                                <div class="text-end" id="outward_place_to">東京機場</div>
                             </div>
                         </div>
-                         
 
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-luggage-fill"
-                                style="font-size: 50px;"></i>
-                            <h4 class="my-3">行李</h4>
-                            <span>上限為1件行李</span>
-                            <div class="error text-danger" id="checked_error"
-                                style="display:none">請選擇托運行李重量</div>
-                        </div>
-                        <div class="card border-light w-100">
-                            <div class="card-body keep-white">
-                                <div
-                                    class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
-                                    <h5>托運行李</h5>
-         
-
-                                    <div class="dropdown">
-                                        <button
-                                            class="btn btn-LIGHT dropdown-toggle"
-                                            type="button"
-                                            id="checked_wt_btn"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            --KG
-                                        </button>
-                                        <ul class="dropdown-menu"
-                                            aria-labelledby="checked_wt_btn">
-                                            <li><a class="dropdown-item"
-                                                    href="#" data-type="checked"
-                                                    data-weight='20KG' data-price="500">20KG 500元</a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="#" data-type="checked"
-                                                    data-weight='30KG' data-price="1000">30KG (1000元)</a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="#" data-type="checked"
-                                                    data-weight='40KG' data-price="1500">40KG (1500元)</a></li>
-                                        </ul>
-                                    </div>
-                                    <input type="hidden"
-                                        name="checked_baggageWeight"
-                                        id="checked_baggageWeight"><!--傳入後端-->
-                                        <input type="hidden" name="checked_baggagePrice"  id="checked_baggagePrice"><!--傳入後端-->
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-flex align-items-center gap-2">
-                                    <h4 class=" d-inline mb-0">組合餐</h4>
-                                    <!--d-inline 讓h4 h6同一行 mb-0 消除底部間距-->
-                                    <div class="error text-danger"
-                                        id="meal_error"
-                                        style="display:none">請選擇餐點</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-light w-100 my-4">
-
-                            <!-- <div
-                                class="d-flex justify-content-between gap-3 col-4 offset-4"> -->
-
-                            <div
-                                class="btn-group w-100 d-flex justify-content-center gap-2"
-                                role="group" id="mealOptions">
-                                <button type="button"
-                                    class="btn btn-outline-secondary meal-btn"
-                                    data-value="未加購飛機餐">
-                                    <div class="text-center">無餐點</div>
-                                    <img src="/flight-2/assets/images/meal1.png" class="img-thumbnail" alt="none">
-                                </button>
-                                <button type="button"
-                                    class="btn btn-outline-secondary meal-btn"
-                                    data-value="加購素食">
-                                    <div class="text-center">素食</div>
-                                 <img src="/flight-2/assets/images/meal2.png" class="img-thumbnail" alt="none"></button>
-                                <button type="button"
-                                    class="btn btn-outline-secondary meal-btn"
-                                    data-value="加購葷食">
-                                    <div class="text-center">葷食</div>
-                                 <img src="/flight-2/assets/images/meal3.png" class="img-thumbnail" alt="none"></button>
-                            </div>
-                            <input type="hidden" name="meal" id="mealInput"
-                                value=""> <!--傳入後端-->
+                        <!-- 時間區塊 -->
+                        <div class="row mb-2">
+                            <div class="col-3 fw-bold">時間</div>
+                            <div class="col-9 text-end" id="outward_time_from">2025-07-01
+                                08:00</div>
                         </div>
 
                     </div>
-
-                    <button
-                        class="BtnNext btn mt-5 col-4 offset-4"
-                        id="Next_btn">Next</button>
-
                 </div>
+                <div class="card text-bg-light text-dark mb-3">
+                    <div class="card-body">
+
+                        <!-- 去程置中 -->
+                        <h5 class="text-center mb-4">回程</h5>
+
+                        <!-- 地點區塊 -->
+                        <div class="row mb-3">
+                            <div class="col-3 fw-bold">地點</div>
+                            <div class="col-9">
+                                <div class="text-end" id="return_place_from">桃園機場</div>
+                                <div class="text-end">⭣</div>
+                                <div class="text-end" id="return_place_to">東京機場</div>
+                            </div>
+                        </div>
+
+                        <!-- 時間區塊 -->
+                        <div class="row mb-2">
+                            <div class="col-3 fw-bold">時間</div>
+                            <div class="col-9 text-end" id="return_time_to">2025-08-01 08:00</div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card text-bg-light text-dark mb-3">
+                    <div class="card-body">
+
+                        <!-- 去程置中 -->
+                        <h5 class="text-center mb-4">去程航班</h5>
+
+                        <!-- 地點區塊 -->
+                        <div class="row mb-3">
+                            <div class="col-3 fw-bold" id="outward_ticket_level">一般票</div>
+                            <div class="col-9">
+                                <div class="text-end" id="outward_ticket_level_price">NT10,000</div>
+                            </div>
+                            <h6 class="text-center mb-4" id="outward_checked">會員未加購行李</h6>
+                            <h6 class="text-center mb-4" id="outward_meal">-----膳食-----</h6>
+                            <h6 class="text-center mb-4" id="outward_seat">----------</h6>
+                            <h5 class="text-center mb-4">回程航班</h5>
+
+                        </div>
+
+                        <!-- 時間區塊 -->
+                        <div class="row mb-2">
+                            <div class="col-3 fw-bold" id="return_ticket_level">一般票</div>
+                            <div class="col-9 text-end" id="return_ticket_level_price">NT10,000</div>
+
+                        </div>
+                        <h6 class="text-center mb-4" id="return_checked">會員未加購行李</h6>
+                        <h6 class="text-center mb-4" id="return_meal">-----膳食-----</h6>
+                        <h6 class="text-center mb-4" id="total_price">共NT27,570</h6>
+
+                    </div>
+                </div>
+
+                <a href="booking00.html" class="btn btn-primary mt-3 w-100">回訂票頁</a> <!--回到Emily頁面-->
 
             </div>
+            <div class="col-12 col-md-9">
+                <ul class="nav nav-tabs nav-fill justify-content-center d-none d-lg-flex">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">確認明細</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="booking01.html">填寫旅客資料</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="booking.html">加價購</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">付款</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">完成</a>
+                    </li>
+                </ul>
+                <h4 class="my-3">加價購(會員本人)</h4>
+                <div class="d-flex align-items-center gap-2">
+                    <h4 class="my-3">位置</h4>
+                    <div class="error text-danger" id="seat_error" style="display:none">請選擇座位</div>
+                </div>
+                <div class="seat-map">
+                    <!-- 飛機座位表 -->
+                    <div class="canvas-container">
+                        <canvas id="seatCanvas"></canvas>
+                    </div>
+                    <!-- ✅ 加在你的表單中 -->
+                    <input type="hidden" id="seatInput" name="seat">
+                    <!-- 座位確認 Modal -->
+                    <!-- 動態 popover -->
+                    <div id="seatPopover" class="position-absolute d-none" data-bs-toggle="popover"
+                        data-bs-trigger="manual" data-bs-placement="top" style="z-index: 9999;"></div>
+                    <div class="modal fade" id="seatConfirmModal" tabindex="-1" aria-labelledby="seatModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="seatModalLabel">座位確認</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="關閉"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p id="seatInfo">你選擇了座位：<span class="fw-bold"></span></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" id="confirmSeatBtn">確認</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-luggage-fill" style="font-size: 50px;"></i>
+                        <h4 class="my-3">行李</h4>
+                        <span>上限為1件行李</span>
+                        <div class="error text-danger" id="checked_error" style="display:none">請選擇托運行李重量</div>
+                    </div>
+                    <div class="card border-light w-100">
+                        <div class="card-body keep-white">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
+                                <h5>托運行李</h5>
+
+
+                                <div class="dropdown">
+                                    <button class="btn btn-LIGHT dropdown-toggle" type="button" id="checked_wt_btn"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        --KG
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="checked_wt_btn">
+                                        <li><a class="dropdown-item" href="#" data-type="checked" data-weight='10KG'
+                                                data-price="500">10KG 500元</a></li>
+                                        <li><a class="dropdown-item" href="#" data-type="checked" data-weight='15KG'
+                                                data-price="1000">15KG (1000元)</a></li>
+                                        <li><a class="dropdown-item" href="#" data-type="checked" data-weight='20KG'
+                                                data-price="1500">20KG (1500元)</a></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" name="checked_baggageWeight" id="checked_baggageWeight"><!--傳入後端-->
+                                <input type="hidden" name="checked_baggagePrice" id="checked_baggagePrice"><!--傳入後端-->
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2">
+                                <h4 class=" d-inline mb-0">組合餐</h4>
+                                <!--d-inline 讓h4 h6同一行 mb-0 消除底部間距-->
+                                <div class="error text-danger" id="meal_error" style="display:none">請選擇餐點</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-light w-100 my-4">
+
+                        <!-- <div
+                                class="d-flex justify-content-between gap-3 col-4 offset-4"> -->
+
+                        <div class="btn-group w-100 d-flex justify-content-center gap-2" role="group" id="mealOptions">
+                            <button type="button" class="btn btn-outline-secondary meal-btn" data-value="未加購飛機餐">
+                                <div class="text-center">無餐點</div>
+                                <img src="../assets/images/meal1.png" class="img-thumbnail" alt="none">
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary meal-btn" data-value="加購素食">
+                                <div class="text-center">素食</div>
+                                <img src="../assets/images/meal2.png" class="img-thumbnail" alt="none">
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary meal-btn" data-value="加購葷食">
+                                <div class="text-center">葷食</div>
+                                <img src="../assets/images/meal3.png" class="img-thumbnail" alt="none">
+                            </button>
+                        </div>
+                        <input type="hidden" name="meal" id="mealInput" value=""> <!--傳入後端-->
+                    </div>
+
+                </div>
+
+                <button class="BtnNext btn mt-5 col-4 offset-4" id="Next_btn">Next</button>
+
+            </div>
+
         </div>
-<footer class="blue-bg text-light py-3">
+    </div>
+
+    <footer class="blue-bg text-light py-3">
         <div class="container">
             <div class="row">
                 <!-- Logo 區塊 -->
@@ -399,11 +335,11 @@
         </div>
     </footer>
 
-        
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-            crossorigin="anonymous"></script>
-        <script src="/flight/js/booking.js"></script>    
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <!-- <script src="../js/booking.js"></script> -->
+    <script src="../js/booking_patched.js"></script>
+</body>
+
 </html>
