@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const response = await fetch("../api/booking/form_count.php");
     const data = await response.json();
 
-    const member = data.member;
+    const member = data.user_data;
     const friends = data.friends;
 
     // 處理所有同行旅客卡片
