@@ -23,7 +23,8 @@
                     <h2 class="text-center">帳號登入</h2>
                 </div>
                 <div class="card-body m-3">
-                    <form method="post" action="../api/auth/login.php">
+                    <div id="err-msg" class="text-center text-danger"></div>
+                    <form method="post" id="loginForm">
                         <div class="row">
                             <div class="col-12">
                                 <label for="account" class="mb-2 px-0">帳號</label>
@@ -47,7 +48,7 @@
                 style="color: #dbb37d; background-color: #2b3b52; border-radius: 2rem; width: 40%;">
                 <h2>AirGo航空</h2>
                 <div>
-                    <a href="register.html" class="btn btn-primary rounded-pill px-5">註冊
+                    <a href="register.html" class="btn px-5" style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">註冊
                         <i class="bi bi-airplane px-2"></i>
                     </a>
                 </div>
@@ -58,7 +59,7 @@
 
 
     <script src="../js/shared.js"></script>
-    <!-- <script src="../js/login.js"></script> -->
+    <script src="../js/login.js"></script>
 </body>
 
 </html>
