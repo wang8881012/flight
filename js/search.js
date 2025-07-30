@@ -305,8 +305,21 @@ async function saveSelectionToSession() {
     });
     const data = await res.json();
     if (data.status === "success") {
-      // 進入下一步（登入畫面）
-      window.location.href = "booking_user.html"; // 下一步頁面
+      // 檢查登入狀態
+      const loginRes = await fetch("../api/auth/check_login.php", { credentials: "include" });
+      const loginData = await loginRes.json();
+      if (loginData.loggedIn) {
+        window.location.href = "booking_user.html";
+      } else {
+        // 設定登入後導向
+        await fetch("../api/auth/set_login_redirect.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ redirect: "../../public/booking_user.html" })
+        });
+        window.location.href = "login.html";
+      }
     } else {
       alert("儲存選擇失敗：" + (data.message || ""));
     }
