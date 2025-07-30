@@ -12,7 +12,7 @@ require_once '../inc/db.inc.php'; // 假設這裡包含PDO連接
 //     exit;
 // }
 
-$userId = $_SESSION['user']['id'];
+$userId = $_SESSION['user_id'];
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$input || !isset($input['passengers'])) {
@@ -20,6 +20,7 @@ if (!$input || !isset($input['passengers'])) {
     exit;
 }
 
+// die(var_dump($userId));
 $member = $input['member'];
 $passengers = $input['passengers'];
 //die(print_r($member));
@@ -59,7 +60,8 @@ try {
         ]);
         
         // 更新會話中的用戶資料
-        $_SESSION['user'] = array_merge($_SESSION['user'], $mainPassenger);
+        // die(var_dump($mainPassenger));
+        $_SESSION['mainPassenger'] = $mainPassenger;
     }
     
     // 處理同行友人 (插入passenger_info表)
