@@ -4,9 +4,9 @@ require "../inc/db.inc.php";
 header('Content-Type: application/json');
 
 if (!isset($_SESSION["user_id"])) {
-    header("Location: ../../public/login.html");
+    echo json_encode(["success" => false, "message" => "未登入"]);
     exit();
-};
+}
 
 $user_id = $_SESSION["user_id"];
 
