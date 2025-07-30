@@ -16,20 +16,52 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 })
 
+const form = document.getElementById("formProfile");
 
-// edit form
-document.getElementById("formProfile").addEventListener("submit", async e => {
+// 儲存初始值
+const initialFormData = {};
+Array.from(form.elements).forEach(el => {
+    if (el.type === "radio") {
+        if (el.checked) {
+            initialFormData[el.name] = el.value;
+        }
+    } else {
+        initialFormData[el.name] = el.value;
+    }
+});
+
+form.addEventListener("submit", async e => {
     e.preventDefault();
 
-    // btn disabled
-    const submitBtn = document.querySelector("#formProfile button[type=submit]");
+    const submitBtn = form.querySelector("button[type=submit]");
     submitBtn.disabled = true;
 
-    const result = await res.json();
-    submitBtn.disabled = false;
+    const formData = new FormData(form);
 
-    const formData = new FormData(e.target);
+    // 比對是否有改變
+    let hasChanges = false;
 
+    Array.from(form.elements).forEach(el => {
+        if (!el.name) return;
+
+        if (el.type === "radio") {
+            if (el.checked && el.value !== initialFormData[el.name]) {
+                hasChanges = true;
+            }
+        } else {
+            if (el.value !== initialFormData[el.name]) {
+                hasChanges = true;
+            }
+        }
+    });
+
+    if (!hasChanges) {
+        showMessage("無資料更新");
+        submitBtn.disabled = false;
+        return;
+    }
+
+    // 有更動才送出
     try {
         const res = await fetch("../api/auth/update_profile.php", {
             method: "POST",
@@ -39,11 +71,41 @@ document.getElementById("formProfile").addEventListener("submit", async e => {
         if (!res.ok) throw new Error("回應失敗");
 
         const result = await res.json();
-        document.getElementById("msg").textContent = result.message;
+        showMessage(result.message);
+
+        // 更新初始值
+        Array.from(form.elements).forEach(el => {
+            if (!el.name) return;
+
+            if (el.type === "radio") {
+                if (el.checked) {
+                    initialFormData[el.name] = el.value;
+                }
+            } else {
+                initialFormData[el.name] = el.value;
+            }
+        });
     } catch (err) {
-        document.getElementById("msg").textContent = "更新失敗：" + err.message;
+        showMessage("更新失敗：" + err.message);
+    } finally {
+        submitBtn.disabled = false;
     }
 });
+
+// 提示詞自動消失
+function showMessage(text, duration = 3000) {
+    const msg = document.getElementById("msg");
+    msg.textContent = text;
+
+    // 清除前一次的計時器（如果有）
+    if (showMessage.timeoutId) clearTimeout(showMessage.timeoutId);
+
+    // 幾秒後自動清除訊息
+    showMessage.timeoutId = setTimeout(() => {
+        msg.textContent = "";
+    }, duration);
+}
+
 
 // 確認密碼比對
 const newPassword = document.getElementById("newPassword");
