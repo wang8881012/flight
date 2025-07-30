@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirGo航空</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../scss/pages/confirm.css">
+</head>
+
+<body class="p-0 m-0">
+    
+    <header id="header"></header>
+
+    <div class="container my-4">
+        <div class="row justify-content-center" id="accordionExample">
+
+            <!-- 卡片1 -->
+            <div class="col-12 col-lg-10">
+                <div class="card m-3 border-0">
+
+                    <!-- 卡片 header -->
+                    <div class="row card-header mx-0 p-4 pt-3 rounded-top-5">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="gold-text fs-6">
+                                TPE 台灣桃園國際機場 → KIX 關西國際機場
+                            </div>
+                            <div class="gold-text ms-3 fs-6">
+                                2025/10/12 星期日
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 body -->
+                    <div class="row card-body mx-0 p-3 gy-3 rounded-bottom-5">
+
+                        <!-- 左側：出發與到達時間 -->
+                        <div
+                            class="col-12 col-lg-7 d-flex justify-content-around align-items-center flex-column flex-lg-row">
+                            <!-- 出發時間 -->
+                            <div class="text-center me-lg-4 mb-3 mb-lg-0">
+                                <p class="blue-text fs-3 fw-bolder">07:45</p>
+                                <p class="blue-text fs-3 fw-bolder">TPE</p>
+                            </div>
+
+                            <!-- 箭頭 -->
+                            <div class="blue-text fs-3 fw-bolder">
+                                →
+                            </div>
+
+                            <!-- 抵達時間 -->
+                            <div class="text-center">
+                                <h4 class="blue-text fs-3 fw-bolder">11:25</h4>
+                                <p class="blue-text fs-3 fw-bolder">KIX</p>
+                            </div>
+                        </div>
+
+                        <!-- 中間：飛行資訊 -->
+                        <div class="col-12 col-lg-2 d-flex flex-column justify-content-center text-start">
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-clock-history"></i> 2h 40m</div>
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-airplane-engines-fill"></i> CI 157
+                            </div>
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-ticket-perforated-fill"></i> 2張</div>
+                        </div>
+
+                        <!-- 右側 -->
+                        <div
+                            class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center text-center">
+                            <div class="blue-text fs-4 fw-bolder">經濟艙 基本</div>
+                            <button class="py-0 btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse1">
+                                <i class="bi bi-caret-down-fill fs-1" data-toggle-icon="collapse1"></i>
+                            </button>
+                        </div>
+
+                        <!-- 下拉內容 -->
+                        <div class="collapse mt-4" id="collapse1" data-bs-parent="#accordionExample">
+                            <div class="container my-4 detailed">
+                                <div class="row p-4 rounded ">
+
+                                    <!-- 左側：行程詳細資訊 -->
+                                    <div class="col-12 col-lg-6">
+                                        <h4 class="blue-text fs-3 fw-bolder">行程詳細資訊</h4>
+
+                                        <div
+                                            class="d-flex flex-column flex-lg-row justify-content-around align-items-center">
+                                            <!-- 飛行時間 -->
+                                            <div class="ms-4 mb-4 mb-lg-0">
+                                                <div class="detailed-text">2h 40m</div>
+                                                <div class="detailed-text">航班班號 CI 156</div>
+                                            </div>
+
+                                            <div class="timeline d-flex flex-column position-relative">
+                                                <!-- 單一航段：出發 -->
+                                                <div class="mb-4 position-relative">
+                                                    <!-- 圓點 -->
+                                                    <div
+                                                        class="position-absolute top-0 start-0 translate-middle rounded-circle">
+                                                    </div>
+
+                                                    <!-- 資料 -->
+                                                    <div class="ms-4 text-airport">
+                                                        <strong>TPE 台灣桃園國際機場</strong><br>
+                                                        07:45<br>
+                                                        航廈 2
+                                                    </div>
+                                                </div>
+
+                                                <!-- 單一航段：抵達 -->
+                                                <div class="mb-4 position-relative">
+                                                    <!-- 圓點 -->
+                                                    <div
+                                                        class="position-absolute top-0 start-0 translate-middle rounded-circle">
+                                                    </div>
+
+                                                    <!-- 資料 -->
+                                                    <div class="ms-4 text-airport">
+                                                        <strong>KIX 關西國際機場</strong><br>
+                                                        11:25<br>
+                                                        航廈 1
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 中間垂直線 -->
+                                    <div class="col-12 col-lg-2 d-flex justify-content-center my-4 my-lg-0">
+                                        <div class="middle-line"></div>
+                                    </div>
+
+                                    <!-- 右側：艙等、加購、按鈕 -->
+                                    <div
+                                        class="col-12 col-lg-4 d-flex flex-column justify-content-center align-items-center mt-4 mt-lg-0">
+                                        <div class="mb-4 detailed-text"><strong>經濟艙 基本</strong></div>
+                                        <div class="mb-4 detailed-text">無任何加購</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片2 -->
+            <div class="col-12 col-lg-10 mb-4">
+                <div class="card m-3 border-0">
+                    <!-- 卡片 header -->
+                    <div class="row card-header mx-0 p-4 pt-3 rounded-top-5">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="gold-text fs-6">TSA 台北松山機場 → HND 東京羽田機場</div>
+                            <div class="gold-text fs-6 ms-3">2025/10/13 星期一</div>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 body -->
+                    <div class="row card-body mx-0 p-4 gy-3 rounded-bottom-5">
+                        <!-- 左側 -->
+                        <div
+                            class="col-12 col-lg-7 d-flex justify-content-around align-items-center flex-column flex-lg-row">
+                            <div class="text-center me-lg-4 mb-3 mb-lg-0">
+                                <h4 class="blue-text fs-3 fw-bolder">09:30</h4>
+                                <p class="blue-text fs-3 fw-bolder">TSA</p>
+                            </div>
+
+                            <!-- 箭頭 -->
+                            <div class="text-center blue-text fs-3 fw-bolder">→</div>
+
+                            <div class="text-center">
+                                <h4 class="blue-text fs-3 fw-bolder">13:00</h4>
+                                <p class="blue-text fs-3 fw-bolder">HND</p>
+                            </div>
+                        </div>
+
+                        <!-- 中間 -->
+                        <div class="col-12 col-lg-2 d-flex flex-column justify-content-center text-start">
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-clock-history"></i> 3h 30m</div>
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-airplane-engines-fill"></i> NH 854
+                            </div>
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-ticket-perforated-fill"></i> 1張</div>
+                        </div>
+
+                        <!-- 右側 -->
+                        <div
+                            class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center text-center">
+                            <div class="blue-text fs-4 fw-bolder">商務艙 標準</div>
+                            <button class="py-0 btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse2">
+                                <i class="bi bi-caret-down-fill fs-1" data-toggle-icon="collapse2"></i>
+                            </button>
+                        </div>
+
+
+
+                        <!-- 下拉內容 -->
+                        <div class="collapse mt-4" id="collapse2" data-bs-parent="#accordionExample">
+                            <div class="container my-4 detailed">
+                                <div class="row p-4 rounded ">
+                                    <!-- 左側：行程詳細資訊 -->
+                                    <div class="col-12 col-lg-6">
+                                        <div class="blue-text fs-3 fw-bolder">行程詳細資訊</div>
+
+                                        <div
+                                            class="d-flex flex-column flex-lg-row justify-content-around align-items-center">
+                                            <!-- 飛行時間 -->
+                                            <div class="ms-4 mb-4 mb-lg-0">
+                                                <div class="detailed-text">2h 40m</div>
+                                                <div class="detailed-text">航班班號 CI 156</div>
+                                            </div>
+
+                                            <div class="timeline d-flex flex-column position-relative">
+                                                <!-- 單一航段：出發 -->
+                                                <div class="mb-4 position-relative">
+                                                    <!-- 圓點 -->
+                                                    <div
+                                                        class="position-absolute top-0 start-0 translate-middle rounded-circle">
+                                                    </div>
+
+                                                    <!-- 資料 -->
+                                                    <div class="ms-4 text-airport">
+                                                        <strong>TPE 台灣桃園國際機場</strong><br>
+                                                        07:45<br>
+                                                        航廈 2
+                                                    </div>
+                                                </div>
+
+                                                <!-- 單一航段：抵達 -->
+                                                <div class="mb-4 position-relative">
+                                                    <!-- 圓點 -->
+                                                    <div
+                                                        class="position-absolute top-0 start-0 translate-middle rounded-circle">
+                                                    </div>
+
+                                                    <!-- 資料 -->
+                                                    <div class="ms-4 text-airport">
+                                                        <strong>KIX 關西國際機場</strong><br>
+                                                        11:25<br>
+                                                        航廈 1
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 中間垂直線 -->
+                                    <div class="col-12 col-lg-2 d-flex justify-content-center my-4 my-lg-0">
+                                        <div class="middle-line"></div>
+                                    </div>
+
+                                    <!-- 右側：艙等、加購、按鈕 -->
+                                    <div
+                                        class="col-12 col-lg-4 d-flex flex-column justify-content-center align-items-center mt-4 mt-lg-0">
+                                        <div class="mb-4 detailed-text"><strong>經濟艙 基本</strong></div>
+                                        <div class="mb-4 detailed-text">無任何加購</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 旅客資料 -->
+            <div class="col-12 col-lg-10 mb-4">
+                <div class="card m-3 border-0">
+                    <!-- 卡片 header -->
+                    <div class="row card-header mx-0 p-4 rounded-top-5">
+                        <div class="col d-flex flex-row">
+                            <h5 class="text fs-4">資料確認</h5>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 body -->
+                    <div class="row card-body mx-0 p-5 gy-3 rounded-bottom-5">
+                        <!-- 會員本人資料 -->
+                        <h5 class="text-center fw-bold mb-4 blue-text fs-3">會員本人</h5>
+                        <div class="row">
+                            <div class="col-md-6 info-group">
+                                <label class="form-label blue-text fs-5 fw-bold">英文姓名</label>
+                                <input id="name" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                            </div>
+
+                            <div class="col-md-6 info-group">
+                                <label class="form-label blue-text fs-5 fw-bold">性別</label>
+                                <select class="form-select blue-text fs-5 fw-bold mb-2">
+                                    <option>男性</option>
+                                    <option>女性</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 info-group">
+                                <label class="form-label blue-text fs-5 fw-bold">身分證</label>
+                                <input id="id" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                            </div>
+
+                            <div class="col-md-6 info-group">
+                                <label class="form-label blue-text fs-5 fw-bold">發行國家／地區</label>
+                                <input id="issueCountry" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                            </div>
+
+                            <div class="col-md-6 info-group">
+                                <label class="form-label blue-text fs-5 fw-bold">護照號碼</label>
+                                <input id="passport" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                            </div>
+
+                            <div class="col-md-6 info-group">
+                                <label class="form-label blue-text fs-5 fw-bold">有效期限</label>
+                                <input id="expire" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                            </div>
+
+                            <div class="col-md-6 info-group">
+                                <label class="form-label blue-text fs-5 fw-bold">國籍／地區</label>
+                                <input id="nationality" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                            </div>
+
+                            <div class="col-md-6 info-group">
+                                <label class="form-label blue-text fs-5 fw-bold">出生日期</label>
+                                <input id="birth" type="text" class="form-control blue-text fs-5 fw-bold">
+                            </div>
+
+                        </div>
+
+                        <hr class="border-5">
+
+                        <!-- 同行旅客資料 -->
+                        <div id="passenger-container"></div> <!-- 用js渲染 -->
+
+                    </div>
+                </div>
+
+                <!-- 價錢與付款 -->
+                <div class="d-flex flex-column align-items-end">
+                    <p class="ticket-price fs-3">票價：</p>
+                    <p class="total-price fs-3">總價：</p>
+                    <p class="text-danger fw-bolder fs-3">本公司目前只提供信用卡付款</p>
+                    <div class="">
+                        <a href="#" class="btn btn-secondary btn-bg fs-5" data-bs-toggle="modal"
+                            data-bs-target="#cancel">取消訂票</a>
+                        <a href="../api/confirm/ecpay.php" class="btn btn-primary fs-5">前往付款</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ✅ Modal 視窗 -->
+            <div class="modal fade" id="cancel" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">取消確認</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+                        </div>
+                        <div class="modal-body fs-3 text-center text-danger fw-bolder">
+                            取消航班不保留此紀錄
+                            <br />
+                            是否確定要取消
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary fs-5" data-bs-dismiss="modal">取消航班</button>
+                            <button type="button" class="btn btn-primary fs-5" data-bs-dismiss="modal">繼續付款</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer"></footer>
+
+    <script>
+        // 載入 header.html
+        fetch('header.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            });
+
+        // 載入 footer.html
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+    <script src="../js/confirm.js"></script>
+    <script src="../js/fake_passengers.js"></script> <!-- 儲存測試資料 -->
+    <script src="../js/renderPassengers.js"></script> <!-- 動態生成旅客資訊 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
