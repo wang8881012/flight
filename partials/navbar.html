@@ -1,117 +1,78 @@
-
 <style>
+    /* 下拉選單內容 */
+    .collapse {
+        background-color: rgba(219, 234, 255, 0.44)
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: #DBB37D;
+        background-color: transparent;
+    }
 
 
-/* 下拉選單內容 */
-.collapse {
-    background-color: rgba(219, 234, 255, 0.44)
-}
+    .gold-text {
+        color: #DBB37D;
+    }
 
+    .gold-bg {
+        background-color: #DBB37D;
+    }
 
+    .blue-text {
+        color: #455C80;
+    }
 
-.gold-text {
-    color: #DBB37D;
-}
+    .blue-bg {
+        background-color: #2B3B52;
+    }
 
-.gold-bg {
-    background-color: #DBB37D;
-}
-
-.blue-text {
-    color: #455C80;
-}
-
-.blue-bg {
-    background-color: #2B3B52;
-}
-
-.light-blue-bg {
-    background-color: #DBEAFF;
-}
+    .light-blue-bg {
+        background-color: #DBEAFF;
+    }
 </style>
 
-    <!-- 桌面版：上層 Logo 和右側項目 -->
-    <nav class="navbar navbar-expand-lg blue-bg d-none d-lg-flex p-4">
-        <div class="container-fluid">
-            <div class="d-flex align-items-center ms-4">
-                <img src="../assets/images/logo.svg" alt="LOGO" class="me-2" style="height: 60px;">
-                <a class="navbar-brand gold-text fs-3" href="index.html">AirGo航空</a>
-            </div>
-            <ul class="navbar-nav">
-                <li class="nav-item mx-4">
-                    <a class="nav-link gold-text fs-4" href="#">聯絡我們</a>
+<!-- 桌面版：上層 Logo 和右側項目 -->
+<nav class="navbar navbar-expand-lg blue-bg d-none d-lg-flex p-4">
+    <div class="container-fluid">
+        <div class="d-flex align-items-center ms-4">
+            <img src="../assets/images/logo.svg" alt="LOGO" class="me-2" style="height: 60px;">
+            <a class="navbar-brand gold-text fs-3" href="index.html">AirGo航空</a>
+        </div>
+        <div id="navbarUserArea">
+        </div>
+    </div>
+</nav>
+
+<!-- 手機版：全部一起收合 -->
+<nav class="navbar navbar-expand-lg blue-bg d-lg-none">
+    <div class="container-fluid">
+        <div>
+            <img src="../assets/images/logo.svg" alt="LOGO" class="me-2" style="height: 60px;">
+            <a class="navbar-brand gold-text" href="#">AirGo航空</a>
+        </div>
+
+        <!-- 漢堡選單按鈕 -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- 手機版選單內容 -->
+        <div class="collapse navbar-collapse blue-bg" id="mobileNavbar">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <!-- 聯絡我們 / 登入 -->
+                <li class="nav-item">
+                    <a class="nav-link gold-text" href="#">聯絡我們</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link gold-text fs-4" href="register.html">登入</a>
+                    <a class="nav-link gold-text" href="login.html">登入</a>
                 </li>
             </ul>
         </div>
-    </nav>
-
-    <!-- 桌面版：下層功能選項 -->
-    <!-- <nav class="navbar navbar-expand-lg bg-white d-none d-lg-flex">
-        <div class="container-fluid justify-content-center">
-            <ul class="navbar-nav mb-2 mb-lg-0 gap-5">
-                <li class="nav-item">
-                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">確認明細</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">填寫旅客資料</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">加值購買</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">付款</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">完成</a>
-                </li>
-            </ul>
-        </div>
-    </nav> -->
-
-    <!-- 手機版：全部一起收合 -->
-    <nav class="navbar navbar-expand-lg blue-bg d-lg-none">
-        <div class="container-fluid">
-            <div>
-                <img src="../assets/images/logo.svg" alt="LOGO" class="me-2" style="height: 60px;">
-                <a class="navbar-brand gold-text" href="#">AirGo航空</a>
-            </div>
-
-            <!-- 漢堡選單按鈕 -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- 手機版選單內容 -->
-            <div class="collapse navbar-collapse blue-bg" id="mobileNavbar">
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    <!-- 功能選項 -->
-                    <li class="nav-item">
-                        <a class="nav-link gold-text" href="#">確認明細</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link gold-text" href="#">填寫旅客資料</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link gold-text" href="#">加值購買</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link gold-text" href="#">付款</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link gold-text" href="#">完成</a>
-                    </li>
-
-                    <!-- 聯絡我們 / 登入 -->
-                    <li class="nav-item">
-                        <a class="nav-link gold-text" href="#">聯絡我們</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link gold-text" href="login.html">登入</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    </div>
+</nav>
