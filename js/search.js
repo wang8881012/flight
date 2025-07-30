@@ -291,7 +291,7 @@ async function saveSelectionToSession() {
     const data = await res.json();
     if (data.status === "success") {
       // 進入下一步（登入畫面）
-      window.location.href = "login.html"; // 下一步頁面
+      window.location.href = "booking_user.html"; // 下一步頁面
     } else {
       alert("儲存選擇失敗：" + (data.message || ""));
     }
