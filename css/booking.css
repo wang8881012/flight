@@ -1,26 +1,3 @@
-@charset "UTF-8";
-.sidebar {
-  background-color: #455B80;
-  color: #455B80;
-}
-.sidebar h4, .sidebar h5, .sidebar h6, .sidebar .fw-bold, .sidebar .text-end {
-  color: #fff !important;
-}
-.sidebar .card {
-  background-color: #455B80 !important;
-  border: none;
-}
-.sidebar .card .card-body {
-  background-color: #455B80 !important;
-}
-.sidebar a.btn-primary {
-  background-color: #DBB37D #455B80, 10%;
-  color: #2B3B52;
-  border: none;
-}
-.sidebar a.btn-primary:hover {
-  background-color: rgb(77.9314720812, 102.7791878173, 144.5685279188);
-}
 
 .keep-white {
   background-color: #fff !important;
@@ -47,17 +24,6 @@
   color: #F5F5F5;
 }
 
-.nav-link {
-  color: #2B3B52;
-}
-.nav-link.active {
-  color: #455B80;
-  font-weight: bold;
-}
-.nav-link:hover {
-  color: rgb(25.456, 34.928, 48.544);
-}
-
 .card {
   background-color: #455B80;
 }
@@ -69,6 +35,9 @@
   background-color: #fff !important;
   color: #000 !important;
 }
+
+
+
 
 @media (max-width: 991.98px) {
   .d-lg-flex {
