@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 
-// 接收前端psot旅客資料，謝入資料庫
+// 接收前端post旅客資料，寫入資料庫
 
 require_once '../inc/db.inc.php'; // 假設這裡包含PDO連接
 
@@ -20,7 +20,9 @@ if (!$input || !isset($input['passengers'])) {
     exit;
 }
 
+$member = $input['member'];
 $passengers = $input['passengers'];
+//die(print_r($member));
 $response = ['success' => true, 'message' => ''];
 
 try {
@@ -28,7 +30,7 @@ try {
     
     // 處理主要乘客 (更新users表)
     if (count($passengers) > 0) {
-        $mainPassenger = $passengers[0];
+        $mainPassenger = $member;
         
         $updateSql = "UPDATE users SET 
             passport_first_name = :passport_first_name,
