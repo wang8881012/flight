@@ -10,6 +10,25 @@ document.addEventListener("DOMContentLoaded", async function () {
         navbarContainer.innerHTML = navbarHtml;
         footerContainer.innerHTML = footerHtml;
 
+        // 確認使用者登入狀態
+        const userRes = await fetch("../api/auth/check_login.php");
+        const userData = await userRes.json();
+
+        const userArea = document.getElementById("navbarUserArea");
+
+        if (userData.loggedIn) {
+            userArea.innerHTML = `
+                <span class="gold-text me-3">歡迎，${userData.username}</span>
+                <a href="../public/profile.html" class="gold-text me-3">會員中心</a>        
+                <button id="logoutBtn" class="gold-bg blue-text btn px-2">登出</button>
+            `;
+        } else {
+            userArea.innerHTML = `
+                <a href="#" class="gold-text me-3">聯絡我們</a>
+                <a href="login.html" class="gold-text">登入</a>
+            `;
+        }
+
         // logout
         const logoutBtn = document.getElementById("logoutBtn");
         if (logoutBtn) {
@@ -31,6 +50,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("navbar footer載入失敗", err)
     };
 })
+
+
 
 // 載入memberNav時動態載入active
 document.addEventListener("DOMContentLoaded", async function () {

@@ -44,38 +44,50 @@
             </button>
           </div>
 
-          <!-- 來回票 -->
+         <!-- 來回票 -->
           <div id="roundTripSelects" class="mt-2">
-            <label>
-              <p>去程 出發：</p>
-            </label>
-            <select id="departureCityRound1"></select>
-            <label>
-              <p>目的：</p>
-            </label>
-            <select id="arrivalCityRound1"></select
-            ><br />
-            <label>
-              <p>回程 出發：</p>
-            </label>
-            <select id="departureCityRound2"></select>
-            <label>
-              <p>目的：</p>
-            </label>
-            <select id="arrivalCityRound2"></select>
+            <!-- 去程 -->
+            <div class="row mb-2 mb-3">
+              <div class="col-6">
+                <label>去程 出發：</label>
+                <select class="form-select" id="departureCityRound1"></select>
+              </div>
+              <div class="col-6">
+                <label>目的：</label>
+                <select class="form-select" id="arrivalCityRound1"></select>
+              </div>
+            </div>
+
+            <!-- 回程 -->
+            <div class="row mb-2">
+              <div class="col-6">
+                <label>回程 出發：</label>
+                <select class="form-select" id="departureCityRound2"></select>
+              </div>
+              <div class="col-6">
+                <label>目的：</label>
+                <select class="form-select" id="arrivalCityRound2"></select>
+              </div>
+            </div>
           </div>
 
           <!-- 單程 -->
-          <div id="oneWaySelects" class="hidden mt-2">
-            <label>出發：</label>
-            <select id="departureCityOneWay"></select>
-            <label>目的：</label>
-            <select id="arrivalCityOneWay"></select>
+          <div id="oneWaySelects" class="hidden my-2">
+            <div class="row">
+              <div class="col-6">
+                <label>出發：</label>
+                <select class="form-select" id="departureCityOneWay"></select>
+              </div>
+              <div class="col-6">
+                <label>目的：</label>
+                <select class="form-select" id="arrivalCityOneWay"></select>
+              </div>
+            </div>
           </div>
 
           <!-- 日期選擇 -->
-          <div class="my-2">
-            <div class="row align-items-center mt-3">
+          <div class="mt-2">
+            <div class="row align-items-center">
               <div class="col-6">
                 <label for="dateRangePicker" class="form-label"
                   >選擇日期區間</label
@@ -92,9 +104,9 @@
             <!-- 選擇人數 -->
             <div>
               <p>人數</p>
-              <button id="btnMinus">-</button>
+              <button id="btnMinus" class="rounded-circle">-</button>
               <span id="passengerCount">1</span>
-              <button id="btnPlus">+</button>
+              <button id="btnPlus" class="rounded-circle">+</button>
             </div>
 
             <button

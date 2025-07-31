@@ -26,7 +26,7 @@ if (!$userData) {
 }
 
 // 從先前頁面獲取乘客數量 (測試)
-$passengerCount = $_POST['passenger_count'] ?? 3; 
+$passengerCount = $_SESSION['selectedFlights']['passengerCount'] ?? null;
 
 // 獲取用戶的好友列表
 $stmt = $pdo->prepare("SELECT * FROM passenger_info WHERE user~_id = ? AND is_deleted = 0");

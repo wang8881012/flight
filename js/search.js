@@ -52,6 +52,19 @@ function renderFlights(data) {
   }
 }
 
+// 翻成中文
+function translateClassType(type) {
+  switch (type) {
+    case "economy":
+      return "經濟艙";
+    case "business":
+      return "商務艙";
+    default:
+      return type;
+  }
+}
+
+
 // ---- 渲染每一筆航班 ----
 // directionKey: 'outbound' | 'inbound' | 'oneway'
 function renderFlightList(flights, containerId, directionKey) {
@@ -62,6 +75,8 @@ function renderFlightList(flights, containerId, directionKey) {
     container.innerHTML = `<p class="text-danger">沒有 ${directionKey} 航班</p>`;
     return;
   }
+
+
 
   // 把同 flight_no 的艙等 class 分組在同一個 card 裡面
   const groupedFlights = {};
@@ -87,7 +102,7 @@ function renderFlightList(flights, containerId, directionKey) {
         const isSelected = isThisSelected(directionKey, flight);
         return `
           <div class="class-option ${isSelected ? "selected" : ""}">
-            <div class="class-type">${flight.class_type}</div>
+            <div class="class-type">${translateClassType(flight.class_type)}</div>
             <div class="class-price">NT$${flight.price.toLocaleString()}</div>
             <button 
               class="btn-select" 
@@ -96,7 +111,7 @@ function renderFlightList(flights, containerId, directionKey) {
               data-class-type="${flight.class_type}"
               data-idx="${flights.indexOf(flight)}"
             >
-              ${isSelected ? "selected" : "select"}
+              ${isSelected ? "已選擇" : "選擇"}
             </button>
           </div>
         `;
@@ -160,6 +175,8 @@ function selectFlight(direction, flight) {
     flight_no: flight.flight_no,
     class_type: flight.class_type,
     price: flight.price,
+    from_airport: flight.from_airport,
+    to_airport: flight.to_airport,
     from_airport_name: flight.from_airport_name,
     to_airport_name: flight.to_airport_name,
     departure_time: flight.departure_time,
@@ -203,20 +220,20 @@ function updateCartPreview(forceShow = false) {
     if (selected.outbound) {
       total += selected.outbound.price;
       lines.push(
-        `[去程] ${selected.outbound.flight_no} (${selected.outbound.class_type}) $${selected.outbound.price}`
+        `[去程] ${selected.outbound.flight_no} (${translateClassType(selected.outbound.class_type)}) $${selected.outbound.price}`
       );
     }
     if (selected.inbound) {
       total += selected.inbound.price;
       lines.push(
-        `[回程] ${selected.inbound.flight_no} (${selected.inbound.class_type}) $${selected.inbound.price}`
+        `[回程] ${selected.inbound.flight_no} (${translateClassType(selected.inbound.class_type)}) $${selected.inbound.price}`
       );
     }
   } else {
     if (selected.oneway) {
       total += selected.oneway.price;
       lines.push(
-        `[單程] ${selected.oneway.flight_no} (${selected.oneway.class_type}) $${selected.oneway.price}`
+        `[單程] ${selected.oneway.flight_no} (${translateClassType(selected.oneway.class_type)}) $${selected.oneway.price}`
       );
     }
   }
@@ -277,6 +294,12 @@ async function saveSelectionToSession() {
       outbound: selected.outbound,
       inbound: selected.inbound,
       oneway: selected.oneway,
+      from_airport: isRoundTrip
+        ? selected.outbound?.from_airport
+        : selected.oneway?.from_airport,
+      to_airport: isRoundTrip
+        ? selected.outbound?.to_airport
+        : selected.oneway?.to_airport
     },
     totalPrice: totalForAll,
   };
@@ -289,9 +312,23 @@ async function saveSelectionToSession() {
       body: JSON.stringify(payload),
     });
     const data = await res.json();
+    console.log(data);
     if (data.status === "success") {
-      // 進入下一步（登入畫面）
-      window.location.href = "login.html"; // 下一步頁面
+      // 檢查登入狀態
+      const loginRes = await fetch("../api/auth/check_login.php", { credentials: "include" });
+      const loginData = await loginRes.json();
+      if (loginData.loggedIn) {
+        window.location.href = "../public/booking_user.html";
+      } else {
+        // 設定登入後導向
+        await fetch("../api/auth/set_login_redirect.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ redirect: "../public/booking_user.html" })
+        });
+        window.location.href = "../public/login.html";
+      }
     } else {
       alert("儲存選擇失敗：" + (data.message || ""));
     }

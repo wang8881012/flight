@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("後端回傳：", result);
 
         // 你可以根據後端回傳決定跳轉
-        window.location.href = "../public/booking.html";
+        window.location.href = "../public/booking_addon.html";
       } else {
         console.error("送出失敗：", res.status);
         alert("提交失敗，請稍後再試！");
