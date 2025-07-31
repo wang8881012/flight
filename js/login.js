@@ -1,5 +1,5 @@
 document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // 阻止表單預設送出行為
+    e.preventDefault();
 
     const formData = new FormData(this);
 
@@ -10,16 +10,15 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                // 登入成功 → 導向 profile.html
-                window.location.href = "../public/profile.html";
+                // 使用後端提供的導向網址
+                console.log(data.redirect_url)
+                window.location.href = data.redirect_url;
             } else {
-                // 登入失敗 → 顯示錯誤訊息
-                //document.getElementById("err-msg").textContent = data.message;
                 showMessage(data.message);
             }
         })
         .catch(err => {
-            console.error("伺服器錯誤", err);
+            console.error("登入發生錯誤", err);
         });
 });
 

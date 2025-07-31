@@ -309,16 +309,16 @@ async function saveSelectionToSession() {
       const loginRes = await fetch("../api/auth/check_login.php", { credentials: "include" });
       const loginData = await loginRes.json();
       if (loginData.loggedIn) {
-        window.location.href = "booking_user.html";
+        window.location.href = "../public/booking_user.html";
       } else {
         // 設定登入後導向
         await fetch("../api/auth/set_login_redirect.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ redirect: "../../public/booking_user.html" })
+          body: JSON.stringify({ redirect: "../public/booking_user.html" })
         });
-        window.location.href = "login.html";
+        window.location.href = "../public/login.html";
       }
     } else {
       alert("儲存選擇失敗：" + (data.message || ""));
