@@ -29,7 +29,7 @@ if (!$userData) {
 $passengerCount = $_SESSION['selectedFlights']['passengerCount'] ?? null;
 
 // 獲取用戶的好友列表
-$stmt = $pdo->prepare("SELECT * FROM passenger_info WHERE user~_id = ? AND is_deleted = 0");
+$stmt = $pdo->prepare("SELECT * FROM passenger_info WHERE user_id = ? AND is_deleted = 0");
 $stmt->execute([$userId]);
 $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //die(print_r($friends));

@@ -6,13 +6,15 @@ const allSelections = [];
 
 // 從後端取得 class_type 與 bookedSeats 並分別指定去程與回程
 function setClassTypesFromServer(data) {
-    if (!window.setClassTypes || !window.setBookedSeats) return;
 
-    // 使用新版格式：outbound 是去程，inbound 是回程
-    const outboundClass = data?.outbound?.class_type || 'economy';
-    const returnClass = data?.inbound?.class_type || 'economy';
-    const outboundBooked = data?.outbound?.bookedSeats || [];
-    const returnBooked = data?.inbound?.bookedSeats || [];
+    if (!window.setClassTypes || !window.setBookedSeats) return;
+    realData = data.data
+    
+    const outboundClass = realData?.outbound?.class_type || 'economy';
+    const returnClass = realData?.inbound?.class_type || 'economy';
+    const outboundBooked = realData?.outbound?.bookedSeats || [];
+    const returnBooked = realData?.inbound?.bookedSeats || [];
+
 
     window.setClassTypes({
         outbound: outboundClass,
@@ -52,11 +54,11 @@ window.setBookedSeats = function (map) {
 
 // 等 DOM 與其他 JS 載入完
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('../api/booking/get_flight_info.php') //這邊改成get_selection.php
+    fetch('../api/flights/get_selection.php') //這邊改成get_selection.php
         .then(res => res.json())
         .then(data => {
             passengerCount = parseInt(data.passengerCount) || 1;
-            console.log('從後端取得 passengerCount =', passengerCount);
+            //console.log('從後端取得 passengerCount =', passengerCount);
 
             setClassTypesFromServer(data);
         });
