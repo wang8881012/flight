@@ -3,24 +3,58 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!container) return;
 
   try {
-    const res = await fetch("../api/flights/get_selection.php");
-    const result = await res.json();
-    const data = result.data; // 解開正確資料層級
+    const [flightRes, addonRes] = await Promise.all([
+      fetch("../api/flights/get_selection.php"),
+      fetch("../api/confirm/get_addons.php")
+    ]);
+    //console.log(await addonRes.json())
 
-    const passengerCount = data.passengerCount || 1;
+    const flightData = (await flightRes.json()).data;
+    //console.log(flightDatas)
 
-    if (data.tripType === "oneway" && data.oneway) {
-      container.prepend(createTimeCard(data.oneway, "oneway", passengerCount));
-    } else if (data.tripType === "round" && data.outbound && data.inbound) {
-      container.prepend(createTimeCard(data.inbound, "inbound", passengerCount));
-      container.prepend(createTimeCard(data.outbound, "outbound", passengerCount));
+    const addonSelections = (await addonRes.json());
+    //console.log(addonSelections)
+
+    const passengerCount = flightData.passengerCount || 1;
+
+    const outboundAddon = combineAddons(addonSelections, "outbound");
+    const returnAddon = combineAddons(addonSelections, "return");
+
+    if (flightData.tripType === "round") {
+      container.prepend(createTimeCard(flightData.inbound, "inbound", passengerCount, returnAddon));
+      container.prepend(createTimeCard(flightData.outbound, "outbound", passengerCount, outboundAddon));
+    } else if (flightData.oneway) {
+      const onewayAddon = combineAddons(addonSelections, "outbound");
+      container.prepend(createTimeCard(flightData.oneway, "oneway", passengerCount, onewayAddon));
     }
   } catch (err) {
-    console.error("錯誤：", err);
+    console.error("❌ 發生錯誤：", err);
   }
 });
 
-function createTimeCard(flight, label, passengerCount) {
+function combineAddons(selections, direction) {
+  const meals = {};
+  let totalBaggageKg = 0;
+
+  selections.forEach(sel => {
+    const seg = sel[direction];
+    if (!seg) return;
+
+    if (seg.meal) meals[seg.meal] = (meals[seg.meal] || 0) + 1;
+
+    const weight = parseInt(seg.baggage?.weight?.replace("KG", "") || 0, 10);
+    totalBaggageKg += weight;
+  });
+
+  return {
+    mealSummary: Object.entries(meals)
+      .map(([meal, count]) => `${meal} ×${count}`)
+      .join(" / "),
+    baggageSummary: totalBaggageKg > 0 ? `托運 ${totalBaggageKg}KG` : ""
+  };
+}
+
+function createTimeCard(flight, label, passengerCount, addon = null) {
   const depTime = flight.departure_time?.split(" ")[1]?.slice(0, 5) || "--:--";
   const arrTime = flight.arrival_time?.split(" ")[1]?.slice(0, 5) || "--:--";
   const fullDateTime = flight.departure_time || "未知時間";
@@ -30,18 +64,21 @@ function createTimeCard(flight, label, passengerCount) {
   const fromName = flight.from_airport_name || from;
   const toName = flight.to_airport_name || to;
 
-  // 計算飛行時間
   const durationMs = new Date(flight.arrival_time) - new Date(flight.departure_time);
   const hours = Math.floor(durationMs / (1000 * 60 * 60));
   const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
   const durationText = `${hours}h ${minutes}m`;
 
-  // 艙等轉換
   const classMap = {
     economy: "經濟艙",
     business: "商務艙"
   };
   const className = classMap[flight.class_type] || "--";
+
+  const addonText = [
+    addon?.mealSummary || "無餐點",
+    addon?.baggageSummary
+  ].filter(Boolean).join(" <br> ");
 
   const card = document.createElement("div");
   card.className = "col-12 col-lg-10";
@@ -61,8 +98,8 @@ function createTimeCard(flight, label, passengerCount) {
       <!-- Body -->
       <div class="row card-body mx-0 p-3 gy-3 rounded-bottom-5">
 
-        <!-- 左側：出發與到達時間 -->
-        <div class="col-12 col-lg-6 d-flex justify-content-around align-items-center flex-column flex-lg-row">
+        <!-- 出發與到達 -->
+        <div class="col-12 col-lg-7 d-flex justify-content-around align-items-center flex-column flex-lg-row">
           <div class="text-center me-lg-4 mb-3 mb-lg-0" id="${label}-departure">
             <p class="blue-text fs-3 fw-bolder">${depTime}</p>
             <p class="blue-text fs-3 fw-bolder">${from}</p>
@@ -74,20 +111,20 @@ function createTimeCard(flight, label, passengerCount) {
           </div>
         </div>
 
-        <!-- 中間：飛行資訊 -->
-        <div class="col-12 col-lg-3 d-flex flex-column justify-content-center text-start">
-          <div class="blue-text fs-5 fw-bolder">
+        <!-- 飛行資訊 -->
+        <div class="col-12 col-lg-2 d-flex flex-column justify-content-center text-start">
+          <div class="blue-text fs-4 fw-bolder">
             <i class="bi bi-clock-history"></i> ${durationText}
           </div>
-          <div class="blue-text fs-5 fw-bolder">
+          <div class="blue-text fs-4 fw-bolder">
             <i class="bi bi-airplane-engines-fill"></i> ${flight.flight_no}
           </div>
-          <div class="blue-text fs-5 fw-bolder">
+          <div class="blue-text fs-4 fw-bolder">
             <i class="bi bi-ticket-perforated-fill"></i> ${passengerCount} 張
           </div>
         </div>
 
-        <!-- 右側：艙等與展開按鈕 -->
+        <!-- 艙等與展開 -->
         <div class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center text-center">
           <div class="blue-text fs-4 fw-bolder">${className}</div>
           <button class="py-0 btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${label}">
@@ -95,12 +132,12 @@ function createTimeCard(flight, label, passengerCount) {
           </button>
         </div>
 
-        <!-- 下拉詳細資訊 collapse -->
+        <!-- 下拉詳細資訊 -->
         <div class="collapse mt-4" id="collapse-${label}" data-bs-parent="#accordionExample">
           <div class="container my-4 detailed">
             <div class="row p-4 rounded">
 
-              <!-- 左：行程詳細資訊 -->
+              <!-- 左 -->
               <div class="col-12 col-lg-6">
                 <h4 class="blue-text fs-3 fw-bolder">行程詳細資訊</h4>
                 <div class="d-flex flex-column flex-lg-row justify-content-around align-items-center">
@@ -113,31 +150,29 @@ function createTimeCard(flight, label, passengerCount) {
                       <div class="position-absolute top-0 start-0 translate-middle rounded-circle"></div>
                       <div class="ms-4 text-airport">
                         <strong>${fromName}</strong><br>
-                        ${depTime}<br>
-                        <!-- 航廈資訊缺資料 -->
+                        ${depTime}
                       </div>
                     </div>
                     <div class="mb-4 position-relative">
                       <div class="position-absolute top-0 start-0 translate-middle rounded-circle"></div>
                       <div class="ms-4 text-airport">
                         <strong>${toName}</strong><br>
-                        ${arrTime}<br>
-                        <!-- 航廈資訊缺資料 -->
+                        ${arrTime}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- 中間：垂直線 -->
+              <!-- 中 -->
               <div class="col-12 col-lg-2 d-flex justify-content-center my-4 my-lg-0">
                 <div class="middle-line"></div>
               </div>
 
-              <!-- 右：艙等與加購 -->
+              <!-- 右 -->
               <div class="col-12 col-lg-4 d-flex flex-column justify-content-center align-items-center mt-4 mt-lg-0">
                 <div class="mb-4 detailed-text"><strong>${className}</strong></div>
-                <div class="mb-4 detailed-text">無任何加購</div> <!-- 加購資訊尚未串接 -->
+                <div class="mb-4 detailed-text">${addonText}</div>
               </div>
 
             </div>

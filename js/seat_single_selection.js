@@ -1,3 +1,4 @@
+//渲染飛機座位圖
 document.addEventListener('DOMContentLoaded', () => {
     const seatSize = 30;
     const seatGap = 10;
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ✏️ 每次都根據最新 classType 動態建立座位
+    // 每次都根據最新 classType 動態建立座位
     function createSeats(classType, canvasWidth, canvasHeight) {
         const seats = [];
 
