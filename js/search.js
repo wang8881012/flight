@@ -53,7 +53,7 @@ function renderFlights(data) {
 }
 
 // 翻成中文
-  function translateClassType(type) {
+function translateClassType(type) {
   switch (type) {
     case "economy":
       return "經濟艙";
@@ -76,7 +76,7 @@ function renderFlightList(flights, containerId, directionKey) {
     return;
   }
 
-  
+
 
   // 把同 flight_no 的艙等 class 分組在同一個 card 裡面
   const groupedFlights = {};
@@ -291,16 +291,16 @@ async function saveSelectionToSession() {
     tripType: isRoundTrip ? "round" : "oneway",
     passengerCount: passengerCount,
     selectedFlights: {
-    outbound: selected.outbound,
-    inbound: selected.inbound,
-    oneway: selected.oneway,
-    from_airport: isRoundTrip
-      ? selected.outbound?.from_airport
-      : selected.oneway?.from_airport,
-    to_airport: isRoundTrip
-      ? selected.outbound?.to_airport
-      : selected.oneway?.to_airport
-  },
+      outbound: selected.outbound,
+      inbound: selected.inbound,
+      oneway: selected.oneway,
+      from_airport: isRoundTrip
+        ? selected.outbound?.from_airport
+        : selected.oneway?.from_airport,
+      to_airport: isRoundTrip
+        ? selected.outbound?.to_airport
+        : selected.oneway?.to_airport
+    },
     totalPrice: totalForAll,
   };
 
@@ -318,7 +318,7 @@ async function saveSelectionToSession() {
       const loginRes = await fetch("../api/auth/check_login.php", { credentials: "include" });
       const loginData = await loginRes.json();
       if (loginData.loggedIn) {
-        // window.location.href = "../public/booking_user.html";
+        window.location.href = "../public/booking_user.html";
       } else {
         // 設定登入後導向
         await fetch("../api/auth/set_login_redirect.php", {
@@ -327,7 +327,7 @@ async function saveSelectionToSession() {
           credentials: "include",
           body: JSON.stringify({ redirect: "../public/booking_user.html" })
         });
-        // window.location.href = "../public/login.html";
+        window.location.href = "../public/login.html";
       }
     } else {
       alert("儲存選擇失敗：" + (data.message || ""));
