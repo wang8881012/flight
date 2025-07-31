@@ -52,7 +52,7 @@ window.setBookedSeats = function (map) {
 
 // 等 DOM 與其他 JS 載入完
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('../api/booking/get_flight_info.php')
+    fetch('../api/booking/get_flight_info.php') //這邊改成get_selection.php
         .then(res => res.json())
         .then(data => {
             passengerCount = parseInt(data.passengerCount) || 1;
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentPassengerIndex > passengerCount) {
                 console.log('所有乘客選擇完成：', allSelections);
 
-                fetch('./save_seat_selection.php', {
+                fetch('../api/booking/save_seat_selection.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ selections: allSelections })
