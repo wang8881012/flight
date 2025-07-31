@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-// 模擬資料（與你提供的圖一樣）
+// 模擬資料（get_selection.php）
 $response = [
     "passengerCount" => 2,
     "tripType" => "round",

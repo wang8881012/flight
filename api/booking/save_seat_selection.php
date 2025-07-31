@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// 取得傳入的 JSON 資料
+// 取得傳入的 JSON 資料 (由booking_addon.html帶入)
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 

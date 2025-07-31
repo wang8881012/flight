@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.addEventListener('click', () => {
             const outboundSeat = window.getSelectedSeat('outbound');
             const returnSeat = window.getSelectedSeat('return');
-            const outboundMeal = document.querySelector('input[name="meal"]:checked')?.value || '';
-            const returnMeal = document.querySelector('input[name="return_meal"]:checked')?.value || '';
+            const outboundMeal = document.getElementById('mealInput')?.value || '';
+            const returnMeal = document.getElementById('return_mealInput')?.value || '';
             const outboundBaggageWeight = document.getElementById('checked_baggageWeight')?.value || '';
             const outboundBaggagePrice = document.getElementById('checked_baggagePrice')?.value || '';
             const returnBaggageWeight = document.getElementById('return_checked_baggageWeight')?.value || '';
