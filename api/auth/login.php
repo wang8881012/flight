@@ -10,6 +10,7 @@ require '../inc/db.inc.php';
 //     $stmt->execute([$account]);
 //     $user = $stmt->fetch();
 
+
 //     if ($user && password_verify($password, $user["password"])) {
 //         $_SESSION["user_id"] = $user["id"];
 //         $_SESSION["username"] = $user["name"];
@@ -39,3 +40,18 @@ if ($user && password_verify($password, $user["password"])) {
         "message" => "帳號或密碼錯誤"
     ]);
 }
+    if ($user && password_verify($password, $user["password"])) {
+        $_SESSION["user_id"] = $user["id"];
+        $_SESSION["username"] = $user["name"];
+        // 根據來源頁面決定導向
+        $redirect = '../../public/profile.html';
+        if (isset($_SESSION['login_redirect']) && $_SESSION['login_redirect']) {
+            $redirect = $_SESSION['login_redirect'];
+            unset($_SESSION['login_redirect']);
+        }
+        header("Location: $redirect");
+        exit();
+    } else {
+        echo "登入失敗";
+    };
+};

@@ -8,97 +8,36 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- <link href="/flight-2/css/booking.css" rel="stylesheet"> -->
-  <!-- <link rel="stylesheet" href="../css/booking.css"> -->
-  <!-- <link rel="stylesheet" href="../scss/pages/confirm.css"> -->
+  <link rel="stylesheet" href="../css/booking.css">
+
   <!-- <link rel="stylesheet" href="../css/confirm.css"> -->
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark blue-bg d-none d-lg-flex p-4">
-    <div class="container-fluid">
-      <div class="d-flex align-items-center ms-4">
-        <!-- <img src="../assets/images/logo.svg" alt="LOGO" class="me-2" style="height: 60px;"> -->
-        <a class="navbar-brand gold-text fs-3" href="#">AirGo航空</a>
-      </div>
-      <ul class="navbar-nav">
-        <li class="nav-item mx-4">
-          <a class="nav-link gold-text fs-4" href="#">聯絡我們</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link gold-text fs-4" href="#">登入</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
 
 
-  <!-- 手機版：全部一起收合 -->
-  <nav class="navbar navbar-expand-lg navbar-dark blue-bg d-lg-none">
-    <div class="container-fluid">
-      <div>
-        <!-- <img src="../assets/images/logo.svg" alt="LOGO" class="me-2" style="height: 60px;"> -->
-        <a class="navbar-brand gold-text" href="#">AirGo航空</a>
-      </div>
-
-      <!-- 漢堡選單按鈕 -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- 手機版選單內容 -->
-      <div class="collapse navbar-collapse blue-bg" id="mobileNavbar">
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <!-- 功能選項 -->
-          <li class="nav-item">
-            <a class="nav-link gold-text" href="#">確認明細</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link gold-text" href="#">填寫旅客資料</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link gold-text" href="#">加值購買</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link gold-text" href="#">付款</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link gold-text" href="#">完成</a>
-          </li>
-
-          <!-- 聯絡我們 / 登入 -->
-          <li class="nav-item">
-            <a class="nav-link gold-text" href="#">聯絡我們</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link gold-text" href="#">登入</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- 桌面版navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-flex">
-    <div class="col-12 col-md-12">
-      <ul class="nav nav-tabs nav-fill justify-content-center">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">確認明細</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="booking01.html">填寫旅客資料</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="booking.html">加價購</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">付款</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">完成</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+ <div id="navbar"></div>
+  <nav class="navbar navbar-expand-lg d-none d-lg-flex">
+        <div class="container-fluid justify-content-center">
+            <ul class="navbar-nav mb-2 mb-lg-0 gap-5">
+                <li class="nav-item">
+                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">確認明細</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5 fw-bold" style="color: #007bff;font-weight: bold;" href="#">填寫旅客資料</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">加值購買</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">付款</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-black blue-text fs-5 fw-bold" href="#">完成</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
   <!-- 會員資料 -->
   <div class="col-12 col-md-8 offset-md-2">
     <div class="accordion" id="travelerAccordion">
@@ -229,14 +168,7 @@
                   <div class="col-md-6 text-center">
                     <!-- 複製會員 -->
                     <div class="form-check">
-                      <input class="form-check-input copySelf" type="checkbox" id="copySelf{{i}}">
                       <label class="form-check-label" for="copySelf{{i}}">使用會員資料</label>
-                    </div>
-
-                    <!-- 使用好友 -->
-                    <div class="form-check">
-                      <input class="form-check-input copyFriend" type="checkbox" id="copyFriend{{i}}">
-                      <label class="form-check-label" for="copyFriend{{i}}">選擇好友</label>
                     </div>
 
                     <!-- 好友下拉 -->
@@ -358,48 +290,10 @@
       <div class="SelectedPrices"></div>
     </div>
   </div>
-  <footer class="blue-bg text-light py-3">
-    <div class="container">
-      <div class="row">
-        <!-- Logo 區塊 -->
-        <div class="col-md-4 mb-4 mb-md-0 d-flex flex-column align-items-start">
-          <div class="mb-2">
-            <!-- 這邊建議放上 logo 圖片 <img src="logo.png" alt="AirGo Logo"> -->
-            <!-- <img src="../assets/images/logo.svg" alt="Logo" width="160px"> -->
-          </div>
-        </div>
 
-        <!-- 法令規章 -->
-        <div class="col-md-4 mb-4 mb-md-0">
-          <h5 class="gold-text mb-3">法令規章</h5>
-          <ul class="list-unstyled">
-            <li><a href="#" class="gold-text text-decoration-none">個人資訊保護</a></li>
-            <li><a href="#" class="gold-text text-decoration-none">網路協助工具</a></li>
-            <li><a href="#" class="gold-text text-decoration-none">網頁政策</a></li>
-            <li><a href="#" class="gold-text text-decoration-none">國際運送條款（旅客及行李）</a></li>
-            <li><a href="#" class="gold-text text-decoration-none">國際包機運送條款（旅客、行李與貨物）</a></li>
-          </ul>
-        </div>
-
-        <!-- 聯絡我們 -->
-        <div class="col-md-4">
-          <h5 class="gold-text mb-3">聯絡我們</h5>
-          <p class="gold-text">訂閱AirGo航空電子報</p>
-          <div class="d-flex gap-3 mb-4">
-            <a href="#"><i class="bi bi-line gold-text fs-5"></i></a>
-            <a href="#"><i class="bi bi-instagram gold-text fs-5"></i></a>
-            <a href="#"><i class="bi bi-facebook gold-text fs-5"></i></a>
-          </div>
-          <h6 class="gold-text">熱門常見問題</h6>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-
-
-
+<div id="footer"></div>
   <!-- <script src="../js/friend_selection.js"></script> -->
+  <script src="../js/shared.js"></script>
   <script src="../js/passenger_count.js"></script>
   <script src="../js/friend_select.js"></script>
   <script src="../js/submit_passengers.js"></script>

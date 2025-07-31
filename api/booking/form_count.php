@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 // 撈資料並依人數與會員資料渲染表單
 
 // 嚴格檢查用戶會話
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => '未登入或會話已失效']);
     exit;
 }
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user'])) {
 require_once '../inc/db.inc.php';
 
 // 從會話獲取用戶ID
-$userId = $_SESSION['user']['id'];
+$userId = $_SESSION['user_id'];
 
 // 獲取用戶完整資料 (確保是最新資料)
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ? AND is_deleted = 0");
@@ -26,7 +26,7 @@ if (!$userData) {
 }
 
 // 從先前頁面獲取乘客數量 (測試)
-$passengerCount = $_POST['passenger_count'] ?? 3; 
+$passengerCount = $_SESSION['selectedFlights']['passengerCount'] ?? null;
 
 // 獲取用戶的好友列表
 $stmt = $pdo->prepare("SELECT * FROM passenger_info WHERE user_id = ? AND is_deleted = 0");

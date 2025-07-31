@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 
-// 接收前端psot旅客資料，謝入資料庫
+// 接收前端post旅客資料，寫入資料庫
 
 require_once '../inc/db.inc.php'; // 假設這裡包含PDO連接
 
@@ -12,7 +12,7 @@ require_once '../inc/db.inc.php'; // 假設這裡包含PDO連接
 //     exit;
 // }
 
-$userId = $_SESSION['user']['id'];
+$userId = $_SESSION['user_id'];
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$input || !isset($input['passengers'])) {
@@ -20,7 +20,10 @@ if (!$input || !isset($input['passengers'])) {
     exit;
 }
 
+// die(var_dump($userId));
+$member = $input['member'];
 $passengers = $input['passengers'];
+//die(print_r($member));
 $response = ['success' => true, 'message' => ''];
 
 try {
@@ -28,7 +31,7 @@ try {
     
     // 處理主要乘客 (更新users表)
     if (count($passengers) > 0) {
-        $mainPassenger = $passengers[0];
+        $mainPassenger = $member;
         
         $updateSql = "UPDATE users SET 
             passport_first_name = :passport_first_name,
@@ -57,7 +60,8 @@ try {
         ]);
         
         // 更新會話中的用戶資料
-        $_SESSION['user'] = array_merge($_SESSION['user'], $mainPassenger);
+        // die(var_dump($mainPassenger));
+        $_SESSION['mainPassenger'] = $mainPassenger;
     }
     
     // 處理同行友人 (插入passenger_info表)
