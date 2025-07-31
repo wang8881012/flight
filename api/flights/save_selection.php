@@ -18,7 +18,10 @@ try {
         'inbound'  => $selectedFlights['inbound'] ?? null,
         'oneway'   => $selectedFlights['oneway'] ?? null,
         'passengerCount' => $passengerCount,
-        'totalPrice' => $totalPrice
+        'totalPrice' => $totalPrice,
+        // 新增 from_airport 和 to_airport
+        'from_airport' => $selectedFlights['outbound']['from_airport'] ?? $selectedFlights['oneway']['from_airport'] ?? null,
+        'to_airport' => $selectedFlights['outbound']['to_airport'] ?? $selectedFlights['oneway']['to_airport'] ?? null
     ];
 
         echo json_encode([
