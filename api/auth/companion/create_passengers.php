@@ -13,17 +13,7 @@ if (!isset($_SESSION["user_id"])) {
 
 $user_id = $_SESSION["user_id"];
 
-if ($_SERVER["REQUEST_METHOD"] === "GET") {
-    $stmt = $pdo->prepare("select * from saved_passengers where user_id = ?");
-    $stmt->execute([$user_id]);
-    $data = $stmt->fetchAll();
-
-    echo json_encode([
-        "success" => true,
-        "data" => $data
-    ]);
-    exit;
-} else if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST["name"] ?? '';
     $lastname = $_POST["lastname"] ?? '';
     $firstname = $_POST["firstname"] ?? '';
@@ -46,15 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$user_id, $name, $lastname, $firstname, $gender, $birth, $number, $nationality, $expirydate]);
 
-    $id = $pdo->lastInsertId();
-    $sql2 = "select * from saved_passengers where id = ?";
-    $stmt2 = $pdo->prepare($sql2);
-    $stmt2->execute([$id]);
-    $data = $stmt2->fetch();
-
     echo json_encode([
         "success" => true,
-        "data" => $data
     ]);
     exit;
 }
