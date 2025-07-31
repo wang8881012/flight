@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
         integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/orders.css">
 </head>
 
 <body>
@@ -19,7 +18,6 @@
 
     <div class="container">
         <div class="d-flex justify-content-around my-3">
-            <span class="text-center">全選刪除</span>
             <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#addMember"
                 style="color: #283852; outline: none;" onfocus="this.blur()">+ 新增成員
             </a>
@@ -112,126 +110,6 @@
     <div id="companionsList" class="container-fluid my-3"></div>
     <p id="no_companion_msg" class="text-center text-muted" style="display: none;">目前沒有同行旅客</p>
 
-    <div class="d-flex align-items-start mx-auto" style="width: 70%;">
-        <div class="me-3 pt-4">
-            <input type="radio" style="transform: scale(1.5); accent-color: #dbb37d;">
-        </div>
-        <div class="flex-grow-1" style="background-color: #455b80; border-radius: 2rem;;">
-            <div class="d-flex align-items-center position-relative py-3">
-                <div class="mx-auto">
-                    <p class="mb-0 fs-2" style="color: #dbb37d;">同行旅客</p>
-                </div>
-                <div class="d-flex position-absolute top-10 end-0 px-3">
-                    <button style="background-color: transparent; border: none;">
-                        <i class="bi bi-trash fs-2"></i>
-                    </button>
-                    <button data-bs-toggle="collapse" data-bs-target="#passenger"
-                        style="background-color: transparent; border: none;">
-                        <i class="bi bi-caret-down-fill fs-2"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="collapse" id="passenger">
-                <div class="card shadow overflow-hidden"
-                    style="background-color: #f5f5f5; border-radius: 0 0 2rem 2rem;">
-                    <div class="card-body p-0">
-                        <form method="post" action="../api/auth/update_profile.php" id="formProfile"
-                            class="p-3 row justify-content-center align-items-center">
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <div class="d-flex justify-content-around">
-                                        <label for="name" class="form-label pe-2">中文姓名</label>
-                                        <input type="text" class="form-control" name="name" id="name"
-                                            style="width: 70%;" required>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <div class="d-flex justify-content-between">
-                                        <label for="lastname" class="form-label pe-2">英文姓</label>
-                                        <input type="text" class="form-control" name="lastname" id="lastname"
-                                            style="width: 70%;" required>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <div class="d-flex justify-content-between">
-                                        <label for="firstname" class="form-label pe-2">英文名</label>
-                                        <input type="text" class="form-control" name="firstname" id="firstname"
-                                            style="width: 70%;" required>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <div class="d-flex justify-content-between">
-                                        <label for="gender" class="form-label pe-2">性別</label>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="male"
-                                                value="男">
-                                            <label class="form-check-label" for="male">男</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="female"
-                                                value="女">
-                                            <label class="form-check-label" for="female">女</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <div class="d-flex justify-content-between">
-                                        <label for="birth" class="form-label pe-2">出生日期</label>
-                                        <input type="date" class="form-control pe-2" name="birth" id="birth"
-                                            style="width: 70%;" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <h2 class="text-center">護照資料</h2>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <div class="d-flex align-items-center">
-                                            <label for="number" class="form-label me-2 mb-0"
-                                                style="width: 40%;">護照號碼</label>
-                                            <input type="number" class="form-control" name="number" id="number"
-                                                required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 mb-3">
-                                        <div class="d-flex align-items-center">
-                                            <label for="nationality" class="form-label me-2 mb-0"
-                                                style="width: 40%;">國籍/地區</label>
-                                            <select id="nationality" name="nationality" class="form-select" id="nationality">
-                                                <option selected>TW</option>
-                                                <option>JPN</option>
-                                                <option>USA</option>
-                                                <option>KOR</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 mb-3">
-                                        <div class="d-flex align-items-center">
-                                            <label for="expirydate" class="form-label me-2 mb-0"
-                                                style="width: 40%;">有效期限</label>
-                                            <input type="date" class="form-control" name="expirydate" id="expirydate"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="text-center" style="border-top: none;">
-                                        <button type="button" class="btn px-3"
-                                            style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">取消</button>
-                                        <button type="submit" class="btn px-3"
-                                            style="background-color: #dbb37d; color: #283852; border-radius: 1rem;">確認新增</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <!-- <p id="msg" style="color: green;"></p> -->
-            </div>
-        </div>
-    </div>
     <div id="footer">這是footer</div>
 
     <script src="../js/shared.js"></script>

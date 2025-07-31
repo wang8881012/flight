@@ -2,6 +2,12 @@
 document.querySelector("#addCompanionForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
+    // 強制轉大寫
+    const lastNameInput = document.querySelector("#lastname");
+    const firstNameInput = document.querySelector("#firstname");
+    lastNameInput.value = lastNameInput.value.toUpperCase();
+    firstNameInput.value = firstNameInput.value.toUpperCase();
+
     const form = e.target;
     const formData = new FormData(form);
 
@@ -13,6 +19,11 @@ document.querySelector("#addCompanionForm").addEventListener("submit", function 
         .then(data => {
             if (data.success) {
                 addCompanionToDOM(data.data);
+
+                // 關閉 modal
+                const modalElement = document.querySelector("#addMemberl");
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide();
                 form.reset(); // 清空表單
             } else {
                 alert("新增失敗：" + (data.message || ""));
@@ -25,12 +36,12 @@ document.querySelector("#addCompanionForm").addEventListener("submit", function 
 
 // 動態新增同行旅客區塊
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("../api/auth/companion/create_passengers.php")
+    fetch("../api/auth/companion/get_passengers.php")
         .then(res => res.json())
         .then(data => {
             const noCompanionsMsg = document.getElementById("no_companion_msg");
             if (data.success) {
-                if (data.data.length === 0) {
+                if (!Array.isArray(data.data) || data.data.length === 0) {
                     noCompanionsMsg.style.display = "block";
                 } else {
                     noCompanionsMsg.style.display = "none";
@@ -44,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
         .catch(err => console.error("發生錯誤：", err));
-        document.querySelector("#no_companion_msg").style.display = "block";
 });
 
 function addCompanionToDOM(companion) {
@@ -53,9 +63,6 @@ function addCompanionToDOM(companion) {
 
     const html = `
     <div class="d-flex align-items-start mx-auto mb-3" style="width: 70%;" data-id="${id}">
-        <div class="me-3 pt-4">
-            <input type="radio" style="transform: scale(1.5); accent-color: #dbb37d;">
-        </div>
         <div class="flex-grow-1" style="background-color: #455b80; border-radius: 2rem;">
             <div class="d-flex align-items-center position-relative py-3">
                 <div class="mx-auto">
@@ -233,53 +240,42 @@ function addCompanionToDOM(companion) {
                 console.error("錯誤：", err);
             });
     });
+
+    // 刪除同行旅客
+    document.addEventListener("click", function (event) {
+        if (event.target.closest(".delete-btn")) {
+            const btn = event.target.closest(".delete-btn");
+            const id = btn.getAttribute("data-id");
+
+            // 確認是否要刪除
+            if (!confirm("確定要刪除這位同行旅客嗎？")) return;
+
+            // 向後端送出刪除請求
+            fetch("../api/auth/companion/delete_passengers.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // 從畫面移除這一塊
+                        const block = document.querySelector(`[data-id='${id}']`);
+                        if (block) block.remove();
+                    } else {
+                        alert("刪除失敗：" + data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error("刪除失敗", err);
+                    alert("刪除時發生錯誤");
+                });
+        }
+    });
+
 }
-
-// 修改同行旅客的資料
-// document.addEventListener("DOMContentLoaded", function () {
-//     const thisBlock = container.querySelector(`[data-id="${id}"]`);
-//     const form = thisBlock.querySelector("form");
-
-//     form.addEventListener("submit", function (e) {
-//         e.preventDefault();
-
-//         const genderRadios = form.querySelectorAll(`input[name="n_gender_${id}"]`);
-//         let gender = "";
-//         genderRadios.forEach(radio => {
-//             if (radio.checked) gender = radio.value;
-//         });
-
-//         const formData = {
-//             id: id,
-//             name: form.elements["n_name"].value,
-//             passport_last_name: form.elements["n_lastname"].value,
-//             passport_first_name: form.elements["n_firstname"].value,
-//             gender: gender,
-//             birthday: form.elements["n_birth"].value,
-//             passport_number: form.elements["n_number"].value,
-//             nationality: form.elements["n_nationality"].value,
-//             passport_expiry: form.elements["n_expiry"].value,
-//         };
-
-//         fetch("../api/auth/companion/update_passengers.php", {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify(formData)
-//         })
-//             .then(res => res.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     alert("修改成功");
-//                 } else {
-//                     alert("修改失敗：" + (data.message || ""));
-//                 }
-//             })
-//             .catch(err => {
-//                 console.error("錯誤：", err);
-//             });
-//     });
-// })
-
 
 // 收合按鈕轉換
 document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(btn => {
@@ -291,13 +287,13 @@ document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(btn => {
 });
 
 // 護照姓名轉大寫
-// const lastname = document.getElementById("lastname");
-// const firstname = document.getElementById("firstname");
+const lastname = document.getElementById("lastname");
+const firstname = document.getElementById("firstname");
 
-// passportSurname.addEventListener("input", () => {
-//     lastname.value = lastname.value.toUpperCase();
-// });
+lastname.addEventListener("input", () => {
+    lastname.value = lastname.value.toUpperCase();
+});
 
-// passportGivenname.addEventListener("input", () => {
-//     firstname.value = firstname.value.toUpperCase();
-// });
+firstname.addEventListener("input", () => {
+    firstname.value = firstname.value.toUpperCase();
+});
