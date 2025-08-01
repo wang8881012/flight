@@ -1,18 +1,28 @@
 <?php
+// 接收座位與加購的input資訊，並驗證格式。
 session_start();
 
-// 取得傳入的 JSON 資料 (由booking_addon.html帶入)
-$input = file_get_contents('php://input');
-$data = json_decode($input, true);
+// 讀取前端送來的 JSON 字串
+$input = file_get_contents("php://input");
+$data = json_decode($input, true); 
 
-// 檢查格式是否正確
+
+//檢查格式是否正確
 if (!isset($data['selections']) || !is_array($data['selections'])) {
-    echo json_encode(['success' => false, 'message' => '格式錯誤']);
+    echo json_encode([
+        'success' => false,
+        'message' => '資料格式錯誤，selections 不存在或不是陣列'
+    ]);
     exit;
 }
 
-// 儲存至 session
-$_SESSION['seat_selections'] = $data['selections'];
+// 將資料儲存到 Session，使用不重複的名稱
+$_SESSION['passenger_addons'] = $data['selections'];
+//die(print_r($_SESSION['passenger_addons']));
 
-// 回傳成功訊息
-echo json_encode(['success' => true]);
+echo json_encode([
+    'success' => true,
+    'message' => '乘客座位與加購資料已儲存到 Session'
+]);
+
+//echo json_encode($_SESSION['passenger_addons']);

@@ -1,18 +1,19 @@
-// seat_selection_flow.js
-
+// 將資料post出去
 let passengerCount = 1;
 let currentPassengerIndex = 1;
 const allSelections = [];
 
 // 從後端取得 class_type 與 bookedSeats 並分別指定去程與回程
 function setClassTypesFromServer(data) {
-    if (!window.setClassTypes || !window.setBookedSeats) return;
 
-    // 使用新版格式：outbound 是去程，inbound 是回程
+    if (!window.setClassTypes || !window.setBookedSeats) return;
+    
+    
     const outboundClass = data?.outbound?.class_type || 'economy';
     const returnClass = data?.inbound?.class_type || 'economy';
     const outboundBooked = data?.outbound?.bookedSeats || [];
     const returnBooked = data?.inbound?.bookedSeats || [];
+
 
     window.setClassTypes({
         outbound: outboundClass,
@@ -52,13 +53,14 @@ window.setBookedSeats = function (map) {
 
 // 等 DOM 與其他 JS 載入完
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('../api/booking/get_flight_info.php')
+    fetch('../api/flights/get_selection.php') //這邊改成get_selection.php
         .then(res => res.json())
         .then(data => {
-            passengerCount = parseInt(data.passengerCount) || 1;
-            console.log('從後端取得 passengerCount =', passengerCount);
+            realData = data.data
+            passengerCount = parseInt(realData.passengerCount) || 1;
+            //console.log('從後端取得 passengerCount =', passengerCount);
 
-            setClassTypesFromServer(data);
+            setClassTypesFromServer(realData);
         });
 
     const nextBtn = document.getElementById('nextBtn');
@@ -72,6 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const outboundBaggagePrice = document.getElementById('checked_baggagePrice')?.value || '';
             const returnBaggageWeight = document.getElementById('return_checked_baggageWeight')?.value || '';
             const returnBaggagePrice = document.getElementById('return_checked_baggagePrice')?.value || '';
+
+            //選購完按 next 測試是否有資料
+            // console.log(outboundSeat)
+            // console.log(returnSeat)
+            // console.log(outboundMeal)
+            // console.log(returnMeal)
+            // console.log(outboundBaggageWeight)
+            // console.log(outboundBaggagePrice)
+            // console.log(returnBaggageWeight)
+            // console.log(returnBaggagePrice)
 
             if (!outboundSeat || !returnSeat) {
                 alert('請完成去程與回程座位選擇！');
@@ -92,12 +104,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // 測試是否有帶入資料
+            //console.log(JSON.stringify(allSelections, null, 2));
+
             currentPassengerIndex++;
 
             if (currentPassengerIndex > passengerCount) {
                 console.log('所有乘客選擇完成：', allSelections);
 
-                fetch('./save_seat_selection.php', {
+                fetch('../api/booking/save_seat_selection.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ selections: allSelections })
