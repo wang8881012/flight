@@ -21,7 +21,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory('/adminpage/'),
+  history: createWebHistory('/flight/adminpage/'),
   routes,
 });
 
