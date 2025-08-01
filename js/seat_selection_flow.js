@@ -8,12 +8,10 @@ function setClassTypesFromServer(data) {
 
     if (!window.setClassTypes || !window.setBookedSeats) return;
     
-    
     const outboundClass = data?.outbound?.class_type || 'economy';
     const returnClass = data?.inbound?.class_type || 'economy';
     const outboundBooked = data?.outbound?.bookedSeats || [];
     const returnBooked = data?.inbound?.bookedSeats || [];
-
 
     window.setClassTypes({
         outbound: outboundClass,
