@@ -26,6 +26,12 @@ $passengers = $input['passengers'];
 //die(print_r($member));
 $response = ['success' => true, 'message' => ''];
 
+$_SESSION['passenger_info'] = [
+    ['main_user' => $member],
+    ['passenger' => $passengers]
+];
+//die(print_r(($_SESSION['passenger_info'])));
+
 try {
     $pdo->beginTransaction();
     
@@ -58,10 +64,6 @@ try {
             ':passport_expiry' => $mainPassenger['passport_expiry'],
             ':id' => $userId
         ]);
-        
-        // 更新會話中的用戶資料
-        // die(var_dump($mainPassenger));
-        $_SESSION['mainPassenger'] = $mainPassenger;
     }
     
     // 處理同行友人 (插入passenger_info表)
@@ -131,8 +133,10 @@ try {
         ]);
     }
     
+
+
     $pdo->commit();
-    echo json_encode(['success' => true, 'message' => '乘客資料已成功儲存']);
+    echo json_encode([$_SESSION['passenger_info'], 'success' => true, 'message' => '乘客資料已成功儲存']);
     
 } catch (PDOException $e) {
     $pdo->rollBack();
@@ -144,4 +148,7 @@ try {
     error_log("Error: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => '發生錯誤: ' . $e->getMessage()]);
 }
+
+
+//echo json_encode($_SESSION['passenger_info']);
 ?>
