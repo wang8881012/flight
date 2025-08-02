@@ -3,7 +3,7 @@
         'name' => 'user/flight',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '8a1dac6e6e0006f65a76cbdaf7a2e5b916c56011',
+        'reference' => '4aa991d240b2b96b2367b0fff0cb66b4b52e4a9f',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'user/flight' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '8a1dac6e6e0006f65a76cbdaf7a2e5b916c56011',
+            'reference' => '4aa991d240b2b96b2367b0fff0cb66b4b52e4a9f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -14,12 +14,12 @@
 <body class="p-0 m-0">
     <div id="navbar"></div>
 
-    <div class="container my-4">
+    <div class="container d-flex flex-column align-items-center my-4">
         <!-- 這裡是 JS 動態插入航班卡片的容器 -->
         <div class="row justify-content-center" id="accordionExample"></div>
 
-        <!-- 旅客資料卡片 -->
-        <div class="col-12 col-lg-10 mb-4">
+        <!-- 旅客資料卡片(會員本人) -->
+        <div class="col-10 mb-4">
             <div class="card m-3 border-0">
                 <div class="row card-header mx-0 p-4 rounded-top-5">
                     <div class="col d-flex flex-row">
@@ -31,52 +31,60 @@
                     <h5 class="text-center fw-bold mb-4 blue-text fs-3">會員本人</h5>
                     <div class="row">
                         <div class="col-md-6 info-group">
-                            <label class="form-label blue-text fs-5 fw-bold">英文姓名</label>
-                            <input id="name" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                            <label class="form-label blue-text fs-5 fw-bold">英文姓</label>
+                            <input id="passport-first-name" type="text"
+                                class="form-control blue-text fs-5 fw-bold mb-2">
+                        </div>
+                        <div class="col-md-6 info-group">
+                            <label class="form-label blue-text fs-5 fw-bold">英文名</label>
+                            <input id="passport-last-name" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                        </div>
+                        <div class="col-md-6 info-group">
+                            <label class="form-label blue-text fs-5 fw-bold">E-MAIL</label>
+                            <input id="email" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                        </div>
+                        <div class="col-md-6 info-group">
+                            <label class="form-label blue-text fs-5 fw-bold">t出生日期</label>
+                            <input id="birth" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                        </div>
+                        <div class="col-md-6 info-group">
+                            <label class="form-label blue-text fs-5 fw-bold">手機</label>
+                            <input id="phone" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
                         </div>
                         <div class="col-md-6 info-group">
                             <label class="form-label blue-text fs-5 fw-bold">性別</label>
-                            <select class="form-select blue-text fs-5 fw-bold mb-2">
-                                <option>男性</option>
-                                <option>女性</option>
-                                <option>其他</option>
+                            <select id="gender" class="form-select blue-text fs-5 fw-bold mb-2">
+                                <option>男</option>
+                                <option>女</option>
                             </select>
                         </div>
-                        <div class="col-md-6 info-group">
-                            <label class="form-label blue-text fs-5 fw-bold">身分證</label>
-                            <input id="id" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
-                        </div>
-                        <div class="col-md-6 info-group">
-                            <label class="form-label blue-text fs-5 fw-bold">發行國家／地區</label>
-                            <input id="issueCountry" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
-                        </div>
+
+                        <hr class="border-4">
+
                         <div class="col-md-6 info-group">
                             <label class="form-label blue-text fs-5 fw-bold">護照號碼</label>
-                            <input id="passport" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
+                            <input id="passport-number" type="text" class="form-control blue-text fs-5 fw-bold">
+                        </div>
+                        <div class="col-md-6 info-group">
+                            <label class="form-label blue-text fs-5 fw-bold">國籍/地區</label>
+                            <input id="nationality" type="text" class="form-control blue-text fs-5 fw-bold">
                         </div>
                         <div class="col-md-6 info-group">
                             <label class="form-label blue-text fs-5 fw-bold">有效期限</label>
-                            <input id="expire" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
-                        </div>
-                        <div class="col-md-6 info-group">
-                            <label class="form-label blue-text fs-5 fw-bold">國籍／地區</label>
-                            <input id="nationality" type="text" class="form-control blue-text fs-5 fw-bold mb-2">
-                        </div>
-                        <div class="col-md-6 info-group">
-                            <label class="form-label blue-text fs-5 fw-bold">出生日期</label>
-                            <input id="birth" type="text" class="form-control blue-text fs-5 fw-bold">
+                            <input id="passport-expiry" type="text" class="form-control blue-text fs-5 fw-bold">
                         </div>
                     </div>
 
                     <hr class="border-5">
+
                     <div id="passenger-container"></div> <!-- 動態產生同行旅客資料 -->
+
                 </div>
             </div>
 
             <!-- 價錢與付款 -->
             <div class="d-flex flex-column align-items-end">
-                <p class="ticket-price fs-3">票價：</p>
-                <p class="total-price fs-3">總價：</p>
+                <p id="total-price" class="fs-3">總價：</p>
                 <p class="text-danger fw-bolder fs-3">本公司目前只提供信用卡付款</p>
                 <div>
                     <a href="#" class="btn btn-secondary btn-bg fs-5" data-bs-toggle="modal"
