@@ -27,8 +27,8 @@ $passengers = $input['passengers'];
 $response = ['success' => true, 'message' => ''];
 
 $_SESSION['passenger_info'] = [
-    ['main_user' => $member],
-    ['passenger' => $passengers]
+    'main_user' => $member, 
+    'passenger' => $passengers
 ];
 //die(print_r(($_SESSION['passenger_info'])));
 

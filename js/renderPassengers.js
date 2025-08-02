@@ -2,14 +2,35 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     const res = await fetch("../api/confirm/get_passenger_info.php");
     const data = await res.json();
-    const passengers = data[1] || [];
 
-    renderPassengers(passengers.passenger);
+    const mainUser = data[0]?.main_user || {};
+    const passengers = data[1]?.passenger || [];
+
+    fillMainUserForm(mainUser);        // 填入會員本人
+    renderPassengers(passengers);      // 渲染同行旅客
   } catch (err) {
-    console.error("❌ 無法取得乘客資料", err);
+    console.error("無法取得乘客資料", err);
   }
 });
 
+// 抓取會員本人表單id，依照回傳資料自動填充value
+function fillMainUserForm(user) {
+  document.getElementById("passport-last-name").value = user.passport_last_name || "";
+  document.getElementById("passport-first-name").value = user.passport_first_name || "";
+  document.getElementById("email").value = user.email || "";
+  document.getElementById("birth").value = user.birthday || "";
+  document.getElementById("phone").value = user.phone || "";
+  document.getElementById("passport-number").value = user.passport_number || "";
+  document.getElementById("passport-expiry").value = user.passport_expiry || "";
+  document.getElementById("nationality").value = user.nationality || "";
+
+  const genderSelect = document.getElementById("gender");
+  if (genderSelect) {
+    genderSelect.value = user.gender || "男性";
+  }
+}
+
+// 自動渲染同行旅客功能
 function renderPassengers(passengers) {
   const container = document.getElementById("passenger-container");
   if (!container) return;
@@ -18,8 +39,8 @@ function renderPassengers(passengers) {
     const person = {
       name: `${p.passport_last_name || ''} ${p.passport_first_name || ''}`,
       gender: p.gender || '',
-      id: '', // ❌ 未提供身分證，保留空值
-      issueCountry: '', // ❌ 未提供發行國家，保留空值
+      id: '', // 未提供身分證
+      issueCountry: '', // 未提供發行國家
       passport: p.passport_number || '',
       expire: p.passport_expiry || '',
       nationality: p.nationality || '',
@@ -28,7 +49,7 @@ function renderPassengers(passengers) {
 
     const section = document.createElement("div");
     section.innerHTML = `
-      <h5 class="text-center fw-bold mb-4 blue-text fs-3">同行 ${index + 1}</h5>
+      <h5 class="text-center fw-bold mb-4 blue-text fs-3">同行旅客 ${index + 1}</h5>
       <div class="row">
         <div class="col-md-6 info-group">
           <label class="form-label blue-text fs-5 fw-bold">英文姓名</label>
@@ -42,11 +63,6 @@ function renderPassengers(passengers) {
             <option ${person.gender === '女性' ? 'selected' : ''}>女性</option>
             <option ${person.gender === '其他' ? 'selected' : ''}>其他</option>
           </select>
-        </div>
-
-        <div class="col-md-6 info-group">
-          <label class="form-label blue-text fs-5 fw-bold">身分證</label>
-          <input type="text" class="form-control blue-text fs-5 fw-bold mb-2" value="${person.id}">
         </div>
 
         <div class="col-md-6 info-group">

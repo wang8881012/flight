@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const outboundAddon = combineAddons(addonSelections, "outbound");
     const returnAddon = combineAddons(addonSelections, "return");
 
+    const totalPrice = flightData.totalPrice
+    //console.log(totalPrice)
+
     if (flightData.tripType === "round") {
       container.prepend(createTimeCard(flightData.inbound, "inbound", passengerCount, returnAddon));
       container.prepend(createTimeCard(flightData.outbound, "outbound", passengerCount, outboundAddon));
@@ -27,6 +30,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const onewayAddon = combineAddons(addonSelections, "outbound");
       container.prepend(createTimeCard(flightData.oneway, "oneway", passengerCount, onewayAddon));
     }
+
+    if (totalPrice) {
+      document.getElementById("total-price").innerHTML = `總價：${totalPrice}`;
+    }else{
+      alert("錯誤：沒有價格")
+    }
+
   } catch (err) {
     console.error("❌ 發生錯誤：", err);
   }
@@ -99,7 +109,7 @@ function createTimeCard(flight, label, passengerCount, addon = null) {
       <div class="row card-body mx-0 p-3 gy-3 rounded-bottom-5">
 
         <!-- 出發與到達 -->
-        <div class="col-12 col-lg-7 d-flex justify-content-around align-items-center flex-column flex-lg-row">
+        <div class="col-12 col-lg-6 d-flex justify-content-around align-items-center flex-column flex-lg-row">
           <div class="text-center me-lg-4 mb-3 mb-lg-0" id="${label}-departure">
             <p class="blue-text fs-3 fw-bolder">${depTime}</p>
             <p class="blue-text fs-3 fw-bolder">${from}</p>
@@ -112,14 +122,14 @@ function createTimeCard(flight, label, passengerCount, addon = null) {
         </div>
 
         <!-- 飛行資訊 -->
-        <div class="col-12 col-lg-2 d-flex flex-column justify-content-center text-start">
-          <div class="blue-text fs-4 fw-bolder">
+        <div class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center text-start">
+          <div class="blue-text fs-5 fw-bolder">
             <i class="bi bi-clock-history"></i> ${durationText}
           </div>
-          <div class="blue-text fs-4 fw-bolder">
+          <div class="blue-text fs-5 fw-bolder">
             <i class="bi bi-airplane-engines-fill"></i> ${flight.flight_no}
           </div>
-          <div class="blue-text fs-4 fw-bolder">
+          <div class="blue-text fs-5 fw-bolder">
             <i class="bi bi-ticket-perforated-fill"></i> ${passengerCount} 張
           </div>
         </div>
