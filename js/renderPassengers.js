@@ -26,8 +26,9 @@
 
     const genderSelect = document.getElementById("gender");
     if (genderSelect) {
-      genderSelect.value = user.gender || "男性";
+      genderSelect.value = user.gender || "男";
     }
+    console.log('user.gender:', user.gender);
   }
 
   // 自動渲染同行旅客功能
@@ -59,9 +60,8 @@
           <div class="col-md-6 info-group">
             <label class="form-label blue-text fs-5 fw-bold">性別</label>
             <select class="form-select blue-text fs-5 fw-bold mb-2">
-              <option ${person.gender === '男性' ? 'selected' : ''}>男性</option>
-              <option ${person.gender === '女性' ? 'selected' : ''}>女性</option>
-              <option ${person.gender === '其他' ? 'selected' : ''}>其他</option>
+              <option ${person.gender === '男' ? 'selected' : ''}>男</option>
+              <option ${person.gender === '女' ? 'selected' : ''}>女</option>
             </select>
           </div>
 
