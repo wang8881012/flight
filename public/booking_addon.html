@@ -19,247 +19,220 @@
             <div class="col-12 col-md-3 d-flex flex-column sidebar p-3">
                 <div class="d-flex justify-content-center align-items-center">
                     <h4 class="text-white">機票總價</h4>
-
-            </div>
-            <div class="card text-bg-light text-dark mb-3">
-                <div class="card-body">
-
-                    <!-- 去程置中 -->
-                    <h5 class="text-center mb-4">去程</h5>
-
-                    <!-- 地點區塊 -->
-                    <div class="row mb-3">
-                        <div class="col-3 fw-bold">地點</div>
-                        <div class="col-9">
-                            <div class="text-end" id="outward_place_from">桃園機場</div>
-                            <div class="text-end">⭣</div>
-                            <div class="text-end" id="outward_place_to">東京機場</div>
-                        </div>
-                    </div>
-
-                    <!-- 時間區塊 -->
-                    <div class="row mb-2">
-                        <div class="col-3 fw-bold">時間</div>
-                        <div class="col-9 text-end" id="outward_time_from">2025-07-01
-                            08:00</div>
-                    </div>
-
                 </div>
-            </div>
-            <div class="card text-bg-light text-dark mb-3">
-                <div class="card-body">
 
-                    <!-- 去程置中 -->
-                    <h5 class="text-center mb-4">回程</h5>
+                <div class="card text-bg-light text-dark mb-3">
+                    <!-- 去程資訊卡 -->
+                    <div class="card-body">
+                        <h5 class="text-center mb-4">去程航班</h5>
 
-                    <!-- 地點區塊 -->
-                    <div class="row mb-3">
-                        <div class="col-3 fw-bold">地點</div>
-                        <div class="col-9">
-                            <div class="text-end" id="return_place_from">桃園機場</div>
-                            <div class="text-end">⭣</div>
-                            <div class="text-end" id="return_place_to">東京機場</div>
+                        <!-- 地點區塊 -->
+                        <div class="row mb-3">
+                            <div class="col-3 fw-bold">地點</div>
+                            <div class="col-9">
+                                <div class="text-end" id="outward_place_from">桃園機場</div>
+                                <div class="text-end">⭣</div>
+                                <div class="text-end" id="outward_place_to">東京機場</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- 時間區塊 -->
-                    <div class="row mb-2">
-                        <div class="col-3 fw-bold">時間</div>
-                        <div class="col-9 text-end" id="return_time_to">2025-08-01 08:00</div>
+                        <!-- 時間區塊 -->
+                        <div class="row mb-2">
+                            <div class="col-3 fw-bold">時間</div>
+                            <div class="col-9 text-end" id="outward_time_from">2025-07-01 08:00</div>
+                        </div>
+                        
                     </div>
-
                 </div>
-            </div>
-            <div class="card text-bg-light text-dark mb-3">
-                <div class="card-body">
-
-                    <!-- 去程置中 -->
-                    <h5 class="text-center mb-4">去程航班</h5>
-
-                    <!-- 地點區塊 -->
-                    <div class="row mb-3">
-                        <div class="col-3 fw-bold" id="outward_ticket_level">一般票</div>
-                        <div class="col-9">
-                            <div class="text-end" id="outward_ticket_level_price">NT10,000</div>
-                        </div>
-                        <h6 class="text-center mb-4" id="outward_checked">會員未加購行李</h6>
-                        <h6 class="text-center mb-4" id="outward_meal">-----膳食-----</h6>
-                        <h6 class="text-center mb-4" id="outward_seat">----------</h6>
+                <div class="card text-bg-light text-dark mb-3">
+                    <!-- 回程資訊卡 -->
+                    <div class="card-body">
+                        <!-- 去程置中 -->
                         <h5 class="text-center mb-4">回程航班</h5>
 
+                        <!-- 地點區塊 -->
+                        <div class="row mb-3">
+                            <div class="col-3 fw-bold">地點</div>
+                            <div class="col-9">
+                                <div class="text-end" id="return_place_from">桃園機場</div>
+                                <div class="text-end">⭣</div>
+                                <div class="text-end" id="return_place_to">東京機場</div>
+                            </div>
+                        </div>
+
+                        <!-- 時間區塊 -->
+                        <div class="row mb-2">
+                            <div class="col-3 fw-bold">時間</div>
+                            <div class="col-9 text-end" id="return_time_to">2025-08-01 08:00</div>
+                        </div>
+                          
                     </div>
-
-                    <!-- 時間區塊 -->
-                    <div class="row mb-2">
-                        <div class="col-3 fw-bold" id="return_ticket_level">一般票</div>
-                        <div class="col-9 text-end" id="return_ticket_level_price">NT10,000</div>
-
-                    </div>
-                    <h6 class="text-center mb-4" id="return_checked">會員未加購行李</h6>
-                    <h6 class="text-center mb-4" id="return_meal">-----膳食-----</h6>
-                    <h6 class="text-center mb-4" id="total_price">共NT27,570</h6>
-
                 </div>
+
+                <a href="./search.html" class="btn btn-primary mt-3 w-100">回訂票頁</a>
             </div>
 
-            <a href="booking00.html" class="btn btn-primary mt-3 w-100">回訂票頁</a>
-        </div>
+            <div class="col-12 col-md-9">
+                <h4 class="my-3">加價購 (會員本人)</h4>
 
-        <div class="col-12 col-md-9">
-            <h4 class="my-3">加價購 (會員本人)</h4>
+                <div class="accordion" id="seatAccordion">
 
-            <div class="accordion" id="seatAccordion">
+                    <!-- 去程 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#outboundCollapse">
+                                去程座位選擇
+                            </button>
+                        </h2>
+                        <div id="outboundCollapse" class="accordion-collapse collapse show"
+                            data-bs-parent="#seatAccordion">
+                            <div class="accordion-body" id="outbound-section">
+                                <label class="form-label">選擇去程座位</label>
+                                <canvas id="outboundCanvas" width="1000" height="1100"
+                                    style="border:1px solid #ccc; margin-bottom: 1rem;"></canvas>
 
-                <!-- ✅ 去程 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#outboundCollapse">
-                            去程座位選擇
-                        </button>
-                    </h2>
-                    <div id="outboundCollapse" class="accordion-collapse collapse show" data-bs-parent="#seatAccordion">
-                        <div class="accordion-body" id="outbound-section">
-                            <label class="form-label">選擇去程座位</label>
-                            <canvas id="outboundCanvas" width="1000" height="1100"
-                                style="border:1px solid #ccc; margin-bottom: 1rem;"></canvas>
-
-                            <!-- 行李與餐點保留 booking_seat.html 內容 -->
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-luggage-fill" style="font-size: 50px;"></i>
-                                <h4 class="my-3">行李</h4>
-                                <span>上限為1件行李</span>
-                                <div class="error text-danger" id="checked_error" style="display:none">請選擇托運行李重量
-                                </div>
-                            </div>
-                            <div class="card border-light w-100">
-                                <div class="card-body keep-white">
-                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
-                                        <h5>托運行李</h5>
-                                        <div class="dropdown">
-                                            <button class="btn btn-light dropdown-toggle" type="button"
-                                                id="checked_wt_btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                --KG
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="checked_wt_btn">
-                                                <li><a class="dropdown-item" href="#" data-type="checked"
-                                                        data-weight='10KG' data-price="500">10KG 500元</a></li>
-                                                <li><a class="dropdown-item" href="#" data-type="checked"
-                                                        data-weight='15KG' data-price="1000">15KG (1000元)</a></li>
-                                                <li><a class="dropdown-item" href="#" data-type="checked"
-                                                        data-weight='20KG' data-price="1500">20KG (1500元)</a></li>
-                                            </ul>
-                                        </div>
-                                        <input type="hidden" name="checked_baggageWeight" id="checked_baggageWeight">
-                                        <input type="hidden" name="checked_baggagePrice" id="checked_baggagePrice">
+                                <!-- 行李與餐點保留 booking_seat.html 內容 -->
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-luggage-fill" style="font-size: 50px;"></i>
+                                    <h4 class="my-3">行李</h4>
+                                    <span>上限為1件行李</span>
+                                    <div class="error text-danger" id="checked_error" style="display:none">請選擇托運行李重量
                                     </div>
                                 </div>
-                            </div>
-
-                            <h4 class="mt-4 mb-2">組合餐</h4>
-                            <div class="error text-danger" id="meal_error" style="display:none">請選擇餐點</div>
-                            <div class="card border-light w-100 my-4">
-                                <div class="btn-group w-100 d-flex justify-content-center gap-2" role="group"
-                                    id="mealOptions">
-                                    <button type="button" class="btn btn-outline-secondary meal-btn"
-                                        data-value="未加購飛機餐">
-                                        <div class="text-center">無餐點</div>
-                                        <img src="../assets/images/meal1.png" class="img-thumbnail" alt="none">
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary meal-btn" data-value="加購素食">
-                                        <div class="text-center">素食</div>
-                                        <img src="../assets/images/meal2.png" class="img-thumbnail" alt="none">
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary meal-btn" data-value="加購葷食">
-                                        <div class="text-center">葷食</div>
-                                        <img src="../assets/images/meal3.png" class="img-thumbnail" alt="none">
-                                    </button>
+                                <div class="card border-light w-100">
+                                    <div class="card-body keep-white">
+                                        <div
+                                            class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
+                                            <h5>托運行李</h5>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light dropdown-toggle" type="button"
+                                                    id="checked_wt_btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    --KG
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="checked_wt_btn">
+                                                    <li><a class="dropdown-item" href="#" data-type="checked"
+                                                            data-weight='10KG' data-price="500">10KG 500元</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-type="checked"
+                                                            data-weight='15KG' data-price="1000">15KG (1000元)</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-type="checked"
+                                                            data-weight='20KG' data-price="1500">20KG (1500元)</a></li>
+                                                </ul>
+                                            </div>
+                                            <input type="hidden" name="checked_baggageWeight"
+                                                id="checked_baggageWeight">
+                                            <input type="hidden" name="checked_baggagePrice" id="checked_baggagePrice">
+                                        </div>
+                                    </div>
                                 </div>
-                                <input type="hidden" name="meal" id="mealInput" value="">
+
+                                <h4 class="mt-4 mb-2">組合餐</h4>
+                                <div class="error text-danger" id="meal_error" style="display:none">請選擇餐點</div>
+                                <div class="card border-light w-100 my-4">
+                                    <div class="btn-group w-100 d-flex justify-content-center gap-2" role="group"
+                                        id="mealOptions">
+                                        <button type="button" class="btn btn-outline-secondary meal-btn"
+                                            data-value="未加購飛機餐">
+                                            <div class="text-center">無餐點</div>
+                                            <img src="../assets/images/meal1.png" class="img-thumbnail" alt="none">
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary meal-btn"
+                                            data-value="加購素食">
+                                            <div class="text-center">素食</div>
+                                            <img src="../assets/images/meal2.png" class="img-thumbnail" alt="none">
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary meal-btn"
+                                            data-value="加購葷食">
+                                            <div class="text-center">葷食</div>
+                                            <img src="../assets/images/meal3.png" class="img-thumbnail" alt="none">
+                                        </button>
+                                    </div>
+                                    <input type="hidden" name="meal" id="mealInput" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 回程 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#returnCollapse">
+                                回程座位選擇
+                            </button>
+                        </h2>
+                        <div id="returnCollapse" class="accordion-collapse collapse" data-bs-parent="#seatAccordion">
+                            <div class="accordion-body" id="return-section">
+                                <label class="form-label">選擇回程座位</label>
+                                <canvas id="returnCanvas" width="1000" height="1100"
+                                    style="border:1px solid #ccc; margin-bottom: 1rem;"></canvas>
+
+                                <!-- 回程行李與餐點複製一組 -->
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-luggage-fill" style="font-size: 50px;"></i>
+                                    <h4 class="my-3">行李</h4>
+                                    <span>上限為1件行李</span>
+                                </div>
+                                <div class="card border-light w-100">
+                                    <div class="card-body keep-white">
+                                        <div
+                                            class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
+                                            <h5>托運行李</h5>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light dropdown-toggle" type="button"
+                                                    id="return_checked_wt_btn" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    --KG
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="return_checked_wt_btn">
+                                                    <li><a class="dropdown-item" href="#" data-type="checked"
+                                                            data-weight='10KG' data-price="500">10KG 500元</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-type="checked"
+                                                            data-weight='15KG' data-price="1000">15KG (1000元)</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-type="checked"
+                                                            data-weight='20KG' data-price="1500">20KG (1500元)</a></li>
+                                                </ul>
+                                            </div>
+                                            <input type="hidden" name="return_checked_baggageWeight"
+                                                id="return_checked_baggageWeight">
+                                            <input type="hidden" name="return_checked_baggagePrice"
+                                                id="return_checked_baggagePrice">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h4 class="mt-4 mb-2">組合餐</h4>
+                                <div class="card border-light w-100 my-4">
+                                    <div class="btn-group w-100 d-flex justify-content-center gap-2" role="group"
+                                        id="return_mealOptions">
+                                        <button type="button" class="btn btn-outline-secondary return-meal-btn"
+                                            data-value="未加購飛機餐">
+                                            <div class="text-center">無餐點</div>
+                                            <img src="../assets/images/meal1.png" class="img-thumbnail" alt="none">
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary return-meal-btn"
+                                            data-value="加購素食">
+                                            <div class="text-center">素食</div>
+                                            <img src="../assets/images/meal2.png" class="img-thumbnail" alt="none">
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary return-meal-btn"
+                                            data-value="加購葷食">
+                                            <div class="text-center">葷食</div>
+                                            <img src="../assets/images/meal3.png" class="img-thumbnail" alt="none">
+                                        </button>
+                                    </div>
+                                    <input type="hidden" name="return_meal" id="return_mealInput" value="">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ✅ 回程 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#returnCollapse">
-                            回程座位選擇
-                        </button>
-                    </h2>
-                    <div id="returnCollapse" class="accordion-collapse collapse" data-bs-parent="#seatAccordion">
-                        <div class="accordion-body" id="return-section">
-                            <label class="form-label">選擇回程座位</label>
-                            <canvas id="returnCanvas" width="1000" height="1100"
-                                style="border:1px solid #ccc; margin-bottom: 1rem;"></canvas>
-
-                            <!-- 回程行李與餐點複製一組 -->
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-luggage-fill" style="font-size: 50px;"></i>
-                                <h4 class="my-3">行李</h4>
-                                <span>上限為1件行李</span>
-                            </div>
-                            <div class="card border-light w-100">
-                                <div class="card-body keep-white">
-                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
-                                        <h5>托運行李</h5>
-                                        <div class="dropdown">
-                                            <button class="btn btn-light dropdown-toggle" type="button"
-                                                id="return_checked_wt_btn" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                --KG
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="return_checked_wt_btn">
-                                                <li><a class="dropdown-item" href="#" data-type="checked"
-                                                        data-weight='10KG' data-price="500">10KG 500元</a></li>
-                                                <li><a class="dropdown-item" href="#" data-type="checked"
-                                                        data-weight='15KG' data-price="1000">15KG (1000元)</a></li>
-                                                <li><a class="dropdown-item" href="#" data-type="checked"
-                                                        data-weight='20KG' data-price="1500">20KG (1500元)</a></li>
-                                            </ul>
-                                        </div>
-                                        <input type="hidden" name="return_checked_baggageWeight"
-                                            id="return_checked_baggageWeight">
-                                        <input type="hidden" name="return_checked_baggagePrice"
-                                            id="return_checked_baggagePrice">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h4 class="mt-4 mb-2">組合餐</h4>
-                            <div class="card border-light w-100 my-4">
-                                <div class="btn-group w-100 d-flex justify-content-center gap-2" role="group"
-                                    id="return_mealOptions">
-                                    <button type="button" class="btn btn-outline-secondary return-meal-btn"
-                                        data-value="未加購飛機餐">
-                                        <div class="text-center">無餐點</div>
-                                        <img src="../assets/images/meal1.png" class="img-thumbnail" alt="none">
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary return-meal-btn"
-                                        data-value="加購素食">
-                                        <div class="text-center">素食</div>
-                                        <img src="../assets/images/meal2.png" class="img-thumbnail" alt="none">
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary return-meal-btn"
-                                        data-value="加購葷食">
-                                        <div class="text-center">葷食</div>
-                                        <img src="../assets/images/meal3.png" class="img-thumbnail" alt="none">
-                                    </button>
-                                </div>
-                                <input type="hidden" name="return_meal" id="return_mealInput" value="">
-                            </div>
-                        </div>
-                    </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-success" id="nextBtn">下一位乘客</button>
                 </div>
             </div>
-
-            <div class="text-center mt-4">
-                <button class="btn btn-success" id="nextBtn">下一位乘客</button>
-            </div>
         </div>
-    </div>
     </div>
 
     <div id="footer"></div>
@@ -268,7 +241,8 @@
     <script src="../js/shared.js"></script>
     <script src="../js/seat_single_selection.js"></script>
     <script src="../js/seat_selection_flow.js"></script>
-    <script src="../js/addon_selection.js"></script> 
+    <script src="../js/addon_selection.js"></script>
+    <script src="../js/renderFlightInfo.js"></script>
 </body>
 
 </html>
