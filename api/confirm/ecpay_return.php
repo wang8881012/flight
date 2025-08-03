@@ -27,9 +27,9 @@ if ($order) {
     $_SESSION['booking_id'] = $order['booking_id'];
     $_SESSION['total_amount'] = $order['total_amount'];
     $_SESSION['booking_info'] = json_decode($order['booking_info'], true);
-    
+
     // 刪除臨時記錄
-    $pdo->prepare("DELETE FROM temp_orders WHERE temp_id = ?")->execute(['temp_' . $tempId]);
+    $pdo->prepare("DELETE FROM temp_orders WHERE temp_id = ?")->execute([$tempId]);
 }
 
 // 綠界付款結果回傳格式範例
@@ -132,7 +132,6 @@ if ($_POST['RtnCode'] == '1') {
         // 跳轉到完成頁面
         header("Location: ../../public/complete.html");
         exit;
-        
     } catch (Exception $e) {
         file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - 發生異常: " . $e->getMessage() . "\n", FILE_APPEND);
         $_SESSION['payment_info'] = ['status' => 'error', 'message' => $e->getMessage()];
