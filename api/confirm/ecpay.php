@@ -1,33 +1,39 @@
 <?php
 session_start();
+// $_SESSION['booking_id'] =
 
-// 測試數據 - 模擬 session 內容
-$_SESSION['booking_id'] = 15;
-$_SESSION['total_amount'] = 2500; // 測試金額
-$_SESSION['booking_info'] = [
-    'departure' => [
-        'passenger' => 'BB',
-        'route' => '台北(TPE) / 東京(NRT)',
-        'time' => '2025-08-01 08:00 / 2025-08-01 12:00',
-        'flight_no' => 'BR198',
-        'seat' => '12A'
-    ],
-    'return' => [
-        'passenger' => 'BB',
-        'route' => '東京(NRT) / 台北(TPE)',
-        'time' => '2025-08-10 18:00 / 2025-08-10 21:30',
-        'flight_no' => 'BR197',
-        'seat' => '15B'
-    ]
-];
+// // 測試數據 - 模擬 session 內容
+// $_SESSION['booking_id'] = 15;
+// $_SESSION['total_amount'] = 2500; // 測試金額
+// $_SESSION['booking_info'] = [
+//     'departure' => [
+//         'passenger' => 'BB',
+//         'route' => '台北(TPE) / 東京(NRT)',
+//         'time' => '2025-08-01 08:00 / 2025-08-01 12:00',
+//         'flight_no' => 'BR198',
+//         'seat' => '12A'
+//     ],
+//     'return' => [
+//         'passenger' => 'BB',
+//         'route' => '東京(NRT) / 台北(TPE)',
+//         'time' => '2025-08-10 18:00 / 2025-08-10 21:30',
+//         'flight_no' => 'BR197',
+//         'seat' => '15B'
+//     ]
+// ];
 
 require_once '../inc/db.inc.php';
 require_once '../../vendor/autoload.php';
 
 use Ecpay\Sdk\Factories\Factory;
 
+// 查詢目前最大 booking_id
+$stmt = $pdo->query("SELECT MAX(booking_id) AS max_id FROM payments");
+$row = $stmt->fetch();
+$nextId = ($row['max_id'] ?? 10) + 1; // 預設從 11 開始
+
 // 檢查 session 中是否有訂單資訊
-if (!isset($_SESSION['booking_id'], $_SESSION['total_amount'])) {
+if (!isset($nextId)) {
     die('訂單資訊不完整');
 }
 
@@ -42,9 +48,13 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([
     $tempOrderId,
-    $_SESSION['booking_id'],
-    $_SESSION['total_amount'],
-    json_encode($_SESSION['booking_info'])
+    $nextId,
+    $_SESSION['selectedFlights']['totalPrice'],
+    json_encode([
+            'flights' => $_SESSION['selectedFlights'], 
+            'addons' => $_SESSION['passenger_addons'],
+            'passenger_info' => $_SESSION['passenger_info']
+        ])
 ]);
 
 $factory = new Factory([
@@ -55,18 +65,18 @@ $factory = new Factory([
 $service = $factory->create('AutoSubmitFormWithCmvService');
 
 $input = [
-    'MerchantID'        => '3002607',                   // 商店代號
-    'MerchantTradeNo'   => $tempOrderId,                // 訂單編號
-    'MerchantTradeDate' => date('Y/m/d H:i:s'),         // 訂單時間
-    'PaymentType'       => 'aio',                       // 交易類型 (固定值，表示使用「全方位金流」介面)
-    'TotalAmount'       => $_SESSION['total_amount'],   // 金額
-    'TradeDesc'         => '機票訂購',                   // 交易描述
-    'ItemName'          => '機票',                       // 商品名稱
-    'ChoosePayment'     => 'Credit',                    // 付款方式
-    'EncryptType'       => 1,                           // 加密類型
+    'MerchantID'        => '3002607',                                           // 商店代號
+    'MerchantTradeNo'   => $tempOrderId,                                        // 訂單編號
+    'MerchantTradeDate' => date('Y/m/d H:i:s'),                                 // 訂單時間
+    'PaymentType'       => 'aio',                                               // 交易類型 (固定值，表示使用「全方位金流」介面)
+    'TotalAmount'       => $_SESSION['selectedFlights']['totalPrice'],          // 金額
+    'TradeDesc'         => '機票訂購',                                           // 交易描述
+    'ItemName'          => '機票',                                               // 商品明細
+    'ChoosePayment'     => 'Credit',                                            // 付款方式
+    'EncryptType'       => 1,                                                   // 加密類型
 
-    'ReturnURL'         => 'http://rnsfv-150-117-19-191.a.free.pinggy.link/flight/api/confirm/ecpay_return.php',
-    'OrderResultURL'    => 'https://rnsfv-150-117-19-191.a.free.pinggy.link/flight/api/confirm/ecpay_return.php'
+    'ReturnURL'         => 'http://joanshen.ddns.net/flight/api/confirm/ecpay_return.php',
+    'OrderResultURL'    => 'https://joanshen.ddns.net/flight/api/confirm/ecpay_return.php'
 ];
 
 $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';
