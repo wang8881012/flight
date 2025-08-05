@@ -43,8 +43,8 @@ $tempOrderId = uniqid();
 
 $stmt = $pdo->prepare("
     INSERT INTO temp_orders 
-    (temp_id, booking_id, total_amount, booking_info, created_at) 
-    VALUES (?, ?, ?, ?, NOW())
+    (temp_id, booking_id, total_amount, booking_info, user_id, created_at) 
+    VALUES (?, ?, ?, ?, ?, NOW())
 ");
 $stmt->execute([
     $tempOrderId,
@@ -54,7 +54,8 @@ $stmt->execute([
             'flights' => $_SESSION['selectedFlights'], 
             'addons' => $_SESSION['passenger_addons'],
             'passenger_info' => $_SESSION['passenger_info']
-        ])
+    ]),
+    $_SESSION['user_id'] ?? null
 ]);
 
 $factory = new Factory([
@@ -76,9 +77,9 @@ $input = [
     'EncryptType'       => 1,                                                   // 加密類型
 
     'ReturnURL'         => 'http://joanshen.ddns.net/flight/api/confirm/ecpay_return.php',
-    'OrderResultURL'    => 'https://joanshen.ddns.net/flight/api/confirm/ecpay_return.php',
+    'OrderResultURL'    => 'http://joanshen.ddns.net/flight/api/confirm/ecpay_return.php',
 
-    'CustomField1'      => $_SESSION['user_id'],
+    'CustomField1'      => $_SESSION['user_id'],                          // 訂單編號
 ];
 
 $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';

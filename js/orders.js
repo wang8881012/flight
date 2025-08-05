@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             <div class="col-12 col-lg-2 d-flex flex-column justify-content-center text-start">
                             <div class="blue-text fs-4 fw-bolder"><i class="bi bi-clock-history"></i> ${getDuration(order.出發時間, order.抵達時間)}</div>
-                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-airplane-engines-fill"></i> CI 157</div>
+                            <div class="blue-text fs-4 fw-bolder"><i class="bi bi-airplane-engines-fill"></i>${order.航班編號}</div>
                             <div class="blue-text fs-4 fw-bolder"><i class="bi bi-ticket-perforated-fill"></i> 1張</div>
                             </div>
 
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <div class="d-flex">
                                     <div class="text-end d-flex flex-column justify-content-start mt-4 me-4">
                                         <p class="mb-2">${getDuration(order.出發時間, order.抵達時間)}</p>
-                                        <p>航班班號 CI 157</p>
+                                        <p>航班班號 ${order.航班編號}</p>
                                     </div>
                                     <div class="d-flex flex-column justify-content-start align-items-center">
                                         <div class="rounded-circle" style="width: 12px; height: 12px; background-color: #283852;"></div>

@@ -17,7 +17,7 @@ $user_id = $_SESSION["user_id"];
 $sql = "
     SELECT * FROM (
         select
-            p.amount as 總計,
+            b.total_price as 總計,
             a.name as 加購項目,
             '去程' as 航段類型,
             f.flight_no as 航班編號,
@@ -30,8 +30,7 @@ $sql = "
             f.arrival_time as 抵達時間,
             fc.class_type as 艙等
 
-        from payments p
-        join booking b on p.booking_id = b.id
+        from booking b
         join flight_classes fc on b.class_depart_id = fc.id
         join flights f on fc.flight_id = f.id
         left join booking_addons ba on ba.booking_id = b.id
@@ -45,7 +44,7 @@ $sql = "
         union all
 
         select
-            p.amount as 總計,
+            b.total_price as 總計,
             a.name as 加購項目,
             '回程' as 航段類型,
             f.flight_no as 航班編號,
@@ -58,8 +57,7 @@ $sql = "
             f.arrival_time as 抵達時間,
             fc.class_type as 艙等
 
-        from payments p
-        join booking b on p.booking_id = b.id
+        from booking b
         join flight_classes fc on b.class_return_id = fc.id
         join flights f on fc.flight_id = f.id
         left join booking_addons ba on ba.booking_id = b.id

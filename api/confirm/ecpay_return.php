@@ -21,6 +21,13 @@ $tempId = $_POST['MerchantTradeNo'];
 // 從MerchantID取得使用者，並存入SESSION
 $_SESSION['user_id'] = $_POST['CustomField1'];
 
+$stmt = $pdo->prepare("SELECT name FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch();
+if ($user) {
+    $_SESSION['username'] = $user['name'];
+}
+
 // 從臨時資料表查詢訂單資訊
 $stmt = $pdo->prepare("SELECT * FROM temp_orders WHERE temp_id = ?");
 $stmt->execute([$tempId]);
@@ -137,11 +144,28 @@ if ($_POST['RtnCode'] == '1') {
         
     } catch (Exception $e) {
         file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - 發生異常: " . $e->getMessage() . "\n", FILE_APPEND);
-        $_SESSION['payment_info'] = ['status' => 'error', 'message' => $e->getMessage()];
+        $_SESSION['payment_info'] = [
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ];
         header("Location: ../../public/complete.html");
         exit;
     }
 }
+
+// $stmt1 = $pdo->prepare('SELECT id FROM flight_classes JOIN flights ON flight_classes.flight_id = flights.id WHERE id = ? and class_type = ?');
+// $stmt1->execute([$_SESSION['booking_info']['flights']['outbound']['id'],
+// $_SESSION['booking_info']['flights']['outbound']['class_type']]);
+// $outboundId = $stmt1->fetchAll();
+// //die(print_r($outboundId, true));
+
+// $stmt2 = $pdo->prepare('SELECT id FROM flight_classes JOIN flights ON flight_classes.flight_id = flights.id WHERE id = ? and class_type = ?');
+// $stmt2->execute([$_SESSION['booking_info']['flights']['inbound']['id'],
+// $_SESSION['booking_info']['flights']['inbound']['class_type']]);
+// $inboundId = $stmt2->fetchAll();
+
+// $_SESSION['booking_info']['flights']['outbound']['id'] = $outboundId;
+// $_SESSION['booking_info']['flights']['inbound']['id'] = $inboundId;
 
 // 寫入訂單到 booking 資料表
 $user_id = $_SESSION['user_id'];
