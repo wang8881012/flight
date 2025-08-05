@@ -76,7 +76,9 @@ $input = [
     'EncryptType'       => 1,                                                   // 加密類型
 
     'ReturnURL'         => 'http://joanshen.ddns.net/flight/api/confirm/ecpay_return.php',
-    'OrderResultURL'    => 'https://joanshen.ddns.net/flight/api/confirm/ecpay_return.php'
+    'OrderResultURL'    => 'https://joanshen.ddns.net/flight/api/confirm/ecpay_return.php',
+
+    'CustomField1'      => $_SESSION['user_id'],
 ];
 
 $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';

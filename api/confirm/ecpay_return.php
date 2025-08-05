@@ -3,20 +3,23 @@ session_start();
 require '../inc/db.inc.php';
 
 // 記錄接收到的 POST 資料
-file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - POST: " . print_r($_POST, true) . "\n", FILE_APPEND);
-file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - SESSION: " . print_r($_SESSION, true) . "\n", FILE_APPEND);
+// file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - POST: " . print_r($_POST, true) . "\n", FILE_APPEND);
+// file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - SESSION: " . print_r($_SESSION, true) . "\n", FILE_APPEND);
 
 // 檢查資料庫連接
-try {
-    $pdo->query("SELECT 1");
-    file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - 資料庫連接正常\n", FILE_APPEND);
-} catch (PDOException $e) {
-    file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - 資料庫連接失敗: " . $e->getMessage() . "\n", FILE_APPEND);
-    die('資料庫連接失敗');
-}
+// try {
+//     $pdo->query("SELECT 1");
+//     file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - 資料庫連接正常\n", FILE_APPEND);
+// } catch (PDOException $e) {
+//     file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - 資料庫連接失敗: " . $e->getMessage() . "\n", FILE_APPEND);
+//     die('資料庫連接失敗');
+// }
 
 // 從 MerchantTradeNo 獲取 temp_id
 $tempId = $_POST['MerchantTradeNo'];
+
+// 從MerchantID取得使用者，並存入SESSION
+$_SESSION['user_id'] = $_POST['CustomField1'];
 
 // 從臨時資料表查詢訂單資訊
 $stmt = $pdo->prepare("SELECT * FROM temp_orders WHERE temp_id = ?");
@@ -29,7 +32,7 @@ if ($order) {
     $_SESSION['booking_info'] = json_decode($order['booking_info'], true);
 
     // 刪除臨時記錄
-    $pdo->prepare("DELETE FROM temp_orders WHERE temp_id = ?")->execute([$tempId]);
+    //$pdo->prepare("DELETE FROM temp_orders WHERE temp_id = ?")->execute([$tempId]);
 }
 
 // 綠界付款結果回傳格式範例
@@ -128,10 +131,10 @@ if ($_POST['RtnCode'] == '1') {
             'amount' => $amount,
             'transaction_id' => $tradeNo
         ];
-
+        
         // 跳轉到完成頁面
         header("Location: ../../public/complete.html");
-        exit;
+        
     } catch (Exception $e) {
         file_put_contents('ecpay_debug.log', date('Y-m-d H:i:s') . " - 發生異常: " . $e->getMessage() . "\n", FILE_APPEND);
         $_SESSION['payment_info'] = ['status' => 'error', 'message' => $e->getMessage()];
@@ -140,7 +143,21 @@ if ($_POST['RtnCode'] == '1') {
     }
 }
 
-//支付失敗也跳轉
-$_SESSION['payment_info'] = ['status' => 'fail'];
-header("Location: ../../public/complete.html");
-exit;
+// 寫入訂單到 booking 資料表
+$user_id = $_SESSION['user_id'];
+$order_no = $_SESSION['payment_info']['order_id'];
+$class_depart_id = $_SESSION['booking_info']['flights']['outbound']['id'];
+$class_return_id = $_SESSION['booking_info']['flights']['inbound']['id'];
+$total_price = $_SESSION['payment_info']['amount'];
+
+$stmt = $pdo->prepare('INSERT INTO booking 
+    (user_id, order_no, class_depart_id, class_return_id, total_price, created_at) 
+    VALUES (:user_id, :order_no, :class_depart_id, :class_return_id, :total_price, NOW())');
+
+$stmt->execute([
+    ':user_id' => $user_id,
+    ':order_no' => $order_no,
+    ':class_depart_id' => $class_depart_id,
+    ':class_return_id' => $class_return_id,
+    ':total_price' => $total_price
+]);
